@@ -16,16 +16,16 @@ Here are the details of what is included in the Kindred Printing platform
 - All related customer service handled by Kindred
 
 ### Overview of User Checkout Flow
-- [behind the scenes] You add photos and (optionally) preregister the user for shipment, order notifications
-- Present the Kindred Prints order flow
-- User sees all photos you added, with list of available products for each photo
-- User selects quantities for each order
-- User adds/selects shipping destination
-- User sees order summary
-- User enters credit card to (securely) pay for items
-- User receives order confirmation email
-- A day or two later, user receives shipping notification
-- The user receives the prints in the mail
+1. [behind the scenes] You add photos and (optionally) preregister the user for shipment, order notifications
+1. Present the Kindred Prints order flow
+1. User sees all photos you added, with list of available products for each photo
+1. User selects quantities for each order
+1. User adds/selects shipping destination
+1. User sees order summary
+1. User enters credit card to (securely) pay for items
+1. User receives order confirmation email
+1. A day or two later, user receives shipping notification
+1. The user receives the prints in the mail
 
 ### Current Print Capabilities
 
