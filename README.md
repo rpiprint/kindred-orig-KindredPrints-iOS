@@ -44,7 +44,7 @@ Follow the instructions in this section if you want to see how an example test a
 
 You can grab a zipped copy here.
 
-1. Download `AWS link to zip of iOS project` to the folder of your choice
+1. Download [zipped test project and SDK](https://s3-us-west-1.amazonaws.com/kindredmeta/KindredPrints-iOS.zip) to the folder of your choice
 2. Unzip the file to your development directory
 
 OR clone this project and open it in Xcode.
@@ -55,10 +55,11 @@ OR clone this project and open it in Xcode.
 Then.
 
 1. Double click **KindredPrints-iOS-TestBed.xcodeproj**, located in KindredPrints-iOS-TestBed
-2. View **TestViewController.m** and update this line with your test Kindred App ID (you can grab one by signing up here 'add link to signup')
-   ```objc
+2. View **TestViewController.m** and update this line with your test Kindred App ID (you can grab one by signing up [here](http://sdk.kindredprints.com/signup/))
+
+```objc
 static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY HERE";
-   ```
+```
 3. Run the project and play with the test app.
 4. All the publicly callable SDK functions are demonstrated in **TestViewController.m**
 
@@ -66,8 +67,7 @@ static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY HERE";
 
 If you would prefer to just add the SDK folder to your project and get started right away with out looking at the test app, follow these instructions.
 
-1. You can grab a zipped copy of the **KindredPrints-iOS-SDK** folder here
-`link to SDK`
+1. You can grab a zipped copy of the **KindredPrints-iOS-SDK** folder [here](https://s3-us-west-1.amazonaws.com/kindredmeta/KindredPrints-iOS-SDK.zip)
 
 Or use the **KindredPrints-iOS-SDK** folder out of the test project folder (instructions on downloading above)
 
@@ -93,18 +93,18 @@ For this example, we assume that the photo is stored in local memory. For exampl
 
 2. Add the appropriate imports to your class:
 
-   ```objc
+```objc
 #import "KPPhotoOrderController.h"
 #import "KPMEMImage.h"
-   ```
+```
 3. Create a method to handle the button click and insert this code into it:
 
-   ```objc
+```objc
 KPMEMImage *img = [[KPMEMImage alloc] initWithImage:(UIImage *)chosenImage];
 KPPhotoOrderController *orderController = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID andImages:@[img]];
 [self.navigationController presentViewController:self.orderPhotosVC animated:YES completion:nil];
-   ```
-4. Replace the `KINDRED_APP_ID` with your test or live key (depending on which mode you are in). You can get one for you app through the quick signup process here: 'link to partner signup'
+```
+4. Replace the `KINDRED_APP_ID` with your test or live key (depending on which mode you are in). You can get one for you app through the quick signup process [here](http://sdk.kindredprints.com/signup/)
 
 5. You're done! Yea - it can really be that simple. We'll take care of the rest.
 
@@ -113,27 +113,27 @@ KPPhotoOrderController *orderController = [[KPPhotoOrderController alloc] initWi
 
 1. Register your class as a KPPhotoOrderControllerDelegate by placing <KPPhotoOrderControllerDelegate> next to the interface declaration. An example can be found in our TestProject like so:
 
-   ```objc
+```objc
 @interface TestViewController () <KPPhotoOrderControllerDelegate>
-   ```
+```
 2. Add responses to the optional delegate functions like so:
 
-   ```objc
+```objc
 - (void)userDidCompleteOrder:(KPPhotoOrderController *)orderController {
     NSLog(@"USER DID COMPLETE ORDER");
 }
 - (void)userDidClickCancel:(KPPhotoOrderController *)orderController {
     NSLog(@"USER DID RETURN TO APP");
 }
-   ```
+```
 3. Assign the instance of KPPhotoOrderController a delegate before presenting it to the user. As shown here:
 
-   ```objc
+```objc
 KPMEMImage *img = [[KPMEMImage alloc] initWithImage:(UIImage *)chosenImage];
 KPPhotoOrderController *orderController = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID andImages:@[img]];
 orderController.delegate = self;
 [self.navigationController presentViewController:self.orderPhotosVC animated:YES completion:nil];
-   ```
+```
 4. Done!
 
 **User Preregistration Addendum:** 
@@ -163,28 +163,28 @@ In this example, all photos are located on a remote server, and are passed to th
 
 2. Add the appropriate imports to your class:
 
-   ```objc
+```objc
 #import "KPPhotoOrderController.h"
 #import "KPURLImage.h"
-   ```
+```
 3. Create a method to handle the button click and insert this code into it:
 
-   ```objc
+```objc
 KPPhotoOrderController *orderController = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID];
 KPURLImage *img = [[KPURLImage alloc] initWithOriginalUrl:@"http://site.com/img.jpg"];
 [orderController addImages:@[img]];
-   ```
+```
    Alternatively, if you also store a remote url for a pre rendered preview size image in addition to the original, you can init a KPURLImage like this.
 
-   ```objc
+```objc
 KPURLImage *img = [[KPURLImage alloc] initWithPreviewUrl:@"http://site.com/prevImg.jpg" andOriginalUrl:@"http://site.com/img.jpg"];
-   ```
+```
 4. Now, add a button somewhere on the display that says "Checkout"
 
 5. Create a method to handle the button click and insert this code into it:
 
-   ```objc
+```objc
 KPPhotoOrderController *orderController = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID];
 [self.navigationController presentViewController:self.orderPhotosVC animated:YES completion:nil];
-   ```
+```
 6. You're done! The user can now check out all of the images they've added before.
