@@ -30,9 +30,11 @@ Here are the details of what is included in the Kindred Printing platform
 ### Current Print Capabilities
 
 - 4" x 4" glossy premium print
+
 ![4x4 Prints](https://raw.githubusercontent.com/KindredPrints/KindredPrints-iOS/master/Documentation/4by4.jpg)
 
 - 4" x 6" glossy premium print
+
 ![4x6 Prints](https://raw.githubusercontent.com/KindredPrints/KindredPrints-iOS/master/Documentation/4by6.jpg)
 
 ## iOS Specific Installation
