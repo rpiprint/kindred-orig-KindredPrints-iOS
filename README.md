@@ -1,7 +1,8 @@
 # Kindred Prints iOS SDK
 
 The Kindred Prints SDK makes it extremely easy to start selling and getting paid for physical printed photos straight from your app. You simply need drop the folder into your iPhone or iPad project, and add a photo through our simple SDK interface to send your user to the checkout flow.
-`small screens of sdk here`
+
+![Kindred Diagram](https://s3-us-west-1.amazonaws.com/kindredmetaimages/KindredDiagram.png)
 
 ## About the Kindred Prints SDK
 
