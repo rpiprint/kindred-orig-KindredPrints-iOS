@@ -58,6 +58,8 @@ static NSInteger TAG_WARNING_BACK = 3;
     CGFloat statusBarHeight = 0;
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
         statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    } else {
+        statusBarHeight = [InterfacePreferenceHelper getStatusBarHeight];
     }
     self.orderTotalView = [[OrderTotalView alloc] initWithFrame:CGRectMake(0, screenBounds.size.height-self.navigationController.navigationBar.frame.size.height-statusBarHeight, self.pageViewController.view.frame.size.width, [InterfacePreferenceHelper getOrderTotalRowHeight])];
     [self.pageViewController.view addSubview:self.orderTotalView];

@@ -88,6 +88,7 @@ enum ColorScheme : NSInteger {
 + (CGFloat)getBorderWidth:(CGFloat)borderPercent onSize:(CGSize)size;
 + (CGFloat)getBorderPercent:(CGFloat)borderPercent;
 + (UIColor *)getBorderColor;
++ (CGFloat)getStatusBarHeight;
 + (void)setBorderColor:(UIColor *)borderColor;
 
 @end

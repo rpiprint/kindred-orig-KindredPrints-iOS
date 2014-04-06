@@ -11,6 +11,7 @@
 #import "DevPreferenceHelper.h"
 #import "UserPreferenceHelper.h"
 #import "KPPhotoOrderController.h"
+#import "KPCartPageViewController.h"
 #import "RoundedTextButton.h"
 #import "UserObject.h"
 
@@ -72,7 +73,11 @@
 - (IBAction)cmdDoneClick:(id)sender {
     KPPhotoOrderController *navController = (KPPhotoOrderController *)self.navigationController;
     [navController.orderDelegate userDidCompleteOrder:navController];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        KPCartPageViewController *cartVC = [[KPCartPageViewController alloc] initWithNibName:@"KPCartPageViewController" bundle:nil];
+        cartVC.isRootController = YES;
+        [navController setViewControllers:@[cartVC] animated:YES];
+    }];
 }
 
 @end

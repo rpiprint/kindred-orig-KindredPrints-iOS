@@ -85,6 +85,11 @@
         [self launchAsyncConfig];
     }
 }
+
+- (NSUInteger) countOfImagesInCart {
+    return [self.orderManager countOfOrders];
+}
+
 - (void) setBorderDisabled:(BOOL)disabled {
     [InterfacePreferenceHelper setBorderDisabled:disabled];
 }
@@ -224,6 +229,8 @@
 
                 [DevPreferenceHelper setCountries:filteredList];
                 [DevPreferenceHelper resetDownloadCountryStatus];
+            } else {
+                NSLog(@"Error : %@", [returnedData description]);
             }
             [self moveToNextViewIfReady];
         } else if ([requestTag isEqualToString:REQ_TAG_GET_IMAGE_SIZES]) {
@@ -241,6 +248,8 @@
                 
                 [DevPreferenceHelper resetSizeDownloadStatus];
                 [self moveToNextViewIfReady];
+            } else {
+                NSLog(@"Error : %@", [returnedData description]);
             }
         } else if ([requestTag isEqualToString:REQ_TAG_REGISTER]) {
             if (status == 200) {
@@ -260,6 +269,8 @@
                 [DevPreferenceHelper setPartnerLogoUrl:[partnerObj objectForKey:@"logo"]];
                 [DevPreferenceHelper setPartnerName:[partnerObj objectForKey:@"name"]];
                 [DevPreferenceHelper resetPartnerDownloadStatus];
+            } else {
+                NSLog(@"Error : %@", [returnedData description]);
             }
             [self moveToNextViewIfReady];
         }

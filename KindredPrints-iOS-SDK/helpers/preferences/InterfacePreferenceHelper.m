@@ -249,6 +249,14 @@ static NSString *KEY_BORDER_COLOR = @"kp_border_color";
     }
 }
 
++ (CGFloat)getStatusBarHeight {
+    if ([UIApplication sharedApplication].statusBarHidden) {
+        return 0;
+    } else {
+        return [UIApplication sharedApplication].statusBarFrame.size.height;
+    }
+}
+
 + (CGFloat)getCheckoutSpecialRowHeight {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         return 75.0f;
