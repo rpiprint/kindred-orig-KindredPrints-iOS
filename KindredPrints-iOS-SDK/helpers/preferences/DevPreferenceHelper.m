@@ -50,7 +50,10 @@ static NSString * KEY_PARTER_URL = @"kp_partner_url";
 }
 
 + (NSString *)getAPIServerAddress {
-    return @"http://apidev.kindredprints.com/";
+    if (DEV)
+        return @"http://apidev.kindredprints.com/";
+    else
+        return @"https://api.kindredprints.com/";
 }
 
 + (NSString *)getServerAddress {
