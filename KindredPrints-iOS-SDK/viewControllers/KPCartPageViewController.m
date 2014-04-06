@@ -54,17 +54,6 @@ static NSInteger TAG_WARNING_BACK = 3;
     
     self.orderManager = [OrderManager getInstance];
 
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    CGFloat statusBarHeight = 0;
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
-        statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-    } else {
-        statusBarHeight = [InterfacePreferenceHelper getStatusBarHeight];
-    }
-    self.orderTotalView = [[OrderTotalView alloc] initWithFrame:CGRectMake(0, screenBounds.size.height-self.navigationController.navigationBar.frame.size.height-statusBarHeight, self.pageViewController.view.frame.size.width, [InterfacePreferenceHelper getOrderTotalRowHeight])];
-    [self.pageViewController.view addSubview:self.orderTotalView];
-    
-    [self.pageModel initOrderTotal];
 }
 
 - (void) initNavBar {
@@ -93,14 +82,28 @@ static NSInteger TAG_WARNING_BACK = 3;
     [self.pageViewController didMoveToParentViewController:self];
     // Add the page view controller's gesture recognizers to the book view controller's view so that the gestures are started more easily.
     self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
+    
+    if (self.orderTotalView) [self.orderTotalView removeFromSuperview];
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGFloat statusBarHeight = 0;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+        statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    } else {
+        statusBarHeight = [InterfacePreferenceHelper getStatusBarHeight];
+    }
+    self.orderTotalView = [[OrderTotalView alloc] initWithFrame:CGRectMake(0, screenBounds.size.height-self.navigationController.navigationBar.frame.size.height-statusBarHeight, self.pageViewController.view.frame.size.width, [InterfacePreferenceHelper getOrderTotalRowHeight])];
+    [self.pageViewController.view addSubview:self.orderTotalView];
+    
+    [self.pageModel initOrderTotal];
 }
 
 - (void) adjustNavBarForOrderCount {
     if (![self.orderManager countOfOrders]) {
-        [self initNavBarWithTitle:@"" andNextTitle:@"NEXT"];
+        [self initNavBarWithTitle:@"" andNextTitle:@""];
         [self.cmdNext.button setEnabled:NO];
     } else {
         [self initNavBar];

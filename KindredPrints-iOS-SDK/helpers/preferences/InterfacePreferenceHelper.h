@@ -28,7 +28,7 @@ enum FontSize : NSInteger {
     MenuButtonFontSize = 16,
     PricingFontSize = 22,
     OrderQuantityFontSize = 24,
-    QuantityFontSize = 30,
+    QuantityFontSize = 24,
     OrderDetailFontSize = 12
 };
 
