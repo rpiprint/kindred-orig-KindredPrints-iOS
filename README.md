@@ -106,7 +106,7 @@ For this example, we assume that the photo is stored in local memory. For exampl
 ```objc
 KPMEMImage *img = [[KPMEMImage alloc] initWithImage:(UIImage *)chosenImage];
 KPPhotoOrderController *orderController = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID andImages:@[img]];
-[self.navigationController presentViewController:self.orderPhotosVC animated:YES completion:nil];
+[self presentViewController:orderPhotosVC animated:YES completion:nil];
 ```
 4. Replace the `KINDRED_APP_ID` with your test or live key (depending on which mode you are in). You can get one for you app through the quick signup process [here](http://sdk.kindredprints.com/signup/)
 
@@ -136,7 +136,7 @@ KPPhotoOrderController *orderController = [[KPPhotoOrderController alloc] initWi
 KPMEMImage *img = [[KPMEMImage alloc] initWithImage:(UIImage *)chosenImage];
 KPPhotoOrderController *orderController = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID andImages:@[img]];
 orderController.delegate = self;
-[self.navigationController presentViewController:self.orderPhotosVC animated:YES completion:nil];
+[self presentViewController:orderPhotosVC animated:YES completion:nil];
 ```
 4. Done!
 
@@ -189,6 +189,6 @@ KPURLImage *img = [[KPURLImage alloc] initWithPreviewUrl:@"http://site.com/prevI
 
 ```objc
 KPPhotoOrderController *orderController = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID];
-[self.navigationController presentViewController:self.orderPhotosVC animated:YES completion:nil];
+[self presentViewController:orderPhotosVC animated:YES completion:nil];
 ```
 6. You're done! The user can now check out all of the images they've added before.
