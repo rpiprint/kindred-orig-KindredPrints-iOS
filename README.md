@@ -189,6 +189,6 @@ KPURLImage *img = [[KPURLImage alloc] initWithPreviewUrl:@"http://site.com/prevI
 
 ```objc
 KPPhotoOrderController *orderController = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID];
-[self.navigationController presentViewController:self.orderPhotosVC animated:YES completion:nil];
+[self.navigationController presentViewController:orderController animated:YES completion:nil];
 ```
 6. You're done! The user can now check out all of the images they've added before.
