@@ -1,0 +1,27 @@
+[!] Unknown arguments: KindredPrints, :git =
+
+CocoaPods, the Objective-C library package manager.
+
+Commands:
+
+    * help       Show help for the given command.
+    * init       Generate a Podfile for the current directory.
+    - install    Install project dependencies
+    * ipc        Inter-process communication
+    * lib        Develop pods
+    * list       List pods
+    * outdated   Show outdated project dependencies
+    * push       Push new specifications to a spec-repo
+    * repo       Manage spec-repositories
+    * search     Searches for pods
+    * setup      Setup the CocoaPods environment
+    * spec       Manage pod specs
+    * try        Try a Pod!
+    * update     Update outdated project dependencies
+
+Options:
+
+    --silent    Show nothing
+    --version   Show the version of CocoaPods
+    --verbose   Show more debugging information
+    --help      Show help banner of specified command
