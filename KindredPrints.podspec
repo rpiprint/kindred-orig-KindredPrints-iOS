@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "KindredPrints"
-  s.version          = "0.1.0"
+  s.version          = "0.1.1"
   s.summary          = "Physical printing from any app"
   s.description      = <<-DESC
                        Starting printing user photos or content, straight from your app. Make money for every print your users buy.
