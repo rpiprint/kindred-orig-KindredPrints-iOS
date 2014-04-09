@@ -42,6 +42,13 @@ Here are the details of what is included in the Kindred Printing platform
 
 The entire SDK is open sourced and a release schedule will be publicized soon. You can download the raw SDK files or clone the entire project with accompanying test app.
 
+### Available in CocoaPods
+
+KindredPrints is available through [CocoaPods](http://cocoapods.org), to install it simply add the following line to your Podfile:
+
+    pod "KindredPrints"
+    
+
 ### Download the SDK with Test Project
 
 Follow the instructions in this section if you want to see how an example test app interfaces with the SDK. All publicly callable functions in the SDK are demonstrated.
