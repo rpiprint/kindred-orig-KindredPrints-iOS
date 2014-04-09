@@ -314,7 +314,6 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
             [self.refreshControl endRefreshing];
         } else if ([requestTag isEqualToString:REQ_TAG_APPLY_COUPON]) {
             NSString *couponMessage = @"";
-            NSLog(@"coupon returned %@", [returnedData description]);
             if (status == 200) {
                 [UserPreferenceHelper setOrderIsSame:NO];
                 [self.orderProcessing initiateOrderCreateOrUpdateSequence];

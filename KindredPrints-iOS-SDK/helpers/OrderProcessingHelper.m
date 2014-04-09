@@ -104,13 +104,11 @@ static CGFloat const TOTAL_STEPS = 2;
             NSDictionary *post = [[NSDictionary alloc]
                              initWithObjects:@[prints, self.currUser.uId, destinations]
                              forKeys:@[@"lineitem_ids", @"user_id", @"destinations"]];
-            NSLog(@"posting %@", [post description]);
             [self.kInterface createOrderObject:post];
         } else {
             NSDictionary *post = [[NSDictionary alloc]
                                   initWithObjects:@[prints, self.orderId, destinations]
                                   forKeys:@[@"lineitem_ids", @"id", @"destinations"]];
-            NSLog(@"posting %@", [post description]);
             [self.kInterface updateOrderObject:post andOrderId:self.orderId];
         }
     } else {
@@ -195,8 +193,6 @@ static CGFloat const TOTAL_STEPS = 2;
 
 - (void)serverCallback:(NSDictionary *)returnedData {
     if (returnedData) {
-        NSLog(@"returned data %@", [returnedData description]);
-        
         NSInteger status = [[returnedData objectForKey:kpServerStatusCode] integerValue];
         NSString *requestTag = [returnedData objectForKey:kpServerRequestTag];
         
@@ -238,7 +234,6 @@ static CGFloat const TOTAL_STEPS = 2;
 }
 
 - (void)uploadFinishedWithOverallProgress:(CGFloat)progress {
-    NSLog(@"upload finished with progress %f", progress);
     [self.delegate orderProcessingUpdateProgress:(self.currStage+progress)/TOTAL_STEPS withStatus:@"tightening the bolts.."];
 }
 

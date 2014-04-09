@@ -74,7 +74,7 @@ static CGFloat TEXT_VIEW_HEIGHT_PERC = 1.2;
 - (UILabel *)txtTitle {
     if (!_txtTitle) {
         CGFloat txtWidth = self.frame.size.width-self.prevImageView.frame.size.width-self.prevImageView.frame.origin.x-self.viewQuantity.frame.size.width;
-        _txtTitle = [[UILabel alloc] initWithFrame:CGRectMake([InterfacePreferenceHelper getCartPadding]+self.size.sThumbSize.width*IMAGE_SIZE_PERC+WARN_PADDING, (1-IMAGE_SIZE_PERC)*self.frame.size.height/2+(IMAGE_SIZE_PERC*self.frame.size.height-2*MenuButtonFontSize*TEXT_VIEW_HEIGHT_PERC)/2, txtWidth,MenuButtonFontSize*TEXT_VIEW_HEIGHT_PERC)];
+        _txtTitle = [[UILabel alloc] initWithFrame:CGRectMake([InterfacePreferenceHelper getCartPadding]+self.size.sThumbSize.width*IMAGE_SIZE_PERC+3*WARN_PADDING, (1-IMAGE_SIZE_PERC)*self.frame.size.height/2+(IMAGE_SIZE_PERC*self.frame.size.height-2*MenuButtonFontSize*TEXT_VIEW_HEIGHT_PERC)/2, txtWidth,MenuButtonFontSize*TEXT_VIEW_HEIGHT_PERC)];
         [_txtTitle setTextAlignment:NSTextAlignmentLeft];
         [_txtTitle setBackgroundColor:[UIColor clearColor]];
         [_txtTitle setTextColor:[UIColor whiteColor]];
@@ -87,7 +87,7 @@ static CGFloat TEXT_VIEW_HEIGHT_PERC = 1.2;
 - (UILabel *)txtDesc {
     if (!_txtDesc) {
         CGFloat txtWidth = self.frame.size.width-self.prevImageView.frame.size.width-self.prevImageView.frame.origin.x-self.viewQuantity.frame.size.width;
-        _txtDesc = [[UILabel alloc] initWithFrame:CGRectMake(self.size.sThumbSize.width*IMAGE_SIZE_PERC+[InterfacePreferenceHelper getCartPadding]+WARN_PADDING, self.txtTitle.frame.origin.y+self.txtTitle.frame.size.height, txtWidth, MenuButtonFontSize*TEXT_VIEW_HEIGHT_PERC)];
+        _txtDesc = [[UILabel alloc] initWithFrame:CGRectMake(self.size.sThumbSize.width*IMAGE_SIZE_PERC+[InterfacePreferenceHelper getCartPadding]+3*WARN_PADDING, self.txtTitle.frame.origin.y+self.txtTitle.frame.size.height, txtWidth, MenuButtonFontSize*TEXT_VIEW_HEIGHT_PERC)];
         [_txtDesc setTextAlignment:NSTextAlignmentLeft];
         [_txtDesc setBackgroundColor:[UIColor clearColor]];
         [_txtDesc setTextColor:[UIColor whiteColor]];

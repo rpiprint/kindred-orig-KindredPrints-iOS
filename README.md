@@ -99,7 +99,6 @@ For this example, we assume that the photo is stored in local memory. For exampl
 
 ```objc
 #import "KPPhotoOrderController.h"
-#import "KPMEMImage.h"
 ```
 3. Create a method to handle the button click and insert this code into it:
 
@@ -169,7 +168,6 @@ In this example, all photos are located on a remote server, and are passed to th
 
 ```objc
 #import "KPPhotoOrderController.h"
-#import "KPURLImage.h"
 ```
 3. Create a method to handle the button click and insert this code into it:
 

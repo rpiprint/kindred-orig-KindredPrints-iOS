@@ -10,7 +10,7 @@
 #import "PreferenceHelper.h"
 
 static BOOL LOG = YES;
-static BOOL DEV = YES;
+static BOOL DEV = NO;
 
 @interface DevPreferenceHelper : PreferenceHelper
 + (BOOL)testForNullValue:(id)object;
@@ -18,6 +18,8 @@ static BOOL DEV = YES;
 + (NSString *)getAPIServerAddress;
 + (NSString *)getServerAddress;
 + (NSString *)getStripeKey;
+
++ (BOOL)getIsStripeTest;
 
 + (void)setAppKey:(NSString *)key;
 + (NSString *)getAppKey;

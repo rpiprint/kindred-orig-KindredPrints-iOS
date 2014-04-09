@@ -16,8 +16,7 @@
 #import "OrderImage.h"
 #import "KindredServerInterface.h"
 #import "OrderManager.h"
-#import "KPMEMImage.h"
-#import "KPURLImage.h"
+
 
 @interface KPPhotoOrderController() <ServerInterfaceDelegate, ImageManagerDelegate, OrderManagerDelegate>
 
@@ -237,6 +236,8 @@
             self.returnedConfigNecessary++;
             NSMutableArray *newProducts = [[NSMutableArray alloc] init];
             if (status == 200) {
+                NSLog(@"prices : %@", [returnedData description]);
+
                 NSArray *serverProducts = [returnedData objectForKey:@"prices"];
                 for (NSDictionary *product in serverProducts) {
                     PrintableSize *pSize = [[PrintableSize alloc] initWithDictionary:product];

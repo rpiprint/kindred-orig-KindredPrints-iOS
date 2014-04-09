@@ -74,13 +74,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.m"
-            timestampString = "418160026.373876"
+            timestampString = "418758275.467945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
-            landmarkName = "@implementation KPPhotoOrderController"
-            landmarkType = "3">
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "-moveToNextViewIfReady"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.m"
-            timestampString = "418160026.373876"
+            timestampString = "418758275.467945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
             landmarkName = "-serverCallback:"
             landmarkType = "5">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.m"
-            timestampString = "418160026.373876"
+            timestampString = "418758275.467945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "-serverCallback:"
             landmarkType = "5">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.m"
-            timestampString = "418160026.373876"
+            timestampString = "418758275.467945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "-processNewImages"
             landmarkType = "5">
          </BreakpointContent>
@@ -170,12 +170,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.m"
-            timestampString = "418160026.373876"
+            timestampString = "418758275.467945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
-            landmarkName = "-initLoading"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "-initNavBar"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -298,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/preferences/DevPreferenceHelper.m"
-            timestampString = "417660947.593481"
+            timestampString = "418679537.291247"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "+setCurrentSizes:"
             landmarkType = "5">
          </BreakpointContent>
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/preferences/DevPreferenceHelper.m"
-            timestampString = "417660947.593481"
+            timestampString = "418679537.291247"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "+getCurrentSizes"
             landmarkType = "5">
          </BreakpointContent>
@@ -650,11 +650,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.m"
-            timestampString = "418160026.373876"
+            timestampString = "418758275.467945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "-processNewImages"
             landmarkType = "5">
          </BreakpointContent>
@@ -826,11 +826,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPShippingEditViewController.m"
-            timestampString = "417646230.230079"
+            timestampString = "418679537.291247"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "398"
-            endingLineNumber = "398"
+            startingLineNumber = "405"
+            endingLineNumber = "405"
             landmarkName = "-serverCallback:"
             landmarkType = "5">
          </BreakpointContent>
@@ -858,11 +858,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPShippingEditViewController.m"
-            timestampString = "417646230.230079"
+            timestampString = "418679537.291247"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "399"
-            endingLineNumber = "399"
+            startingLineNumber = "406"
+            endingLineNumber = "406"
             landmarkName = "-serverCallback:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1336,12 +1336,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.m"
-            timestampString = "418160026.373876"
+            timestampString = "418758275.467945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
-            landmarkName = "-processNewImages"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
+            landmarkName = "-launchAsyncConfig"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1384,11 +1384,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.m"
-            timestampString = "418160026.373876"
+            timestampString = "418758275.467945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "-processNewImages"
             landmarkType = "5">
          </BreakpointContent>

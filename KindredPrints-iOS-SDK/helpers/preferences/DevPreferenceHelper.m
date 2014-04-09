@@ -16,6 +16,8 @@ static NSInteger DOWNLOAD_INTERVAL = 60*60*24*7;
 static NSString * KEY_IMAGE_SIZES = @"kp_image_sizes";
 
 static NSString * KEY_APP_KEY = @"kp_app_key";
+static NSString * KEY_STRIPE_TEST = @"kp_stripe_test";
+
 static NSString * KEY_DOWNLOAD_IMAGE_SIZE_DATE = @"kp_image_size_download";
 static NSString * KEY_COUNTRIES = @"kp_country_list";
 static NSString * KEY_COUNTRY_DOWNLOAD_DATE = @"kp_country_download_date";
@@ -42,6 +44,11 @@ static NSString * KEY_PARTER_URL = @"kp_partner_url";
 }
 
 + (void)setAppKey:(NSString *)key {
+    if ([key rangeOfString:@"test"] .location != NSNotFound) {
+        [self setStripeTestStatus:YES];
+    } else {
+        [self setStripeTestStatus:NO];
+    }
     NSData *dKey = [[key stringByAppendingString:@":"] dataUsingEncoding:NSUTF8StringEncoding];
     [DevPreferenceHelper writeObjectToDefaults:KEY_APP_KEY value:[DevPreferenceHelper base64forData:dKey]];
 }
@@ -64,12 +71,18 @@ static NSString * KEY_PARTER_URL = @"kp_partner_url";
 }
 
 + (NSString *)getStripeKey {
-    if (DEV)
+    if ([self getIsStripeTest])
         return @"pk_test_9pMXnrGjrTrJ0mBwflF7lCMK";
     else
         return @"pk_live_InAYJo4PSgFdffdHorYqNLl9";
 }
 
++ (void)setStripeTestStatus:(BOOL)test {
+    [DevPreferenceHelper writeBoolToDefaults:KEY_STRIPE_TEST value:test];
+}
++ (BOOL)getIsStripeTest {
+    return [DevPreferenceHelper readBoolFromDefaults:KEY_STRIPE_TEST];
+}
 + (void)setPartnerName:(NSString *)name {
     [DevPreferenceHelper writeObjectToDefaults:KEY_PARTER_NAME value:name];
 }

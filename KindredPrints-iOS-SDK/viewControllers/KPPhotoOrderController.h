@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KPMEMImage.h"
+#import "KPURLImage.h"
 
 @class KPPhotoOrderController;
 

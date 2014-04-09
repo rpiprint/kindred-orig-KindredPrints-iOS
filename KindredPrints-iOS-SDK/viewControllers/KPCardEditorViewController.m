@@ -263,7 +263,7 @@ static NSInteger STATE_ERROR = 2;
 -(void) getStripeToken:(NSString *)cardNumber expMonth:(NSUInteger)month expYear:(NSUInteger)year andCvv:(NSString *)cvv
 {
     STPCard *card = [[STPCard alloc] init];
-    if(DEV) {
+    if([DevPreferenceHelper getIsStripeTest]) {
         card.number = @"4242424242424242";
         card.expMonth = 1;
         card.expYear = 2017;

@@ -373,6 +373,13 @@ static NSInteger const STATE_ENTRY = 1;
                 }
             }
         }
+        
+        if ([self.cmdCountry.titleLabel.text isEqualToString:@"United States"]) {
+            if ([textField isEqual:self.txtState]) {
+                if ([textAfterReplacing length] > 2)
+                    return NO;
+            }
+        }
     }
     
     [self.cmdNext.button setEnabled:nextEnabled];

@@ -8,8 +8,6 @@
 
 #import "TestViewController.h"
 #import "KPPhotoOrderController.h"
-#import "KPURLImage.h"
-#import "KPMEMImage.h"
 
 @interface TestViewController () <KPPhotoOrderControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
