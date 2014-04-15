@@ -12,5 +12,6 @@
 
 - (id)initWithFrame:(CGRect)frame withStrokeColor:(UIColor *)strokeColor withBaseFillColor:(UIColor *)baseFillColor andPressedFillColor:(UIColor *)pressedFillColor andTextColor:(UIColor *)color andText:(NSString *)title andFontSize:(CGFloat)size;
 - (void)drawButtonWithStrokeColor:(UIColor *)strokeColor withBaseFillColor:(UIColor *)baseFillColor andPressedFillColor:(UIColor *)pressedFillColor andTextColor:(UIColor *)color andText:(NSString *)title andFontSize:(CGFloat)size;
+- (void)setTextForTitle:(NSString *)title;
 
 @end

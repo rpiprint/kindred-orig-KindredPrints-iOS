@@ -15,14 +15,15 @@
 @property (strong, nonatomic) UILabel *txtMessage;
 @property (strong, nonatomic) UIProgressView *progBar;
 @property (strong, nonatomic) RoundedTextButton *cmdCancel;
+@property (nonatomic) NSInteger currState;
 
 @end
 
 @implementation LoadingStatusView
 
-static NSInteger PADDING = 20;
-static NSInteger CANCEL_BUTTON_WIDTH = 70;
-static NSInteger CANCEL_BUTTON_HEIGHT = 30;
+static NSInteger PADDING = 25;
+static NSInteger CANCEL_BUTTON_WIDTH = 100;
+static NSInteger CANCEL_BUTTON_HEIGHT = 35;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -61,12 +62,20 @@ static NSInteger CANCEL_BUTTON_HEIGHT = 30;
 }
 
 - (void) setState:(NSInteger)state {
+    self.currState = state;
     if (state == KP_STATUS_STATE_PROCESSING) {
+        [self.cmdCancel setTextForTitle:@"CANCEL"];
         [self.progBar setHidden:NO];
         [self.txtMessage setHidden:NO];
         [self.txtMessage setTextColor:[UIColor whiteColor]];
     } else if (state == KP_STATUS_STATE_ERROR) {
+        [self.cmdCancel setTextForTitle:@"OK"];
         [self.progBar setHidden:YES];
+        [self.txtMessage setHidden:NO];
+        [self.txtMessage setTextColor:[UIColor redColor]];
+    } else if (state == KP_STATUS_STATE_RETRY) {
+        [self.progBar setHidden:YES];
+        [self.cmdCancel setTextForTitle:@"RETRY"];
         [self.txtMessage setHidden:NO];
         [self.txtMessage setTextColor:[UIColor redColor]];
     } else {
@@ -77,6 +86,7 @@ static NSInteger CANCEL_BUTTON_HEIGHT = 30;
 
 - (void) cmdCancelClicked {
     [self hide];
+    if (self.delegate) [self.delegate clickedButtonAtState:self.currState];
 }
 
 - (void) hide {

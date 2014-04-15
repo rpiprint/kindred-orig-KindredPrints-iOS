@@ -62,6 +62,10 @@ static CGFloat ROUNDED_CORNER_RADIUS = 10;
     [self addSubview:self.txtTitle];
 }
 
+- (void)setTextForTitle:(NSString *)title {
+    [self.txtTitle setText:title];
+}
+
 - (void)setHighlighted:(BOOL)highlighted
 {
     if (highlighted)

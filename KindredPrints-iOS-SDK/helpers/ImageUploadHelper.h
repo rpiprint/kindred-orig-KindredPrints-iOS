@@ -13,7 +13,8 @@
 
 @optional
 - (void)uploadsHaveCompleted;
-- (void)uploadFinishedWithOverallProgress:(CGFloat)progress;
+- (void)uploadsHaveFailed;
+- (void)uploadFinishedWithOverallProgress:(CGFloat)progress processedCount:(NSInteger)processed andTotal:(NSInteger)total;
 @end
 
 @interface ImageUploadHelper : NSObject

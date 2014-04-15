@@ -49,7 +49,7 @@
         [tView setTextAlignment:NSTextAlignmentLeft];
         [tView setBackgroundColor:[InterfacePreferenceHelper getColor:ColorNavBar]];
         [tView setTextColor:[UIColor whiteColor]];
-        [tView setFont:[UIFont fontWithName:@"GillSans-Light" size:MenuButtonFontSize]];
+        [tView setFont:[UIFont fontWithName:FONT_REGULAR size:MenuButtonFontSize]];
     }
     [tView setText:[self.countryList objectAtIndex:row]];
     

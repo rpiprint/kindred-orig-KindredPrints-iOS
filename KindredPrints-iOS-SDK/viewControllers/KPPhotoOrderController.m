@@ -249,6 +249,9 @@
                 
                 [DevPreferenceHelper resetSizeDownloadStatus];
                 [self moveToNextViewIfReady];
+            } else if (status < 0) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Internet Connection Error" message:@"Printing your images requires a stable internet connection. Please try again with better reception!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alertView show];
             } else {
                 NSLog(@"Error : %@", [returnedData description]);
             }

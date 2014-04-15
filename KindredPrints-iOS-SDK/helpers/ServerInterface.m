@@ -114,17 +114,17 @@
         NSString *authValue = [NSString stringWithFormat:@"Basic %@", [DevPreferenceHelper getAppKey]];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     }
+    [request setTimeoutInterval:30];
 
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler: ^(NSURLResponse *response, NSData *POSTReply, NSError *error) {
         NSMutableDictionary *jsonObjects = [[NSMutableDictionary alloc] init];
 
-        if ([error code] && ([error code] == NSURLErrorTimedOut || [error code] == NSURLErrorNotConnectedToInternet)) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Internet Connection Error" message:@"Printing your images requires a stable internet connection. Please try again with better reception!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alertView show];
-        }
-        
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSNumber *statusCode = [NSNumber numberWithLong:[httpResponse statusCode]];
+        
+        if ([error code] && ([error code] == NSURLErrorTimedOut || [error code] == NSURLErrorNotConnectedToInternet)) {
+            statusCode = [NSNumber numberWithInt:-1];
+        }
         
         [jsonObjects setObject:statusCode forKey:kpServerStatusCode];
         [jsonObjects setObject:requestTag forKey:kpServerRequestTag];

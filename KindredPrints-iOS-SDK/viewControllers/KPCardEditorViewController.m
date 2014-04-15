@@ -244,6 +244,9 @@ static NSInteger STATE_ERROR = 2;
                 if (self.checkout) {
                     [self.orderProcessing initiateCheckoutSequence];
                 }
+            } else if (status < 0) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Internet Connection Error" message:@"Printing your images requires a stable internet connection. Please try again with better reception!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alertView show];
             } else {
                 [self.txtError setText:@"Error: Card declined. Please check your entry."];
                 [self setInterfaceState:STATE_ERROR];

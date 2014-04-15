@@ -27,6 +27,11 @@
     if (self) {
         self.delegate = self;
         self.dataSource = self;
+        
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 1)];
+        [view setBackgroundColor:[UIColor whiteColor]];
+        [self addSubview:view];
+        
         [self setShowsSelectionIndicator:YES];
         [self setBackgroundColor:[InterfacePreferenceHelper getColor:ColorNavBar]];
     }
@@ -68,7 +73,7 @@
         [tView setFont:[UIFont fontWithName:FONT_REGULAR size:MenuButtonFontSize]];
     }
     NSString *title = [self.shippingList objectAtIndex:row];
-    [tView setText:title];
+    [tView setText:[@"     Delivery in " stringByAppendingString:title]];
     
     return tView;
 }

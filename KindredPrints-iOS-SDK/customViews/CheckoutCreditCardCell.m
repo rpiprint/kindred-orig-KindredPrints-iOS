@@ -50,7 +50,7 @@ static CGFloat PADDING = 10.0f;
 
 - (void) updateDisplay {
     UserObject *currUser = [UserPreferenceHelper getUserObject];
-    [self.txtPaymentDetails setText:[NSString stringWithFormat:@"%@ xxxx xxxx xxxx %@", currUser.uCreditType, currUser.uLastFour]];
+    [self.txtPaymentDetails setText:[NSString stringWithFormat:@"%@ xxxx %@", currUser.uCreditType, currUser.uLastFour]];
 }
 
 

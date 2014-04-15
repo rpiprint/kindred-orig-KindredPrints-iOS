@@ -273,20 +273,23 @@ static ImageUploadHelper *uHelper;
         
         dispatch_semaphore_signal(self.processing_sema);
 
-        if ([image isKindOfClass:[BaseImage class]]) {
-            BaseImage *img = image;
-            if (!img.pServerInit)
-                [self initImageOnServer:[self.processingBin objectForKey:pid]];
-            else
-                [self uploadImageFromMemory:image];
-        } else {
-            SelectedOrderImage *img = image;
-            if (!img.oServerInit) {
-                [self initPrintableImageOnServer:img];
+        dispatch_queue_t loaderQ = dispatch_queue_create("kp_upload_queue", NULL);
+        dispatch_async(loaderQ, ^{
+            if ([image isKindOfClass:[BaseImage class]]) {
+                BaseImage *img = image;
+                if (!img.pServerInit)
+                    [self initImageOnServer:[self.processingBin objectForKey:pid]];
+                else
+                    [self uploadImageFromMemory:image];
             } else {
-                [self initOrUpdateLineItemObjectOnServer:img];
+                SelectedOrderImage *img = image;
+                if (!img.oServerInit) {
+                    [self initPrintableImageOnServer:img];
+                } else {
+                    [self initOrUpdateLineItemObjectOnServer:img];
+                }
             }
-        }
+        });
         
     }
 }
@@ -387,11 +390,11 @@ static ImageUploadHelper *uHelper;
 }
 
 - (void) callDelegateAsAppropriate {
-    if (self.delegate) {
+    if (self.delegate && self.retries < MAX_RETRIES) {
         dispatch_async(dispatch_get_main_queue(), ^{
             CGFloat totalImages = [self.uploadQueue count] + [self.inprogressList count] + [self.finishedPile count];
             CGFloat totalFinished = [self.finishedPile count];
-            [self.delegate uploadFinishedWithOverallProgress:totalFinished/totalImages];
+            [self.delegate uploadFinishedWithOverallProgress:totalFinished/totalImages processedCount:(NSInteger)totalFinished andTotal:(NSInteger)totalImages];
             if (totalFinished == totalImages) {
                 [self.delegate uploadsHaveCompleted];
             }
@@ -399,6 +402,17 @@ static ImageUploadHelper *uHelper;
     }
 }
 
+- (void) tellDelegateUploadHasFailed {
+    if (self.delegate) {
+        dispatch_semaphore_wait(self.processing_sema, DISPATCH_TIME_FOREVER);
+        [self.uploadQueue removeAllObjects];
+        dispatch_semaphore_signal(self.processing_sema);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate uploadsHaveFailed];
+        });
+    }
+}
 
 
 #pragma mark Server Interface
@@ -409,6 +423,8 @@ static ImageUploadHelper *uHelper;
         NSString *requestTag = [returnedData objectForKey:kpServerRequestTag];
         NSString *identTag = [returnedData objectForKey:kpServerIdentTag];
         
+        NSLog(@"returned %@", returnedData);
+        
         if ([requestTag isEqualToString:REQ_TAG_CREATE_URL_IMAGE]) {
             if (status == 200) {
                 NSString *pId = [returnedData objectForKey:@"id"];
@@ -417,6 +433,13 @@ static ImageUploadHelper *uHelper;
                 [self addPrintableImageToUploadQueueIfExists:identTag andServerId:pId];
                 [self.finishedPile addObject:identTag];
                 [self.processingBin removeObjectForKey:identTag];
+            } else if (status < 0) {
+                self.retries++;
+                if (self.retries < MAX_RETRIES) {
+                    [self.uploadQueue addObject:identTag];
+                } else {
+                    [self tellDelegateUploadHasFailed];
+                }
             } else {
                 [self.uploadQueue addObject:identTag];
             }
@@ -429,9 +452,16 @@ static ImageUploadHelper *uHelper;
                 [self addPrintableImageToUploadQueueIfExists:identTag andServerId:pId];
                 
                 [self.imageUploadMap setObject:[returnedData objectForKey:@"upload"] forKey:identTag];
-                
+             
+                [self.uploadQueue addObject:identTag];
+            } else if (status < 0) {
+                self.retries++;
+                if (self.retries < MAX_RETRIES) {
+                    [self.uploadQueue addObject:identTag];
+                } else {
+                    [self tellDelegateUploadHasFailed];
+                }
             }
-            [self.uploadQueue addObject:identTag];
             [self removeStringFromProcessing:identTag];
             [self processNextImage];
         } else if ([requestTag isEqualToString:REQ_TAG_UPLOAD_IMAGE]) {
@@ -439,6 +469,13 @@ static ImageUploadHelper *uHelper;
                 [self.orderManager imageFinishedUploading:identTag];
                 [self.finishedPile addObject:identTag];
                 [self.processingBin removeObjectForKey:identTag];
+            } if (status < 0) {
+                self.retries++;
+                if (self.retries < MAX_RETRIES) {
+                    [self.uploadQueue addObject:identTag];
+                } else {
+                    [self tellDelegateUploadHasFailed];
+                }
             } else {
                 [self.uploadQueue addObject:identTag];
             }
@@ -456,10 +493,13 @@ static ImageUploadHelper *uHelper;
                 [self.processingBin setObject:selectedImage forKey:identTag];
             } else {
                 self.retries++;
+                if (self.retries < MAX_RETRIES) {
+                    [self.uploadQueue addObject:identTag];
+                } else {
+                    [self tellDelegateUploadHasFailed];
+                }
             }
-            if (self.retries < MAX_RETRIES) {
-                [self.uploadQueue addObject:identTag];
-            }
+            
             [self removeStringFromProcessing:identTag];
             [self processNextImage];
         } else if ([requestTag isEqualToString:REQ_TAG_CREATE_LINE_ITEM] || [requestTag isEqualToString:REQ_TAG_UPDATE_LINE_ITEM]) {
@@ -472,6 +512,8 @@ static ImageUploadHelper *uHelper;
                 self.retries++;
                 if (self.retries < MAX_RETRIES) {
                     [self.uploadQueue addObject:identTag];
+                } else {
+                    [self tellDelegateUploadHasFailed];
                 }
             }
             [self removeStringFromProcessing:identTag];

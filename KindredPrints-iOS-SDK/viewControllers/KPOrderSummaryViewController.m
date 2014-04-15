@@ -29,7 +29,7 @@
 
 static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 
-@interface KPOrderSummaryViewController () <UITableViewDataSource, UITableViewDataSource, CheckoutCompletePurchaseDelegate, CheckoutCreditCardDelegate, CheckoutLineItemDelegate, ServerInterfaceDelegate, OrderProcessingDelegate, ShippingPickerDelegate, CouponApplyDelegate>
+@interface KPOrderSummaryViewController () <UITableViewDataSource, UITableViewDataSource, CheckoutCompletePurchaseDelegate, CheckoutCreditCardDelegate, CheckoutLineItemDelegate, ServerInterfaceDelegate, OrderProcessingDelegate, ShippingPickerDelegate, CouponApplyDelegate, LoadingStatusViewDelegate>
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
@@ -87,6 +87,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
     if (!_progBarView) {
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
         _progBarView = [[LoadingStatusView alloc] initWithFrame:CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height)];
+        _progBarView.delegate = self;
         [self.view addSubview:_progBarView];
     }
     return _progBarView;
@@ -145,7 +146,8 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.progBarView updateStatusCellWithMessage:@"loading order details.." andProgress:1.0];
+    [self.progBarView setState:KP_STATUS_STATE_PROCESSING];
+    [self.progBarView updateStatusCellWithMessage:@"loading order details.." andProgress:0.0];
     [self.progBarView show];
     
     if (!self.currUser.uPaymentSaved) {
@@ -205,6 +207,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 
 - (void)initiateCompletePurchase {
     if (self.currUser.uPaymentSaved) {
+        [self.progBarView setState:KP_STATUS_STATE_PROCESSING];
         [self.progBarView updateStatusCellWithMessage:@"initiating payment sequence.." andProgress:0.0];
         [self.progBarView show];
         self.orderInProcess = YES;
@@ -358,6 +361,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 #pragma mark Apply Coupon Delegate
 
 - (void) userRequestedApplyCoupon:(NSString *)couponId {
+    [self.progBarView setState:KP_STATUS_STATE_PROCESSING];
     [self.progBarView updateStatusCellWithMessage:@"checking coupon code.." andProgress:0.0];
     [self.progBarView show];
     
@@ -376,6 +380,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
             address.aShipMethod = shippingType;
             [UserPreferenceHelper setSelectedShippingAddresses:[self.selectedAddresses mutableCopy]];
             [UserPreferenceHelper setOrderIsSame:NO];
+            [self.progBarView setState:KP_STATUS_STATE_PROCESSING];
             [self.progBarView updateStatusCellWithMessage:@"updating order with new shipping method.." andProgress:0.0];
             [self.progBarView show];
             [self.orderProcessing initiateOrderCreateOrUpdateSequence];
@@ -385,6 +390,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 }
 
 - (void)userRequestedChangeShippingWithAddressId:(NSString *)aid {
+    [self.progBarView setState:KP_STATUS_STATE_PROCESSING];
     [self.progBarView updateStatusCellWithMessage:@"quoting shipping prices.." andProgress:0.0];
     [self.progBarView show];
 
@@ -437,6 +443,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 }
 - (void)orderFailedToProcess:(NSString *)error {
     [self.progBarView updateStatusCellWithMessage:error andProgress:1.0];
+    [self.progBarView setState:KP_STATUS_STATE_RETRY];
 }
 - (void)orderCreatedAndReturnedLineItems:(NSArray *)lineItems {
     self.orderInProcess = NO;
@@ -454,6 +461,18 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
     [self.progBarView hide];
     KPOrderCompleteViewController *orderFinishedVC = [[KPOrderCompleteViewController alloc] initWithNibName:@"KPOrderCompleteViewController" bundle:nil];
     [self.navigationController setViewControllers:@[orderFinishedVC] animated:YES];
+}
+
+#pragma mark Loading Status Delegate
+
+- (void)clickedButtonAtState:(NSInteger)state {
+    if (state == KP_STATUS_STATE_RETRY) {
+        [self.progBarView setState:KP_STATUS_STATE_PROCESSING];
+        [self.progBarView updateStatusCellWithMessage:@"loading order details.." andProgress:0.0];
+        [self.progBarView show];
+        [self.refreshControl beginRefreshing];
+        [self.orderProcessing initiateOrderCreateOrUpdateSequence];
+    }
 }
 
 @end

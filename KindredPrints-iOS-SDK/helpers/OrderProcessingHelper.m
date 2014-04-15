@@ -131,6 +131,7 @@ static CGFloat const TOTAL_STEPS = 2;
     self.currStage = STEP_CHECKOUT_DONE;
     [self.delegate orderProcessingUpdateProgress:self.currStage/TOTAL_STEPS withStatus:@"feeding hamster.."];
     
+    [UserPreferenceHelper setOrderLineItems:[[NSArray alloc] init]];
     [UserPreferenceHelper setOrderId:ORDER_NO_VALUE];
     [UserPreferenceHelper setOrderIsSame:NO];
     [self.orderManager cleanUpCart];
@@ -233,8 +234,12 @@ static CGFloat const TOTAL_STEPS = 2;
     }
 }
 
-- (void)uploadFinishedWithOverallProgress:(CGFloat)progress {
-    [self.delegate orderProcessingUpdateProgress:(self.currStage+progress)/TOTAL_STEPS withStatus:@"tightening the bolts.."];
+- (void)uploadFinishedWithOverallProgress:(CGFloat)progress processedCount:(NSInteger)processed andTotal:(NSInteger)total {
+    [self.delegate orderProcessingUpdateProgress:(self.currStage+progress)/TOTAL_STEPS withStatus:[NSString stringWithFormat:@"processing image %d of %d..", (processed+1)/2, total/2]];
+}
+
+- (void)uploadsHaveFailed {
+    [self.delegate orderFailedToProcess:@"Image upload failed due to poor connection. Please try again."];
 }
 
 @end
