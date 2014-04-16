@@ -10,12 +10,13 @@
 
 @implementation KPURLImage
 
--(id) initWithOriginalUrl:(NSString *)origUrl {
-    return [self initWithPreviewUrl:origUrl andOriginalUrl:origUrl];
+-(id) initWithPartnerId:(NSString *)partnerId andOriginalUrl:(NSString *)origUrl {
+    return [self initWithPartnerId:partnerId andPreviewUrl:origUrl andOriginalUrl:origUrl];
 }
--(id) initWithPreviewUrl:(NSString *)previewUrl andOriginalUrl:(NSString *)origUrl {
+-(id) initWithPartnerId:(NSString *)parterId andPreviewUrl:(NSString *)previewUrl andOriginalUrl:(NSString *)origUrl {
     self = [super init];
     if (self) {
+        self.pId = parterId;
         self.previewUrl = previewUrl;
         self.originalUrl = origUrl;
     }

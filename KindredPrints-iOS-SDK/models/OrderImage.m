@@ -21,7 +21,11 @@
 - (OrderImage *)initWithImage:(BaseImage *)image andSize:(CGSize)size {
     if (!self.printProductsInit) {
         self.image = image;
-        self.printProducts = [[ImageEditor getAllowablePrintableSizesForImageSize:size] copy];
+        if (image.pIsTwoSided)
+            self.printProducts = [[ImageEditor getAllowablePrintableSizesForImageSize:size andFilter:FILTER_DOUBLESIDE] copy];
+        else
+            self.printProducts = [[ImageEditor getAllowablePrintableSizesForImageSize:size andFilter:FILTER_NONE] copy];
+        
         if ([self.printProducts count]) {
             for (PrintableSize *product in self.printProducts) {
                 product.sQuantity = 1;
@@ -61,7 +65,12 @@
 }
 
 - (void)updateOrderSizes {
-    NSArray *newSizes = [ImageEditor getAllowablePrintableSizesForImageSize:CGSizeMake(self.image.pWidth, self.image.pHeight)];
+    NSArray *newSizes = nil;
+    if (self.image.pIsTwoSided)
+        newSizes = [ImageEditor getAllowablePrintableSizesForImageSize:CGSizeMake(self.image.pWidth, self.image.pHeight) andFilter:FILTER_DOUBLESIDE];
+    else
+        newSizes = [ImageEditor getAllowablePrintableSizesForImageSize:CGSizeMake(self.image.pWidth, self.image.pHeight) andFilter:FILTER_NONE];
+    
     NSMutableArray *finalOutputSizeList = [[NSMutableArray alloc] init];
     for (PrintableSize *newSize in newSizes) {
         BOOL exists = NO;

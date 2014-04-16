@@ -77,6 +77,16 @@ static NSString * KEY_PARTER_URL = @"kp_partner_url";
         return @"pk_live_InAYJo4PSgFdffdHorYqNLl9";
 }
 
++ (NSString *)getCustomPreviewImageUrl:(NSString *)type withData:(NSString *)data andFront:(BOOL)front {
+    NSString *previewUrl = [[[[[self getAPIServerAddress] stringByAppendingString:@"v1/printableimages/preview?type="] stringByAppendingString:type] stringByAppendingString:@"&data="] stringByAppendingString:data];
+    if (front) {
+        previewUrl = [previewUrl stringByAppendingString:@"&side=front"];
+    } else {
+        previewUrl = [previewUrl stringByAppendingString:@"&side=back"];
+    }
+    return previewUrl;
+}
+
 + (void)setStripeTestStatus:(BOOL)test {
     [DevPreferenceHelper writeBoolToDefaults:KEY_STRIPE_TEST value:test];
 }

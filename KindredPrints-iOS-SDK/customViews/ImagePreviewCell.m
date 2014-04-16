@@ -227,6 +227,11 @@ static CGFloat const ARROW_TRANSPARENCY = 0.65f;
     self.imManager.delegate = nil;
    
     self.image = [self.orderManager getOrderForIndex:self.index].image;
+    
+    if (!self.imgView.image) {
+        [self updateDisplayForProduct:nil];
+    }
+    
     [self resizeImageViewWithImage];
 }
 

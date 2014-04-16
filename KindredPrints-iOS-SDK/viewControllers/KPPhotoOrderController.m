@@ -186,17 +186,42 @@
         OrderImage *oImage;
         if ([image isKindOfClass:[KPMEMImage class]]) {
             KPMEMImage *memImage = (KPMEMImage *)image;
-            bImage = [[BaseImage alloc] initWithImage];
+            bImage = [[BaseImage alloc] initForImageWithPartnerId:memImage.pId];
             oImage = [[OrderImage alloc] initWithImage:bImage andSize:CGSizeMake((memImage.image).size.width, (memImage.image).size.height)];
-            [self.orderManager addOrderImage:oImage];
-            [self.imManager cacheOrigImageFromMemory:bImage withImage:memImage.image];
+            if ([self.orderManager addOrderImage:oImage]) {
+                [self.imManager cacheOrigImageFromMemory:bImage withImage:memImage.image];
+            } else {
+                NSLog(@"KindredSDK Error: Image in cart already contains partner ID %@", bImage.pPartnerId);
+            }
         } else if ([image isKindOfClass:[KPURLImage class]]) {
             KPURLImage *urlImage = (KPURLImage *)image;
-            bImage = [[BaseImage alloc] initWithUrl:urlImage.originalUrl andThumbUrl:urlImage.previewUrl];
+            bImage = [[BaseImage alloc] initWithPartnerId:urlImage.pId andUrl:urlImage.originalUrl andThumbUrl:urlImage.previewUrl];
             oImage = [[OrderImage alloc] initWithOutSize:bImage];
-            [self.orderManager addOrderImage:oImage];
-            [self.imManager startPrefetchingOrigImageToCache:bImage];
-        } 
+            if ([self.orderManager addOrderImage:oImage]) {
+                [self.imManager startPrefetchingOrigImageToCache:bImage];
+            } else {
+                NSLog(@"KindredSDK Error: Image in cart already contains partner ID %@", bImage.pPartnerId);
+            }
+        } else if ([image isKindOfClass:[KPCustomImage class]]) {
+            KPCustomImage *customImage = (KPCustomImage *)image;
+            bImage = [[BaseImage alloc] initPartnerId:customImage.pId andType:customImage.parterType andCustomData:customImage.parterData];
+            NSString *frontUrl = [DevPreferenceHelper getCustomPreviewImageUrl:customImage.parterType withData:customImage.parterData andFront:YES];
+            NSString *backUrl = [DevPreferenceHelper getCustomPreviewImageUrl:customImage.parterType withData:customImage.parterData andFront:NO];
+            bImage.pUrl = frontUrl;
+            bImage.pThumbUrl = frontUrl;
+            BaseImage *backsideImage = [[BaseImage alloc] initPartnerId:customImage.pId andType:customImage.parterType andCustomData:customImage.parterData];
+            backsideImage.pIsTwoSided = NO;
+            backsideImage.pUrl = backUrl;
+            backsideImage.pThumbUrl = backUrl;
+            bImage.pBackSide = backsideImage;
+            oImage = [[OrderImage alloc] initWithOutSize:bImage];
+            if ([self.orderManager addOrderImage:oImage]) {
+                [self.imManager startPrefetchingOrigImageToCache:bImage];
+                [self.imManager startPrefetchingOrigImageToCache:bImage.pBackSide];
+            } else {
+                NSLog(@"KindredSDK Error: Image in cart already contains partner ID %@", bImage.pPartnerId);
+            }
+        }
     }
     self.incomingImages = [[NSArray alloc] init];
 }

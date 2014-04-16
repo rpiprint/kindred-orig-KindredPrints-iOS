@@ -10,7 +10,7 @@
 
 @interface KPMEMImage : KPImage
 
-- (id) initWithImage:(UIImage *)image;
+- (id) initWithPartnerId:(NSString *)partnerId andImage:(UIImage *)image;
 
 @property (strong, nonatomic) UIImage *image;
 

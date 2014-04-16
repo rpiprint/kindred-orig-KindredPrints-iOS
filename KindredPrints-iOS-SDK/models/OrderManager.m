@@ -61,11 +61,20 @@ static OrderManager *orderManager;
     BaseImage *updatedSize;
     dispatch_semaphore_wait(self.orders_sema, DISPATCH_TIME_FOREVER);
     for (int i = 0; i < [self countOfOrders]; i++) {
-        if ([((OrderImage *)[self.orders objectAtIndex:i]).image.pid isEqualToString:image.pid]) {
-            ((OrderImage *)[self.orders objectAtIndex:i]).image.pWidth = image.pWidth;
-            ((OrderImage *)[self.orders objectAtIndex:i]).image.pHeight = image.pHeight;
-            ((OrderImage *)[self.orders objectAtIndex:i]).image.pLocalCached = image.pLocalCached;
-            ((OrderImage *)[self.orders objectAtIndex:i]).image.pThumbLocalCached = image.pThumbLocalCached;
+        OrderImage *oImage = (OrderImage *)[self.orders objectAtIndex:i];
+        BaseImage *bImage = oImage.image;
+        BOOL update = NO;
+        if ([bImage.pid isEqualToString:image.pid]) {
+            update = YES;
+        } else if (bImage.pIsTwoSided && [bImage.pBackSide.pid isEqualToString:image.pid]) {
+            update = YES;
+            bImage = bImage.pBackSide;
+        }
+        if (update) {
+            bImage.pWidth = image.pWidth;
+            bImage.pHeight = image.pHeight;
+            bImage.pLocalCached = image.pLocalCached;
+            bImage.pThumbLocalCached = image.pThumbLocalCached;
             if (image.pLocalCached) {
                 for (PrintableSize *size in fitSizeList) {
                     if (image.pWidth < image.pHeight) {
@@ -75,8 +84,8 @@ static OrderManager *orderManager;
                     }
                 }
             }
-            ((OrderImage *)[self.orders objectAtIndex:i]).printProducts = fitSizeList;
-            ((OrderImage *)[self.orders objectAtIndex:i]).printProductsInit = YES;
+            oImage.printProducts = fitSizeList;
+            oImage.printProductsInit = YES;
             updatedSize = ((OrderImage *)[self.orders objectAtIndex:i]).image;
         }
     }
@@ -103,10 +112,18 @@ static OrderManager *orderManager;
     BaseImage *updatedServer;
     dispatch_semaphore_wait(self.orders_sema, DISPATCH_TIME_FOREVER);
     for (int i = 0; i < [self countOfOrders]; i++) {
-        if ([((OrderImage *)[self.orders objectAtIndex:i]).image.pid isEqualToString:localId]) {
-            ((OrderImage *)[self.orders objectAtIndex:i]).image.pServerInit = YES;
-            ((OrderImage *)[self.orders objectAtIndex:i]).image.pServerId = pid;
-            updatedServer = ((OrderImage *)[self.orders objectAtIndex:i]).image;
+        OrderImage *oImage = (OrderImage *)[self.orders objectAtIndex:i];
+        updatedServer = oImage.image;
+        BOOL update = NO;
+        if ([updatedServer.pid isEqualToString:localId]) {
+            update = YES;
+        } else if (updatedServer.pIsTwoSided && [updatedServer.pBackSide.pid isEqualToString:pid]) {
+            update = YES;
+            updatedServer = updatedServer.pBackSide;
+        }
+        if (update) {
+            updatedServer.pServerInit = YES;
+            updatedServer.pServerId = pid;
         }
     }
     [UserPreferenceHelper setCartOrders:self.orders];
@@ -131,9 +148,10 @@ static OrderManager *orderManager;
     BaseImage *updatedServer;
     dispatch_semaphore_wait(self.orders_sema, DISPATCH_TIME_FOREVER);
     for (int i = 0; i < [self countOfOrders]; i++) {
-        if ([((OrderImage *)[self.orders objectAtIndex:i]).image.pid isEqualToString:localId]) {
-            ((OrderImage *)[self.orders objectAtIndex:i]).image.pUploadComplete = YES;
-            updatedServer = ((OrderImage *)[self.orders objectAtIndex:i]).image;
+        OrderImage *oImage = (OrderImage *)[self.orders objectAtIndex:i];
+        updatedServer = oImage.image;
+        if ([updatedServer.pid isEqualToString:localId]) {
+            updatedServer.pUploadComplete = YES;
         }
     }
     [UserPreferenceHelper setCartOrders:self.orders];
@@ -201,15 +219,52 @@ static OrderManager *orderManager;
 
     [UserPreferenceHelper setCartOrders:self.orders];
 }
-- (void) addOrderImage:(OrderImage *)order {
+
+- (void) deleteOrderImageForId:(NSString *)localId {
     dispatch_semaphore_wait(self.orders_sema, DISPATCH_TIME_FOREVER);
-    for (OrderImage *prevOrder in self.orders)
-        if ([prevOrder.image.pid isEqualToString:order.image.pid])
-            return;
+    dispatch_semaphore_wait(self.selorders_sema, DISPATCH_TIME_FOREVER);
+    for (int i = 0; i < [self countOfSelectedOrders]; i++) {
+        OrderImage *order = [self.orders objectAtIndex:i];
+        if ([order.image.pid isEqualToString:localId]) {
+            for (int j = 0; j < [self countOfSelectedOrders]; j++) {
+                SelectedOrderImage *selectedImage = [self.selectedOrders objectAtIndex:j];
+                if ([selectedImage.oImage.pid isEqualToString:order.image.pid]) {
+                    [self.selectedOrders removeObjectAtIndex:j];
+                    j--;
+                }
+            }
+            [UserPreferenceHelper setSelectedOrders:self.selectedOrders];
+            dispatch_semaphore_signal(self.selorders_sema);
+            
+            [self.orders removeObjectAtIndex:i];
+            [UserPreferenceHelper setCartOrders:self.orders];
+            dispatch_semaphore_signal(self.orders_sema);
+            break;
+        }
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.delegate) [self.delegate ordersHaveAllBeenUpdated];
+    });
+}
+
+
+- (BOOL) addOrderImage:(OrderImage *)order {
+    dispatch_semaphore_wait(self.orders_sema, DISPATCH_TIME_FOREVER);
+    for (OrderImage *prevOrder in self.orders) {
+        if ([prevOrder.image.pPartnerId isEqualToString:order.image.pPartnerId]) {
+            dispatch_semaphore_signal(self.orders_sema);
+            return NO;
+        }
+        if ([prevOrder.image.pid isEqualToString:order.image.pid]) {
+            dispatch_semaphore_signal(self.orders_sema);
+            return NO;
+        }
+    }
     [self.orders addObject:order];
     dispatch_semaphore_signal(self.orders_sema);
 
     [UserPreferenceHelper setCartOrders:self.orders];
+    return YES;
 }
 
 - (OrderImage *)getOrderForIndex:(NSInteger)index {

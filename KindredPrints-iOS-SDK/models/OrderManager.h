@@ -37,8 +37,9 @@
 - (NSInteger)countOfOrders;
 - (NSInteger)countOfSelectedOrders;
 
+- (void) deleteOrderImageForId:(NSString *)localId;
 - (void) deleteOrderImageAtIndex:(NSInteger)index;
-- (void) addOrderImage:(OrderImage *)order;
+- (BOOL) addOrderImage:(OrderImage *)order;
 
 - (OrderImage *)getOrderForIndex:(NSInteger)index;
 - (SelectedOrderImage *)getSelectedOrderForIndex:(NSInteger)index;

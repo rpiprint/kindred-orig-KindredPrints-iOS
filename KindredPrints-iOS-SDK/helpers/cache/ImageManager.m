@@ -158,6 +158,11 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
         [self prefetchAndPrepDisplayImages:url withCallback:^(UIImage *image) {
             if (image) {
                 [self processImageForStorage:imageData withTag:url forSize:imageSize withImage:image];
+            } else {
+                [[OrderManager getInstance] deleteOrderImageForId:imageData.pid];
+                dispatch_semaphore_wait(self.processing_sema, DISPATCH_TIME_FOREVER);
+                [self.downloadingQueue removeObject:ident];
+                dispatch_semaphore_signal(self.processing_sema);
             }
             [self startNextOrigDownload];
         }];
@@ -174,7 +179,10 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
     NSMutableArray *sizesToCrop = [[NSMutableArray alloc] init];
     CGFloat imageAspectRatio = image.size.width/image.size.height;
     if (!size) {
-        [sizesToCrop addObjectsFromArray:[ImageEditor getAllowablePrintableSizesForImageSize:CGSizeMake(image.size.width, image.size.height)]];
+        if (imageData.pIsTwoSided)
+            [sizesToCrop addObjectsFromArray:[ImageEditor getAllowablePrintableSizesForImageSize:CGSizeMake(image.size.width, image.size.height) andFilter:FILTER_DOUBLESIDE]];
+        else
+            [sizesToCrop addObjectsFromArray:[ImageEditor getAllowablePrintableSizesForImageSize:CGSizeMake(image.size.width, image.size.height) andFilter:FILTER_NONE]];
         size = [[PrintableSize alloc] init];
         CGFloat scaleFactor = 1;
         if (image.size.width <= image.size.height)
@@ -347,8 +355,9 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
     if (imgData) {
         UIImage *img = [UIImage imageWithData:imgData];
         predicate(img);
-    } else
+    } else {
         predicate(nil);
+    }
 }
 
 // grab the full size UIImage from memory for uploading and such

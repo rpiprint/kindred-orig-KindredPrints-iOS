@@ -24,7 +24,7 @@
 
 @implementation TestViewController
 
-static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY";
+static NSString *const KINDRED_APP_ID = @"test_SDHdPzfxotJ8xAQ674ABbXap";
 
 - (KPPhotoOrderController *)orderPhotosVC {
     if (!_orderPhotosVC) _orderPhotosVC = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID];
@@ -34,15 +34,15 @@ static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY";
 - (IBAction)cmdAddUrlImage:(id)sender {
     if (!self.txtUrl.text || [self.txtUrl.text length] == 0)
         return;
-    KPURLImage *urlImage = [[KPURLImage alloc] initWithOriginalUrl:self.txtUrl.text];
+    KPURLImage *urlImage = [[KPURLImage alloc] initWithPartnerId:@"4" andOriginalUrl:self.txtUrl.text];
     
     [self.orderPhotosVC addImages:@[urlImage]];
 }
 
 - (IBAction)cmdAdd3Test:(id)sender {
-    KPURLImage *urlImage1 = [[KPURLImage alloc] initWithOriginalUrl:@"http://dev.kindredprints.com/img/horizRect.jpg"];
-    KPURLImage *urlImage2 = [[KPURLImage alloc] initWithOriginalUrl:@"http://dev.kindredprints.com/img/squareTest.jpg"];
-    KPURLImage *urlImage3 = [[KPURLImage alloc] initWithOriginalUrl:@"http://kindredprints.com/img/alex.png"];
+    KPURLImage *urlImage1 = [[KPURLImage alloc] initWithPartnerId:@"0" andOriginalUrl:@"http://dev.kindredprints.com/img/horizRect.jpg"];
+    KPURLImage *urlImage2 = [[KPURLImage alloc] initWithPartnerId:@"1" andOriginalUrl:@"http://dev.kindredprints.com/img/squareTest.jpg"];
+    KPURLImage *urlImage3 = [[KPURLImage alloc] initWithPartnerId:@"2" andOriginalUrl:@"http://kindredprints.com/img/alex.png"];
 
     [self.orderPhotosVC addImages:@[urlImage1, urlImage2, urlImage3]];
 }
@@ -102,7 +102,7 @@ static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY";
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
     UIImage *chosenImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    KPMEMImage *img = [[KPMEMImage alloc] initWithImage:chosenImage];
+    KPMEMImage *img = [[KPMEMImage alloc] initWithPartnerId:[NSString stringWithFormat:@"%d", [self.orderPhotosVC countOfImagesInCart]] andImage:chosenImage];
     [self.orderPhotosVC addImages:@[img]];
 
     

@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "PrintableSize.h"
 
+static NSString *FILTER_NONE = @"kp_no_filter";
+static NSString *FILTER_DOUBLESIDE = @"doublesided";
+
 @interface ImageEditor : NSObject
 
-+ (NSArray *)getAllowablePrintableSizesForImageSize:(CGSize)size;
-+ (PrintableSize *)getDefaultPrintableSizeForImageSize:(CGSize)size;
++ (NSArray *)getAllowablePrintableSizesForImageSize:(CGSize)size andFilter:(NSString *)filter;
++ (PrintableSize *)getDefaultPrintableSizeForImageSize:(CGSize)size andFilter:(NSString *)filter;
 + (UIImage *)formatImage:(UIImage *)original offset:(CGFloat)offset scaledSize:(CGSize)size borderSize:(CGFloat)borderSize borderColor:(UIColor *)color;
 + (UIImage *)resizeImage:(UIImage *)original scaledSize:(CGSize)size;
 

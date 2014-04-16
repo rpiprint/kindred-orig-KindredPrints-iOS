@@ -10,8 +10,8 @@
 
 @interface KPURLImage : KPImage
 
--(id) initWithOriginalUrl:(NSString *)origUrl;
--(id) initWithPreviewUrl:(NSString *)previewUrl andOriginalUrl:(NSString *)origUrl;
+-(id) initWithPartnerId:(NSString *)partnerId andOriginalUrl:(NSString *)origUrl;
+-(id) initWithPartnerId:(NSString *)partnerId andPreviewUrl:(NSString *)previewUrl andOriginalUrl:(NSString *)origUrl;
 
 @property (strong, nonatomic) NSString *originalUrl;
 @property (strong, nonatomic) NSString *previewUrl;

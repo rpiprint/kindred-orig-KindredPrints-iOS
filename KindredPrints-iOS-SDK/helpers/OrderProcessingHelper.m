@@ -76,7 +76,7 @@ static CGFloat const TOTAL_STEPS = 2;
 - (void) initiateOrderCreateOrUpdateSequence {
     
     self.currStage = STEP_ORDERS_INIT;
-    [self.delegate orderProcessingUpdateProgress:self.currStage/TOTAL_STEPS withStatus:@"ensuring data consistency.."];
+    [self.delegate orderProcessingUpdateProgress:self.currStage/TOTAL_STEPS withStatus:@"uploading photos to printer.."];
     
     self.doneInitialUpload = NO;
     [self.uploadHelper validateAllOrdersInit];
@@ -235,7 +235,7 @@ static CGFloat const TOTAL_STEPS = 2;
 }
 
 - (void)uploadFinishedWithOverallProgress:(CGFloat)progress processedCount:(NSInteger)processed andTotal:(NSInteger)total {
-    [self.delegate orderProcessingUpdateProgress:(self.currStage+progress)/TOTAL_STEPS withStatus:[NSString stringWithFormat:@"processing image %d of %d..", (processed+1)/2, total/2]];
+    [self.delegate orderProcessingUpdateProgress:(self.currStage+progress)/TOTAL_STEPS withStatus:[NSString stringWithFormat:@"processing image %d of %d..", (int)(processed+1)/2, (int)total/2]];
 }
 
 - (void)uploadsHaveFailed {

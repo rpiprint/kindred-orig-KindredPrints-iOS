@@ -24,6 +24,8 @@ static BOOL DEV = NO;
 + (void)setAppKey:(NSString *)key;
 + (NSString *)getAppKey;
 
++ (NSString *)getCustomPreviewImageUrl:(NSString *)type withData:(NSString *)data andFront:(BOOL)front;
+
 + (void)setPartnerName:(NSString *)name;
 + (NSString *)getPartnerName;
 

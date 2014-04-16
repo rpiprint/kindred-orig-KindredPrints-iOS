@@ -10,9 +10,10 @@
 
 @implementation KPMEMImage
 
-- (id) initWithImage:(UIImage *)image {
+- (id) initWithPartnerId:(NSString *)partnerId andImage:(UIImage *)image {
     self = [super init];
     if (self) {
+        self.pId = partnerId;
         self.image = image;
     }
     return self;

@@ -469,7 +469,7 @@ static ImageUploadHelper *uHelper;
                 [self.orderManager imageFinishedUploading:identTag];
                 [self.finishedPile addObject:identTag];
                 [self.processingBin removeObjectForKey:identTag];
-            } if (status < 0) {
+            } else if (status < 0) {
                 self.retries++;
                 if (self.retries < MAX_RETRIES) {
                     [self.uploadQueue addObject:identTag];

@@ -11,24 +11,24 @@
 
 @implementation ImageEditor
 
-static CGFloat SQUARE_TOLERANCE = 0.05f;
+static CGFloat SQUARE_TOLERANCE = 0.15f;
 
 
-+ (NSArray *)getAllowablePrintableSizesForImageSize:(CGSize)size {
++ (NSArray *)getAllowablePrintableSizesForImageSize:(CGSize)size andFilter:(NSString *)filter {
     NSArray *sizes = [DevPreferenceHelper getCurrentSizes];
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     for (PrintableSize *savedSize in sizes) {
-        if ([self isSquare:size] && savedSize.sTrimmedSize.width == savedSize.sTrimmedSize.height) {
+        if ([self isSquare:size] && savedSize.sTrimmedSize.width == savedSize.sTrimmedSize.height && [self matchesFilter:savedSize filter:filter]) {
             [outputArray addObject:savedSize];
-        } else if (![self isSquare:size] && savedSize.sTrimmedSize.height != savedSize.sTrimmedSize.width) {
+        } else if (![self isSquare:size] && savedSize.sTrimmedSize.height != savedSize.sTrimmedSize.width && [self matchesFilter:savedSize filter:filter]) {
             [outputArray addObject:savedSize];
         }
     }
     return outputArray;
 }
 
-+ (PrintableSize *)getDefaultPrintableSizeForImageSize:(CGSize)size {
-    NSArray *sizes = [ImageEditor getAllowablePrintableSizesForImageSize:size];
++ (PrintableSize *)getDefaultPrintableSizeForImageSize:(CGSize)size andFilter:(NSString *)filter{
+    NSArray *sizes = [ImageEditor getAllowablePrintableSizesForImageSize:size andFilter:filter];
     
     PrintableSize *maxDPISize;
     CGFloat maxDPI = 0;
@@ -40,6 +40,18 @@ static CGFloat SQUARE_TOLERANCE = 0.05f;
     }
     
     return maxDPISize;
+}
+
++ (BOOL)matchesFilter:(PrintableSize *)printProduct filter:(NSString *)filter {
+    if ([filter isEqualToString:FILTER_NONE]) {
+        if ([printProduct.sType rangeOfString:FILTER_DOUBLESIDE].location != NSNotFound) {
+            return NO;
+        } else {
+            return YES;
+        }
+    } else {
+        return [printProduct.sType isEqualToString:filter];
+    }
 }
 
 + (BOOL)isSquare:(CGSize) size {
