@@ -277,14 +277,20 @@ static ImageUploadHelper *uHelper;
         dispatch_async(loaderQ, ^{
             if ([image isKindOfClass:[BaseImage class]]) {
                 BaseImage *img = image;
-                if (!img.pServerInit)
-                    [self initImageOnServer:[self.processingBin objectForKey:pid]];
-                else
+                if (!img.pServerInit) {
+                    if (!img.pIsTwoSided)
+                        [self initImageOnServer:[self.processingBin objectForKey:pid]];
+                    else
+                        [self initFauxImageOnServer:img];
+                } else
                     [self uploadImageFromMemory:image];
             } else {
                 SelectedOrderImage *img = image;
                 if (!img.oServerInit) {
-                    [self initPrintableImageOnServer:img];
+                    if (!img.oImage.pIsTwoSided)
+                        [self initPrintableImageOnServer:img];
+                    else
+                        [self initCustomPrintableImageOnServer:img];
                 } else {
                     [self initOrUpdateLineItemObjectOnServer:img];
                 }
@@ -309,6 +315,22 @@ static ImageUploadHelper *uHelper;
     [self.kInterface createPrintableImage:post withIdent:[self getPrintableKey:selectedImage]];
 }
 
+- (void) initCustomPrintableImageOnServer:(SelectedOrderImage *)selectedImage {
+    NSDictionary *postSource = [[NSDictionary alloc]
+                                initWithObjects:@[selectedImage.oImage.pType, selectedImage.oImage.pPartnerData]
+                                forKeys:@[@"type", @"data"]];
+    NSDictionary *postOps = [[NSDictionary alloc]
+                             initWithObjects:@[postSource]
+                             forKeys:@[@"custom"]];
+    
+    NSMutableDictionary *post = [[NSMutableDictionary alloc] init];
+    [post setObject:postOps forKey:@"operations"];
+    [post setObject:self.currUser.uId forKey:@"user_id"];
+    [post setObject:@"custom" forKey:@"type"];
+    [self.kInterface createPrintableImage:post withIdent:[self getPrintableKey:selectedImage]];
+
+}
+
 - (void) initOrUpdateLineItemObjectOnServer:(SelectedOrderImage *)selectedImage {
     NSMutableDictionary *post = [[NSMutableDictionary alloc] init];
     if ([selectedImage.oLineItemServerId isEqualToString:SERVER_ID_NONE]) {
@@ -323,7 +345,17 @@ static ImageUploadHelper *uHelper;
         [self.kInterface updateLineItem:post lineItemId:selectedImage.oLineItemServerId withIdent:[self getPrintableKey:selectedImage]];
     }
 }
-                 
+
+- (void) initFauxImageOnServer:(BaseImage *)image {
+    [self.orderManager imageWasServerInit:image.pid withServerId:image.pid];
+    [self.orderManager imageFinishedUploading:image.pid];
+    [self addPrintableImageToUploadQueueIfExists:image.pid andServerId:image.pid];
+    [self.finishedPile addObject:image.pid];
+    [self.processingBin removeObjectForKey:image.pid];
+    [self removeStringFromProcessing:image.pid];
+    [self processNextImage];
+}
+
 - (void) initImageOnServer:(BaseImage *)image {
     NSData *currImage = [self.imManager getFullImage:image];
     UIImage *imgVersion = [[UIImage alloc] initWithData:currImage];

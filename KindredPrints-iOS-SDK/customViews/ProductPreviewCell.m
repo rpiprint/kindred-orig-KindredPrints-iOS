@@ -121,12 +121,12 @@ static CGFloat TEXT_VIEW_HEIGHT_PERC = 1.2;
     [self.prevImageView removeFromSuperview];
     self.prevImageView = nil;
     
+    self.viewQuantity.quantity = size.sQuantity;
+    
     [self.imManager setImageAsync:self.prevImageView withImage:order displaySize:ThumbnailPictureType atSize:size];
     [self.txtTitle setText:size.sTitle];
     NSString *pricing = [NSString stringWithFormat:@"+ $%.2f ea.", ((CGFloat)size.sPrice)/100.0];
     [self.txtDesc setText:pricing];
-
-    self.viewQuantity.quantity = size.sQuantity;
     
     if (size.sDPI < size.sWarnDPI) {
         [self.warningButton setHidden:NO];

@@ -69,6 +69,10 @@ static NSString *const KINDRED_APP_ID = @"test_SDHdPzfxotJ8xAQ674ABbXap";
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     [self presentViewController:picker animated:YES completion:nil];
 }
+- (IBAction)cmdAddCustom:(id)sender {
+    KPCustomImage *customImage = [[KPCustomImage alloc] initWithPartnerId:@"01" andType:@"allthecooks" andData:@"http://www.allthecooks.com/amies-achara.html"];
+    [self.orderPhotosVC addImages:@[customImage]];
+}
 
 -(void)closeKeyboard {
     [self.txtEmail resignFirstResponder];

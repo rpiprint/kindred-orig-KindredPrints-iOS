@@ -50,7 +50,7 @@ static CGFloat SQUARE_TOLERANCE = 0.15f;
             return YES;
         }
     } else {
-        return [printProduct.sType isEqualToString:filter];
+        return [printProduct.sType rangeOfString:FILTER_DOUBLESIDE].location != NSNotFound;
     }
 }
 

@@ -27,11 +27,14 @@
 @property (strong, nonatomic) UILabel *txtPicCount;
 @property (strong, nonatomic) BaseImage *image;
 @property (strong, nonatomic) UIButton *warningButton;
+@property (strong, nonatomic) UIButton *flipButton;
 
 @property (nonatomic) CGSize previewSize;
 @property (nonatomic) NSInteger index;
 
 @property (nonatomic) NSInteger alertTag;
+
+@property (nonatomic) BOOL frontSideUp;
 
 @end
 
@@ -107,9 +110,15 @@ static CGFloat const ARROW_TRANSPARENCY = 0.65f;
         [self.warningButton setImage:[UIImage imageNamed:@"ico_warning_yellow"] forState:UIControlStateNormal];
         [self.warningButton setHidden:YES];
         [self.warningButton addTarget:self action:@selector(showWarningForImage) forControlEvents:UIControlEventTouchUpInside];
-        [self.warningButton setHidden:YES];
         [self addSubview:self.warningButton];
 
+        self.flipButton = [[UIButton alloc] initWithFrame:CGRectMake(self.imgView.frame.origin.x-PADDING-[InterfacePreferenceHelper getCartDeleteSize], self.imgView.frame.origin.y+PADDING, [InterfacePreferenceHelper getCartDeleteSize], [InterfacePreferenceHelper getCartDeleteSize])];
+        [self.flipButton setBackgroundColor:[UIColor clearColor]];
+        [self.flipButton setImage:[UIImage imageNamed:@"ico_flip_white"] forState:UIControlStateNormal];
+        [self.flipButton setHidden:YES];
+        [self.flipButton addTarget:self action:@selector(flipImageView) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.flipButton];
+        self.frontSideUp = YES;
         
         CGFloat arrowSide = (bounds.size.width-[InterfacePreferenceHelper getPicturePreviewSize])/2;
         self.leftSideArrow = [[SideArrow alloc] initWithFrame:CGRectMake(0, ([InterfacePreferenceHelper getPicturePreviewSize]+2*HEADER_SIZE-arrowSide)/2, arrowSide, arrowSide)];
@@ -163,6 +172,13 @@ static CGFloat const ARROW_TRANSPARENCY = 0.65f;
     warningFrame.size.height = [InterfacePreferenceHelper getCartDeleteSize];
     self.warningButton.frame = warningFrame;
     
+    CGRect flipFrame = imgViewFrame;
+    flipFrame.origin.x = flipFrame.origin.x - [InterfacePreferenceHelper getCartDeleteSize] - PADDING;
+    flipFrame.origin.y = flipFrame.origin.y + PADDING;
+    flipFrame.size.width = [InterfacePreferenceHelper getCartDeleteSize];
+    flipFrame.size.height = [InterfacePreferenceHelper getCartDeleteSize];
+    self.flipButton.frame = flipFrame;
+    
     CGRect deleteFrame = self.cmdDelete.frame;
     deleteFrame.origin.x = self.imgView.frame.origin.x+self.imgView.frame.size.width-[InterfacePreferenceHelper getCartDeleteSize] - [InterfacePreferenceHelper getCartDeletePadding];
     deleteFrame.origin.y = self.imgView.frame.origin.y+[InterfacePreferenceHelper getCartDeletePadding];
@@ -199,12 +215,27 @@ static CGFloat const ARROW_TRANSPARENCY = 0.65f;
             self.previewSize = CGSizeMake(product.sPreviewSize.width, product.sPreviewSize.height);
         }
     }
+    if (self.image.pIsTwoSided) {
+        [self.flipButton setHidden:NO];
+    } else {
+        [self.flipButton setHidden:YES];
+    }
     self.imManager.delegate = self;
     [self.imManager setImageAsync:self.imgView withImage:self.image displaySize:PreviewPictureType atSize:product];
 }
 
 - (void)showWaringIcon {
     [self.warningButton setHidden:NO];
+}
+
+- (void)flipImageView {
+    self.frontSideUp = !self.frontSideUp;
+    BaseImage *image = self.image;
+    if (!self.frontSideUp) {
+        image = self.image.pBackSide;
+    }
+    self.imManager.delegate = self;
+    [self.imManager setImageAsync:self.imgView withImage:image displaySize:PreviewPictureType atSize:nil];
 }
 
 - (void)showWarningForImage {

@@ -57,6 +57,7 @@
     self.pCropOffset = -1;
     self.pLocalCached = NO;
     self.pThumbLocalCached = NO;
+    self.pBackSide = nil;
 }
 
 - (BaseImage *)copy {
@@ -120,8 +121,8 @@
                                                                         PICTURE_LOCAL_CACHED,
                                                                         PICTURE_THUMB_LOCAL_CACHED,
                                                                         PICTURE_IS_TWO_SIDED]];
-    if (self.pBackSide) {
-        [packedImage setObject:[self packImage] forKey:PICTURE_BACK_SIDE];
+    if (self.pBackSide && self.pIsTwoSided) {
+        [packedImage setObject:[self.pBackSide packImage] forKey:PICTURE_BACK_SIDE];
     }
     return packedImage;
 }

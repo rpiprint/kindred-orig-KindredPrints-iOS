@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.m"
-            timestampString = "419364445.651366"
+            timestampString = "419376381.592619"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
             landmarkName = "-moveToNextViewIfReady"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.m"
-            timestampString = "419364445.651366"
+            timestampString = "419376381.592619"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
             landmarkName = "-serverCallback:"
             landmarkType = "5">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.m"
-            timestampString = "419364445.651366"
+            timestampString = "419376381.592619"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
             landmarkName = "-serverCallback:"
             landmarkType = "5">
          </BreakpointContent>
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/customViews/ProductPreviewCell.m"
-            timestampString = "418160320.097201"
+            timestampString = "419376848.589517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "-updateDisplayForImage:andSize:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1224,11 +1224,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/ImageUploadHelper.m"
-            timestampString = "419201065.162079"
+            timestampString = "419387112.829153"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "400"
-            endingLineNumber = "400"
+            startingLineNumber = "432"
+            endingLineNumber = "432"
             landmarkName = "-callDelegateAsAppropriate"
             landmarkType = "5">
          </BreakpointContent>
@@ -1512,11 +1512,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/ImageUploadHelper.m"
-            timestampString = "419201065.162079"
+            timestampString = "419387112.829153"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "343"
-            endingLineNumber = "343"
+            startingLineNumber = "375"
+            endingLineNumber = "375"
             landmarkName = "-initImageOnServer:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1956,11 +1956,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/customViews/ImagePreviewCell.m"
-            timestampString = "418159729.543813"
+            timestampString = "419377649.117582"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
             landmarkName = "-clickedRightArrow"
             landmarkType = "5">
          </BreakpointContent>
@@ -1972,11 +1972,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/customViews/ImagePreviewCell.m"
-            timestampString = "418159729.543813"
+            timestampString = "419377649.117582"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
             landmarkName = "-clickedLeftArrow"
             landmarkType = "5">
          </BreakpointContent>
@@ -2052,11 +2052,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/ImageUploadHelper.m"
-            timestampString = "419373075.777522"
+            timestampString = "419387112.829153"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "408"
-            endingLineNumber = "408"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
             landmarkName = "-tellDelegateUploadHasFailed"
             landmarkType = "5">
          </BreakpointContent>
@@ -2084,12 +2084,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/ImageUploadHelper.m"
-            timestampString = "419374212.495947"
+            timestampString = "419387112.829153"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "285"
-            endingLineNumber = "285"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
             landmarkName = "-processNextImage"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../KindredPrints-iOS-SDK/models/BaseImage.m"
+            timestampString = "419376461.013995"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "-packImage"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -210,7 +210,6 @@
             bImage.pUrl = frontUrl;
             bImage.pThumbUrl = frontUrl;
             BaseImage *backsideImage = [[BaseImage alloc] initPartnerId:customImage.pId andType:customImage.parterType andCustomData:customImage.parterData];
-            backsideImage.pIsTwoSided = NO;
             backsideImage.pUrl = backUrl;
             backsideImage.pThumbUrl = backUrl;
             bImage.pBackSide = backsideImage;
