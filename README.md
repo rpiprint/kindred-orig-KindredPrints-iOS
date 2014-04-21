@@ -120,7 +120,7 @@ In this section, I'll try to explain the functions as employed by some example i
 
 #### A note about testing
 
-All testing should be done using the test key you get through signing up (sign up located here: 'link to partner signup'), which means that none of your orders get sent to the printer and no credit cards are charged. Be sure to switch this key to the live version before opening it up to the public.
+All testing should be done using the test key you get through signing up (sign up located [here](http://sdk.kindredprints.com/signup/) ), which means that none of your orders get sent to the printer and no credit cards are charged. Be sure to switch this key to the live version before opening it up to the public.
 
 With the Kindred test key, you can use a fake credit card with the number **4242 4242 4242 4242** and any valid future date/cvv code.
 
