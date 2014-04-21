@@ -355,16 +355,17 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
     if ([self.imCache hasImage:cacheName]) {
         UIImage *image = [self.imCache getImageForKey:cacheName];
         [view setImage:image];
-        [progView setHidden:YES];
     } else {
         if ([image isKindOfClass:[KPMEMImage class]]) {
             KPMEMImage *img = (KPMEMImage *)image;
             UIImage *croppedImg = [ImageEditor cropAndRotateForThumbnail:img.image scaledSize:CGSizeMake(view.frame.size.width, view.frame.size.height)];
             [self.imCache addImage:croppedImg forKey:cacheName];
             [view setImage:croppedImg];
-            [progView setHidden:YES];
         } else if ([image isKindOfClass:[KPURLImage class]]) {
             KPURLImage *img = (KPURLImage *)image;
+            NSLog(@"pulling image from web at index %d", index);
+            [progView startAnimating];
+
             dispatch_queue_t loaderQ = dispatch_queue_create(DOWNLOAD_QUEUE, NULL);
             dispatch_async(loaderQ, ^{
                 [self getImageFromUrl:img.previewUrl predicate:^(UIImage *image) {
@@ -372,7 +373,7 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
                     [self.imCache addImage:img forKey:cacheName];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [view setImage:img];
-                        [progView setHidden:YES];
+                        [progView stopAnimating];
                     });
                 }];
             });

@@ -63,6 +63,14 @@
     [layout setMinimumInteritemSpacing:2.0];
     [layout setMinimumLineSpacing:2.0];
     [self.collectionView setCollectionViewLayout:layout];
+
+    CGFloat statusBarHeight = 0;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+        statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    } else {
+        statusBarHeight = [InterfacePreferenceHelper getStatusBarHeight];
+    }
+    [self.collectionView setContentInset:UIEdgeInsetsMake(0, 0, [InterfacePreferenceHelper getSelectImageSide]+self.navigationController.navigationBar.frame.size.height-statusBarHeight, 0)];
     
     self.collectionView.alwaysBounceVertical = YES;
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
@@ -160,8 +168,7 @@
     PhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_ID forIndexPath:indexPath];
     [cell.imageView setImage:nil];
     KPImage *img = [self.sourcePhotos objectAtIndex:indexPath.row];
-    
-    [cell.activityView setHidden:NO];
+        
     [self.imManager setImageAsync:cell.imageView andProgressView:cell.activityView withImage:img andIndex:indexPath.row];
     
     if ([self isImageSelected:img.pId] > -1) {

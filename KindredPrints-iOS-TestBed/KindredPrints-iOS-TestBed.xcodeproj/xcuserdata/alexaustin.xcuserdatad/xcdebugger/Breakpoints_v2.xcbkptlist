@@ -1480,11 +1480,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "419808081.492296"
+            timestampString = "419814794.958517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "402"
-            endingLineNumber = "402"
+            startingLineNumber = "403"
+            endingLineNumber = "403"
             landmarkName = "-getFullImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2212,11 +2212,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoSelectViewController.m"
-            timestampString = "419797534.042454"
+            timestampString = "419816582.895565"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "-toggleImageSelection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2228,11 +2228,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/viewControllers/KPPhotoSelectViewController.m"
-            timestampString = "419797534.042454"
+            timestampString = "419816582.895565"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "-isImageSelected:"
             landmarkType = "5">
          </BreakpointContent>

@@ -28,7 +28,8 @@
         self.activityView.frame = activityFrame;
         [self addSubview:self.activityView];
         
-        [self.activityView startAnimating];
+        [self.activityView setHidesWhenStopped:YES];
+        [self.activityView stopAnimating];
         
         [self addSubview:self.checkedOverlay];
         [self.checkedOverlay setOpaque:YES];
