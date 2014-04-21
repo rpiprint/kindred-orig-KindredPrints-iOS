@@ -15,4 +15,7 @@
 - (id)initBackButtonWithFrame:(CGRect)frame;
 - (id)initForwardButtonWithFrame:(CGRect)frame andText:(NSString *)title;
 
+- (void) setEnabled;
+- (void) setDisabled;
+
 @end

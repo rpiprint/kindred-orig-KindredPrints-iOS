@@ -7,6 +7,8 @@
 //
 
 #import "ImageManager.h"
+#import "KPMEMImage.h"
+#import "KPURLImage.h"
 #import "FileCache.h"
 #import "ImageCache.h"
 #import "ImageEditor.h"
@@ -345,6 +347,36 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
                 }
             }
         });
+    }
+}
+
+- (void) setImageAsync:(UIImageView *)view andProgressView:(UIActivityIndicatorView *)progView withImage:(KPImage *)image andIndex:(NSInteger)index {
+    NSString *cacheName = [NSString stringWithFormat:@"%d", index];
+    if ([self.imCache hasImage:cacheName]) {
+        UIImage *image = [self.imCache getImageForKey:cacheName];
+        [view setImage:image];
+        [progView setHidden:YES];
+    } else {
+        if ([image isKindOfClass:[KPMEMImage class]]) {
+            KPMEMImage *img = (KPMEMImage *)image;
+            UIImage *croppedImg = [ImageEditor cropAndRotateForThumbnail:img.image scaledSize:CGSizeMake(view.frame.size.width, view.frame.size.height)];
+            [self.imCache addImage:croppedImg forKey:cacheName];
+            [view setImage:croppedImg];
+            [progView setHidden:YES];
+        } else if ([image isKindOfClass:[KPURLImage class]]) {
+            KPURLImage *img = (KPURLImage *)image;
+            dispatch_queue_t loaderQ = dispatch_queue_create(DOWNLOAD_QUEUE, NULL);
+            dispatch_async(loaderQ, ^{
+                [self getImageFromUrl:img.previewUrl predicate:^(UIImage *image) {
+                    UIImage *img = [ImageEditor cropAndRotateForThumbnail:image scaledSize:CGSizeMake(view.frame.size.width, view.frame.size.height)];
+                    [self.imCache addImage:img forKey:cacheName];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [view setImage:img];
+                        [progView setHidden:YES];
+                    });
+                }];
+            });
+        }
     }
 }
 

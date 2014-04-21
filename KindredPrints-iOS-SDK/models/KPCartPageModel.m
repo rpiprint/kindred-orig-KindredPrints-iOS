@@ -54,7 +54,9 @@
 
 - (UIViewController *)viewControllerAtIndex:(NSUInteger)index {
     // Return the data view controller for the given index.
-    if (([self.orderManager countOfOrders] == 0) || (index >= [self.orderManager countOfOrders])) {
+    if (index >= [self.orderManager countOfOrders] && index > 0)
+        return nil;
+    if ([self.orderManager countOfOrders] == 0) {
         KPEmptyCartViewController *emptyVC = [[KPEmptyCartViewController alloc] init];
         return emptyVC;
     }

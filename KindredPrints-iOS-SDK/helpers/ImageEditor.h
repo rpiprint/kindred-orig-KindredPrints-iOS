@@ -18,5 +18,6 @@ static NSString *FILTER_DOUBLESIDE = @"doublesided";
 + (PrintableSize *)getDefaultPrintableSizeForImageSize:(CGSize)size andFilter:(NSString *)filter;
 + (UIImage *)formatImage:(UIImage *)original offset:(CGFloat)offset scaledSize:(CGSize)size borderSize:(CGFloat)borderSize borderColor:(UIColor *)color;
 + (UIImage *)resizeImage:(UIImage *)original scaledSize:(CGSize)size;
++ (UIImage *)cropAndRotateForThumbnail:(UIImage *)original scaledSize:(CGSize)size;
 
 @end

@@ -59,5 +59,13 @@ static CGFloat IMAGE_PERCENTAGE = 0.65f;
     return self;
 }
 
+- (void) setEnabled {
+    [self.button setEnabled:YES];
+    [self.button setTitleColor:[InterfacePreferenceHelper getColor:ColorNavBarNextButton] forState:UIControlStateNormal];
+}
+- (void) setDisabled {
+    [self.button setEnabled:YES];
+    [self.button setTitleColor:[InterfacePreferenceHelper getColor:ColorOrderGreyDiv] forState:UIControlStateNormal];
+}
 
 @end

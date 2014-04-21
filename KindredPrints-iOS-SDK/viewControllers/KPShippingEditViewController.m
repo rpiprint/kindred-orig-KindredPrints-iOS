@@ -126,7 +126,10 @@ static NSInteger const STATE_ENTRY = 1;
         if (![v text] || [[v text] length] == 0)
             nextEnabled = NO;
     }
-    [self.cmdNext.button setEnabled:nextEnabled];
+    if (nextEnabled)
+        [self.cmdNext setEnabled];
+    else
+        [self.cmdNext setDisabled];
 }
 
 - (void) setInterfaceState:(NSInteger)state {
@@ -382,7 +385,10 @@ static NSInteger const STATE_ENTRY = 1;
         }
     }
     
-    [self.cmdNext.button setEnabled:nextEnabled];
+    if (nextEnabled)
+        [self.cmdNext setEnabled];
+    else
+        [self.cmdNext setDisabled];
     
     return YES;
 }

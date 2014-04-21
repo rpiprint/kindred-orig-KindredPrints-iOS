@@ -7,7 +7,12 @@
 //
 
 #import "OrderManager.h"
+#import "DevPreferenceHelper.h"
+#import "KPURLImage.h"
+#import "KPMEMImage.h"
+#import "KPCustomImage.h"
 #import "UserPreferenceHelper.h"
+#import "ImageManager.h"
 
 @interface OrderManager()
 
@@ -15,7 +20,7 @@
 @property (nonatomic) dispatch_semaphore_t selorders_sema;
 @property (strong, nonatomic) NSMutableArray *orders;
 @property (strong, nonatomic) NSMutableArray *selectedOrders;
-
+@property (strong, nonatomic) ImageManager *imManager;
 @end
 
 @implementation OrderManager
@@ -29,6 +34,11 @@ static OrderManager *orderManager;
         orderManager.selorders_sema = dispatch_semaphore_create(1);
     }
     return orderManager;
+}
+
+- (ImageManager *)imManager {
+    if (!_imManager) _imManager = [ImageManager GetInstance];
+    return _imManager;
 }
 
 - (NSMutableArray *)orders {
@@ -265,6 +275,48 @@ static OrderManager *orderManager;
 
     [UserPreferenceHelper setCartOrders:self.orders];
     return YES;
+}
+
+- (void) addExternalImage:(KPImage *)image {
+    BaseImage *bImage;
+    OrderImage *oImage;
+    if ([image isKindOfClass:[KPMEMImage class]]) {
+        KPMEMImage *memImage = (KPMEMImage *)image;
+        bImage = [[BaseImage alloc] initForImageWithPartnerId:memImage.pId];
+        oImage = [[OrderImage alloc] initWithImage:bImage andSize:CGSizeMake((memImage.image).size.width, (memImage.image).size.height)];
+        if ([self addOrderImage:oImage]) {
+            [self.imManager cacheOrigImageFromMemory:bImage withImage:memImage.image];
+        } else {
+            NSLog(@"KindredSDK Error: Image in cart already contains partner ID %@", bImage.pPartnerId);
+        }
+    } else if ([image isKindOfClass:[KPURLImage class]]) {
+        KPURLImage *urlImage = (KPURLImage *)image;
+        bImage = [[BaseImage alloc] initWithPartnerId:urlImage.pId andUrl:urlImage.originalUrl andThumbUrl:urlImage.previewUrl];
+        oImage = [[OrderImage alloc] initWithOutSize:bImage];
+        if ([self addOrderImage:oImage]) {
+            [self.imManager startPrefetchingOrigImageToCache:bImage];
+        } else {
+            NSLog(@"KindredSDK Error: Image in cart already contains partner ID %@", bImage.pPartnerId);
+        }
+    } else if ([image isKindOfClass:[KPCustomImage class]]) {
+        KPCustomImage *customImage = (KPCustomImage *)image;
+        bImage = [[BaseImage alloc] initPartnerId:customImage.pId andType:customImage.parterType andCustomData:customImage.parterData];
+        NSString *frontUrl = [DevPreferenceHelper getCustomPreviewImageUrl:customImage.parterType withData:customImage.parterData andFront:YES];
+        NSString *backUrl = [DevPreferenceHelper getCustomPreviewImageUrl:customImage.parterType withData:customImage.parterData andFront:NO];
+        bImage.pUrl = frontUrl;
+        bImage.pThumbUrl = frontUrl;
+        BaseImage *backsideImage = [[BaseImage alloc] initPartnerId:customImage.pId andType:customImage.parterType andCustomData:customImage.parterData];
+        backsideImage.pUrl = backUrl;
+        backsideImage.pThumbUrl = backUrl;
+        bImage.pBackSide = backsideImage;
+        oImage = [[OrderImage alloc] initWithOutSize:bImage];
+        if ([self addOrderImage:oImage]) {
+            [self.imManager startPrefetchingOrigImageToCache:bImage];
+            [self.imManager startPrefetchingOrigImageToCache:bImage.pBackSide];
+        } else {
+            NSLog(@"KindredSDK Error: Image in cart already contains partner ID %@", bImage.pPartnerId);
+        }
+    }
 }
 
 - (OrderImage *)getOrderForIndex:(NSInteger)index {

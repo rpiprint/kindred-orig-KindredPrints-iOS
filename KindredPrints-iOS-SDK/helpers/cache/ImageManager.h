@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BaseImage.h"
+#import "KPImage.h"
 #import "PrintableSize.h"
 #import "InterfacePreferenceHelper.h"
 
@@ -33,5 +34,6 @@ typedef void (^asyncFinished) ();
 - (void) cacheOrigImageFromMemory:(BaseImage *)image withImage:(UIImage *)imgData;
 
 - (void) setImageAsync:(UIImageView *)view withImage:(BaseImage *)image displaySize:(PictureSize)displaySize atSize:(PrintableSize *)size;
+- (void) setImageAsync:(UIImageView *)view andProgressView:(UIActivityIndicatorView *)progView withImage:(KPImage *)image andIndex:(NSInteger)index;
 
 @end

@@ -104,10 +104,10 @@ static NSInteger TAG_WARNING_BACK = 3;
 - (void) adjustNavBarForOrderCount {
     if (![self.orderManager countOfOrders]) {
         [self initNavBarWithTitle:@"" andNextTitle:@""];
-        [self.cmdNext.button setEnabled:NO];
+        [self.cmdNext setDisabled];
     } else {
         [self initNavBar];
-        [self.cmdNext.button setEnabled:YES];
+        [self.cmdNext setEnabled];
     }
 }
 
@@ -155,7 +155,7 @@ static NSInteger TAG_WARNING_BACK = 3;
     
     if (self.isRootController) {
         KPPhotoOrderController *navController = (KPPhotoOrderController *)self.navigationController;
-        [navController.orderDelegate userDidClickCancel:navController];
+        if (navController.orderDelegate) [navController.orderDelegate userDidClickCancel:navController];
         [self dismissViewControllerAnimated:YES completion:nil];
     } else {
         if ([self.orderManager countOfSelectedOrders] == 0) {
@@ -275,8 +275,6 @@ static NSInteger TAG_WARNING_BACK = 3;
     UIViewController *startingViewController = [self.pageModel viewControllerAtIndex:self.currIndex];
     NSArray *viewControllers = @[startingViewController];
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];
-    
-    [self adjustNavBarForOrderCount];
 }
 
 - (void)updateOrderTotal:(NSInteger)orderTotal {
@@ -315,10 +313,15 @@ static NSInteger TAG_WARNING_BACK = 3;
 
 - (void)ordersHaveAllBeenUpdated {
     [self refreshView];
+    [self.pageModel initOrderTotal];
+    [self adjustNavBarForOrderCount];
 }
 - (void)ordersHaveBeenUpdatedWithSizes:(BaseImage *)image {
     if ([self needRefreshView:image])
         [self refreshView];
+    
+    [self.pageModel initOrderTotal];
+    [self adjustNavBarForOrderCount];
 }
 - (void)ordersHaveBeenServerInit:(BaseImage *)image {
     if ([self needRefreshView:image])

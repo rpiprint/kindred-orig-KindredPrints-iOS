@@ -84,6 +84,15 @@ static NSString *KEY_BORDER_COLOR = @"kp_border_color";
     [InterfacePreferenceHelper writeObjectToDefaults:KEY_BORDER_COLOR value:data];
 }
 
++ (CGFloat)getSelectImageSide {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return 150.0f;
+    } else {
+        return 105.0f;
+    }
+
+}
+
 + (CGFloat)getCheckoutEditHeight {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         return 30.0f;

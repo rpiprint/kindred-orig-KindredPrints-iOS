@@ -10,7 +10,7 @@
 #import "PreferenceHelper.h"
 
 static BOOL LOG = YES;
-static BOOL DEV = NO;
+static BOOL DEV = YES;
 
 @interface DevPreferenceHelper : PreferenceHelper
 + (BOOL)testForNullValue:(id)object;

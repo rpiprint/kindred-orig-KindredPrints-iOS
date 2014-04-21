@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "KPImage.h"
 #import "BaseImage.h"
 #import "OrderImage.h"
 #import "SelectedOrderImage.h"
@@ -40,6 +41,7 @@
 - (void) deleteOrderImageForId:(NSString *)localId;
 - (void) deleteOrderImageAtIndex:(NSInteger)index;
 - (BOOL) addOrderImage:(OrderImage *)order;
+- (void) addExternalImage:(KPImage *)image;
 
 - (OrderImage *)getOrderForIndex:(NSInteger)index;
 - (SelectedOrderImage *)getSelectedOrderForIndex:(NSInteger)index;

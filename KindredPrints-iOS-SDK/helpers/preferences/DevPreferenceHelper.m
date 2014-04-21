@@ -78,7 +78,13 @@ static NSString * KEY_PARTER_URL = @"kp_partner_url";
 }
 
 + (NSString *)getCustomPreviewImageUrl:(NSString *)type withData:(NSString *)data andFront:(BOOL)front {
-    NSString *previewUrl = [[[[[self getAPIServerAddress] stringByAppendingString:@"v1/printableimages/preview?type="] stringByAppendingString:type] stringByAppendingString:@"&data="] stringByAppendingString:data];
+    NSString *escapedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                                    NULL,
+                                                                                                    (__bridge CFStringRef) data,
+                                                                                                    NULL,
+                                                                                                    CFSTR("!*'();:@&=+$,/?%#[]\" "),
+                                                                                                    kCFStringEncodingUTF8));
+    NSString *previewUrl = [[[[[self getAPIServerAddress] stringByAppendingString:@"v1/printableimages/preview?type="] stringByAppendingString:type] stringByAppendingString:@"&data="] stringByAppendingString:escapedString];
     if (front) {
         previewUrl = [previewUrl stringByAppendingString:@"&side=front"];
     } else {

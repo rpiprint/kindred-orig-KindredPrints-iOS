@@ -109,6 +109,7 @@ static CGFloat TABLE_PADDING = 10;
         [self.tableView reloadData];
         [self.refreshControl endRefreshing];
     }
+    [self updateNextButtonForSelectionCount];
 }
 
 - (void) handleRefresh:(UIRefreshControl *)refreshControl {
@@ -126,6 +127,14 @@ static CGFloat TABLE_PADDING = 10;
 
 - (void) initNavBar {
     [self initNavBarWithTitle:@"CHOOSE DESTINATION" andNextTitle:@"NEXT"];
+}
+
+- (void)updateNextButtonForSelectionCount {
+    if ([self.selectedAddresses count]) {
+        [self.cmdNext setEnabled];
+    } else {
+        [self.cmdNext setDisabled];
+    }
 }
 
 - (BOOL) isAddressSelected:(BaseAddress *)address {
@@ -173,6 +182,7 @@ static CGFloat TABLE_PADDING = 10;
 - (void) selectAddress:(BaseAddress *)address {
     [self deselectAddress:address];
     [self.selectedAddresses addObject:address];
+
 }
 
 - (void) deselectAddress:(BaseAddress *)address {
@@ -210,12 +220,15 @@ static CGFloat TABLE_PADDING = 10;
     } else {
         [self selectAddress:[self.addresses objectAtIndex:indexPath.row-1]];
     }
+    [self updateNextButtonForSelectionCount];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"did deselect row at %ld", (long)indexPath.row);
     if (indexPath.row > 0)
         [self deselectAddress:[self.addresses objectAtIndex:indexPath.row-1]];
+    
+    [self updateNextButtonForSelectionCount];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -330,6 +343,8 @@ static CGFloat TABLE_PADDING = 10;
                 [UserPreferenceHelper setAllShippingAddresses:self.addresses];
                 [DevPreferenceHelper resetAddressDownloadStatus];
                 [self.tableView reloadData];
+                
+                [self updateNextButtonForSelectionCount];
             }
             [self.refreshControl endRefreshing];
         }

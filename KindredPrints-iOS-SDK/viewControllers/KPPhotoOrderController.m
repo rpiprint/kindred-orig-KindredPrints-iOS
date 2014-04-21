@@ -8,6 +8,7 @@
 
 #import "KPPhotoOrderController.h"
 #import "KPCartPageViewController.h"
+#import "KPPhotoSelectViewController.h"
 #import "KPLoadingScreenViewController.h"
 #import "UserPreferenceHelper.h"
 #import "DevPreferenceHelper.h"
@@ -20,8 +21,7 @@
 
 @interface KPPhotoOrderController() <ServerInterfaceDelegate, ImageManagerDelegate, OrderManagerDelegate>
 
-@property (strong, nonatomic) NSArray *incomingImages;
-@property (strong, nonatomic) ImageManager *imManager;
+@property (strong, nonatomic) NSMutableArray *incomingImages;
 @property (strong, nonatomic) KPLoadingScreenViewController *loadingVC;
 @property (strong, nonatomic) KindredServerInterface *ksInterface;
 @property (nonatomic) NSInteger outstandingConfigNecessary;
@@ -29,17 +29,22 @@
 
 @property (strong, nonatomic) OrderManager *orderManager;
 
+@property (nonatomic) BOOL showSelect;
+@property (nonatomic) BOOL isLoading;
+
 @end
 
 @implementation KPPhotoOrderController
 
-- (ImageManager *)imManager {
-    if (!_imManager) {
-        _imManager = [ImageManager GetInstance];
-        _imManager.delegate = self;
+static NSInteger PHOTO_THRESHOLD = 10;
+
+- (NSMutableArray *)incomingImages {
+    if (!_incomingImages) {
+        _incomingImages = [[NSMutableArray alloc] init];
     }
-    return _imManager;
+    return _incomingImages;
 }
+
 - (KindredServerInterface *)ksInterface {
     if (!_ksInterface) {
         _ksInterface = [[KindredServerInterface alloc] init];
@@ -66,20 +71,32 @@
 
 - (KPPhotoOrderController *) initWithKey:(NSString *)key {
     [DevPreferenceHelper setAppKey:key];
+    self.showSelect = NO;
+    self.isLoading = NO;
     return [self baseInit:@[]];
 }
 
 - (KPPhotoOrderController *) initWithKey:(NSString *)key andImages:(NSArray *)images {
     [DevPreferenceHelper setAppKey:key];
+    self.showSelect = NO;
+    self.isLoading = NO;
     return [self baseInit:images];
 }
 - (void) addImages:(NSArray *)images {
     BOOL configDone = [self checkConfigDownloaded];
     
-    self.incomingImages = images;
+    [self.incomingImages addObjectsFromArray:images];
+    
+    if ([self.incomingImages count] >= PHOTO_THRESHOLD) {
+        self.showSelect = YES;
+    }
     
     if (configDone) {
-        [self processNewImages];
+        if ([self.incomingImages count] < PHOTO_THRESHOLD) {
+            [self processNewImages];
+        } else {
+            [self moveToNextViewIfReady];
+        }
     } else {
         [self launchAsyncConfig];
     }
@@ -94,7 +111,7 @@
 }
 
 - (void) preRegisterUserWithEmail:(NSString *)email {
-    [self preRegisterUserWithEmail:email andName:@"a Kindred user"];
+    [self preRegisterUserWithEmail:email andName:@"Kindred Prints family member"];
 }
 - (void) preRegisterUserWithEmail:(NSString *)email andName:(NSString *)name {
     UserObject *newUser = [UserPreferenceHelper getUserObject];
@@ -113,19 +130,21 @@
 }
 -(KPPhotoOrderController *)baseInit:(NSArray *)images {
     BOOL configDone = [self checkConfigDownloaded];
-    self.incomingImages = images;
+    [self.incomingImages addObjectsFromArray:images];
     if (configDone) {
-        [self processNewImages];
-        [self moveToNextViewIfReady];
+        if ([self.incomingImages count] < PHOTO_THRESHOLD) {
+            [self processNewImages];
+        } else {
+            self.showSelect = YES;
+        }
         return [self initCart];
     }
     else return [self initLoading];
 }
 
 - (KPPhotoOrderController *)initCart {
-    KPCartPageViewController *cartVC = [[KPCartPageViewController alloc] initWithNibName:@"KPCartPageViewController" bundle:nil];
-    cartVC.isRootController = YES;
-    self = [self initWithRootViewController:cartVC];
+    self = [self initWithRootViewController:[self getNextView]];
+    
     [self initNavBar];
     return self;
 }
@@ -149,11 +168,14 @@
     self = [self initWithRootViewController:self.loadingVC];
     [self initNavBar];
 
+    if ([self.incomingImages count] >= PHOTO_THRESHOLD) {
+        self.showSelect = YES;
+    }
+    
     [self launchAsyncConfig];
     
     return self;
 }
-
 - (BOOL) checkConfigDownloaded {
     self.outstandingConfigNecessary = 0;
     self.returnedConfigNecessary = 0;
@@ -169,67 +191,45 @@
 }
 
 - (void) launchAsyncConfig {
-    dispatch_queue_t loaderQ = dispatch_queue_create("kp_download_queue", NULL);
-    dispatch_async(loaderQ, ^{
-        if ([DevPreferenceHelper needDownloadSizes])
-            [self.ksInterface getCurrentImageSizes];
-        if ([DevPreferenceHelper needDownloadCountries])
-            [self.ksInterface getCountryList];
-        if ([DevPreferenceHelper needPartnerInfo])
-            [self.ksInterface getPartnerDetails];
-    });
+    if (!self.isLoading) {
+        self.isLoading = YES;
+
+        dispatch_queue_t loaderQ = dispatch_queue_create("kp_download_queue", NULL);
+        dispatch_async(loaderQ, ^{
+            if ([DevPreferenceHelper needDownloadSizes]) {
+                [self.ksInterface getCurrentImageSizes];
+            }
+            if ([DevPreferenceHelper needDownloadCountries]) {
+                [self.ksInterface getCountryList];
+            }
+            if ([DevPreferenceHelper needPartnerInfo]) {
+                [self.ksInterface getPartnerDetails];
+            }
+        });
+    }
 }
 
 - (void)processNewImages {
     for (id image in self.incomingImages) {
-        BaseImage *bImage;
-        OrderImage *oImage;
-        if ([image isKindOfClass:[KPMEMImage class]]) {
-            KPMEMImage *memImage = (KPMEMImage *)image;
-            bImage = [[BaseImage alloc] initForImageWithPartnerId:memImage.pId];
-            oImage = [[OrderImage alloc] initWithImage:bImage andSize:CGSizeMake((memImage.image).size.width, (memImage.image).size.height)];
-            if ([self.orderManager addOrderImage:oImage]) {
-                [self.imManager cacheOrigImageFromMemory:bImage withImage:memImage.image];
-            } else {
-                NSLog(@"KindredSDK Error: Image in cart already contains partner ID %@", bImage.pPartnerId);
-            }
-        } else if ([image isKindOfClass:[KPURLImage class]]) {
-            KPURLImage *urlImage = (KPURLImage *)image;
-            bImage = [[BaseImage alloc] initWithPartnerId:urlImage.pId andUrl:urlImage.originalUrl andThumbUrl:urlImage.previewUrl];
-            oImage = [[OrderImage alloc] initWithOutSize:bImage];
-            if ([self.orderManager addOrderImage:oImage]) {
-                [self.imManager startPrefetchingOrigImageToCache:bImage];
-            } else {
-                NSLog(@"KindredSDK Error: Image in cart already contains partner ID %@", bImage.pPartnerId);
-            }
-        } else if ([image isKindOfClass:[KPCustomImage class]]) {
-            KPCustomImage *customImage = (KPCustomImage *)image;
-            bImage = [[BaseImage alloc] initPartnerId:customImage.pId andType:customImage.parterType andCustomData:customImage.parterData];
-            NSString *frontUrl = [DevPreferenceHelper getCustomPreviewImageUrl:customImage.parterType withData:customImage.parterData andFront:YES];
-            NSString *backUrl = [DevPreferenceHelper getCustomPreviewImageUrl:customImage.parterType withData:customImage.parterData andFront:NO];
-            bImage.pUrl = frontUrl;
-            bImage.pThumbUrl = frontUrl;
-            BaseImage *backsideImage = [[BaseImage alloc] initPartnerId:customImage.pId andType:customImage.parterType andCustomData:customImage.parterData];
-            backsideImage.pUrl = backUrl;
-            backsideImage.pThumbUrl = backUrl;
-            bImage.pBackSide = backsideImage;
-            oImage = [[OrderImage alloc] initWithOutSize:bImage];
-            if ([self.orderManager addOrderImage:oImage]) {
-                [self.imManager startPrefetchingOrigImageToCache:bImage];
-                [self.imManager startPrefetchingOrigImageToCache:bImage.pBackSide];
-            } else {
-                NSLog(@"KindredSDK Error: Image in cart already contains partner ID %@", bImage.pPartnerId);
-            }
-        }
+        [self.orderManager addExternalImage:image];
     }
-    self.incomingImages = [[NSArray alloc] init];
+    [self.incomingImages removeAllObjects];
 }
 
 - (void) moveToNextViewIfReady {
-    if (self.outstandingConfigNecessary == self.returnedConfigNecessary) {
+    if (self.returnedConfigNecessary >= self.outstandingConfigNecessary) {
+        self.isLoading = NO;
+        [self setViewControllers:@[[self getNextView]] animated:YES];
+    }
+}
+
+- (UIViewController *)getNextView {
+    if (self.showSelect) {
+        return [[KPPhotoSelectViewController alloc] initWithNibName:@"KPPhotoSelectViewController" andImages:self.incomingImages];
+    } else {
         KPCartPageViewController *cartVC = [[KPCartPageViewController alloc] initWithNibName:@"KPCartPageViewController" bundle:nil];
         cartVC.isRootController = YES;
-        [self setViewControllers:@[cartVC] animated:YES];
+        return cartVC;
     }
 }
 
@@ -268,7 +268,8 @@
                     [newProducts addObject:pSize];
                 }
                 [DevPreferenceHelper setCurrentSizes:newProducts];
-                [self processNewImages];
+                if ([self.incomingImages count] < PHOTO_THRESHOLD)
+                    [self processNewImages];
                 [self.orderManager updateAllOrdersWithNewSizes];
                 
                 [DevPreferenceHelper resetSizeDownloadStatus];

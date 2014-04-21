@@ -54,6 +54,8 @@ enum ColorScheme : NSInteger {
 
 + (UIColor *)getColor:(NSInteger)scheme;
 
++ (CGFloat)getSelectImageSide;
+
 + (CGFloat)getCheckoutEditHeight;
 + (CGFloat)getCheckoutEditWidth;
 + (CGFloat)getCheckoutPadding;

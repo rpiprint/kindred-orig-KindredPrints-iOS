@@ -68,9 +68,32 @@ static CGFloat SQUARE_TOLERANCE = 0.15f;
     return NO;
 }
 
++ (UIImage *)cropAndRotateForThumbnail:(UIImage *)original scaledSize:(CGSize)size {
+    CGImageRef croppedBitmap = [self cropSquare:original offset:-1];
+    
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(croppedBitmap);
+    CGColorSpaceRef colorSpaceInfo = CGImageGetColorSpace(croppedBitmap);
+    size_t bitsPerComponent = CGImageGetBitsPerComponent(croppedBitmap);
+    
+    CGContextRef drawingPad = CGBitmapContextCreate(NULL, size.width, size.height, bitsPerComponent, 0, colorSpaceInfo, bitmapInfo);
+    
+    CGSize newSize = [self concatRotateOpsFromOrient:drawingPad size:size orientation:original.imageOrientation];
+    CGRect croppedSquare = CGRectMake(0, 0, newSize.width, newSize.height);
+    
+    CGContextDrawImage(drawingPad, croppedSquare, croppedBitmap);
+    CGImageRef ref = CGBitmapContextCreateImage(drawingPad);
+    UIImage* newImage = [UIImage imageWithCGImage:ref];
+    
+    CGImageRelease(croppedBitmap);
+    CGContextRelease(drawingPad);
+    CGImageRelease(ref);
+
+    return newImage;
+}
+
 + (UIImage *)resizeImage:(UIImage *)original scaledSize:(CGSize)size {
-    size.height = size.height * 2;
-    size.width = size.width * 2;
+    //size.height = size.height * 2;
+    //size.width = size.width * 2;
     CGImageRef img = [original CGImage];
     
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(img);

@@ -19,12 +19,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *cmdAddUrl;
 @property (weak, nonatomic) IBOutlet UITextField *txtEmail;
 @property (weak, nonatomic) IBOutlet UIButton *cmdPickGallery;
+@property (weak, nonatomic) IBOutlet UIButton *cmdAddABunch;
 
 @end
 
 @implementation TestViewController
 
-static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY HERE";
+static NSString *const KINDRED_APP_ID = @"YOUR KINDRED KEY HERE";
 
 - (KPPhotoOrderController *)orderPhotosVC {
     if (!_orderPhotosVC) _orderPhotosVC = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID];
@@ -37,6 +38,13 @@ static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY HERE";
     KPURLImage *urlImage = [[KPURLImage alloc] initWithPartnerId:@"4" andOriginalUrl:self.txtUrl.text];
     
     [self.orderPhotosVC addImages:@[urlImage]];
+}
+- (IBAction)cmdAddABunch:(id)sender {
+    NSMutableArray *photoArray = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 10; i++) {
+        [photoArray addObject:[[KPURLImage alloc] initWithPartnerId:[NSString stringWithFormat:@"%d", i] andOriginalUrl:@"https://s3-us-west-1.amazonaws.com/kindredmetaimages/electronics.jpg"]];
+    }
+    [self.orderPhotosVC addImages:photoArray];
 }
 
 - (IBAction)cmdAdd3Test:(id)sender {

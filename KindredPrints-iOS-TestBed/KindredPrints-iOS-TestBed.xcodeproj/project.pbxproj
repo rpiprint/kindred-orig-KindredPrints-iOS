@@ -11,6 +11,8 @@
 		671296F918B8089200E0630E /* ico_kindred_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 671296F718B8089200E0630E /* ico_kindred_white.png */; };
 		671296FA18B8089200E0630E /* ico_truck.png in Resources */ = {isa = PBXBuildFile; fileRef = 671296F818B8089200E0630E /* ico_truck.png */; };
 		671296FD18B9A8E800E0630E /* ShippingPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 671296FC18B9A8E800E0630E /* ShippingPicker.m */; };
+		672E20CB19018F9500B02B4F /* PhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 672E20CA19018F9500B02B4F /* PhotoCell.m */; };
+		672E20CD1901E9BA00B02B4F /* select_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 672E20CC1901E9BA00B02B4F /* select_checked.png */; };
 		6744588218EB720A00A5490F /* KPShippingEditViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6744588118EB720A00A5490F /* KPShippingEditViewController~ipad.xib */; };
 		6744588418EB723000A5490F /* KPCardEditorViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6744588318EB723000A5490F /* KPCardEditorViewController~ipad.xib */; };
 		675393E118AD90220039FA9C /* KPOrderSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 675393E018AD90220039FA9C /* KPOrderSummaryViewController.m */; };
@@ -89,6 +91,9 @@
 		67618D0118A3289E0094FBB3 /* OrderTotalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67618D0018A3289E0094FBB3 /* OrderTotalView.m */; };
 		6765C4C118FEF64E00A85D33 /* KPCustomImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6765C4C018FEF64E00A85D33 /* KPCustomImage.m */; };
 		6765C4C318FEFB8000A85D33 /* ico_flip_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 6765C4C218FEFB8000A85D33 /* ico_flip_white.png */; };
+		6765C4C5190047E700A85D33 /* KPPhotoSelectViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6765C4C4190047E700A85D33 /* KPPhotoSelectViewController~iphone.xib */; };
+		6765C4C7190047FC00A85D33 /* KPPhotoSelectViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6765C4C6190047FC00A85D33 /* KPPhotoSelectViewController~ipad.xib */; };
+		6765C4CA19004B3500A85D33 /* KPPhotoSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6765C4C919004B3500A85D33 /* KPPhotoSelectViewController.m */; };
 		676887CF18AA98B100B370DD /* CountryPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 676887CD18AA98B100B370DD /* CountryPicker.m */; };
 		676887D218AAEDC500B370DD /* RoundedTextButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 676887D118AAEDC500B370DD /* RoundedTextButton.m */; };
 		6797EBAD18A3FC4D00FF9E38 /* UserObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6797EBAC18A3FC4D00FF9E38 /* UserObject.m */; };
@@ -125,6 +130,9 @@
 		671296F818B8089200E0630E /* ico_truck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_truck.png; sourceTree = "<group>"; };
 		671296FB18B9A8E800E0630E /* ShippingPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShippingPicker.h; sourceTree = "<group>"; };
 		671296FC18B9A8E800E0630E /* ShippingPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShippingPicker.m; sourceTree = "<group>"; };
+		672E20C919018F9500B02B4F /* PhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCell.h; sourceTree = "<group>"; };
+		672E20CA19018F9500B02B4F /* PhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCell.m; sourceTree = "<group>"; };
+		672E20CC1901E9BA00B02B4F /* select_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = select_checked.png; sourceTree = "<group>"; };
 		6744588118EB720A00A5490F /* KPShippingEditViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "KPShippingEditViewController~ipad.xib"; sourceTree = "<group>"; };
 		6744588318EB723000A5490F /* KPCardEditorViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "KPCardEditorViewController~ipad.xib"; sourceTree = "<group>"; };
 		675393DF18AD90220039FA9C /* KPOrderSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPOrderSummaryViewController.h; sourceTree = "<group>"; };
@@ -254,6 +262,10 @@
 		6765C4BF18FEF64E00A85D33 /* KPCustomImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPCustomImage.h; sourceTree = "<group>"; };
 		6765C4C018FEF64E00A85D33 /* KPCustomImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPCustomImage.m; sourceTree = "<group>"; };
 		6765C4C218FEFB8000A85D33 /* ico_flip_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_flip_white.png; sourceTree = "<group>"; };
+		6765C4C4190047E700A85D33 /* KPPhotoSelectViewController~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "KPPhotoSelectViewController~iphone.xib"; sourceTree = "<group>"; };
+		6765C4C6190047FC00A85D33 /* KPPhotoSelectViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "KPPhotoSelectViewController~ipad.xib"; sourceTree = "<group>"; };
+		6765C4C819004B3500A85D33 /* KPPhotoSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPPhotoSelectViewController.h; sourceTree = "<group>"; };
+		6765C4C919004B3500A85D33 /* KPPhotoSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPPhotoSelectViewController.m; sourceTree = "<group>"; };
 		676887CD18AA98B100B370DD /* CountryPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryPicker.m; sourceTree = "<group>"; };
 		676887CE18AA98B100B370DD /* CountryPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryPicker.h; sourceTree = "<group>"; };
 		676887D018AAEDC500B370DD /* RoundedTextButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundedTextButton.h; sourceTree = "<group>"; };
@@ -460,6 +472,7 @@
 		67618C5F189C1E440094FBB3 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				672E20CC1901E9BA00B02B4F /* select_checked.png */,
 				6765C4C218FEFB8000A85D33 /* ico_flip_white.png */,
 				67587DD318E38B11000B99F8 /* ico_user_white.png */,
 				67587D7F18DE6F32000B99F8 /* ico_warning_yellow.png */,
@@ -518,6 +531,8 @@
 				67618CD6189F24EB0094FBB3 /* KPCartPageViewController~iphone.xib */,
 				6797EBB818A551D500FF9E38 /* KPLoginViewController~iphone.xib */,
 				6797EBBA18A551E900FF9E38 /* KPLoginViewController~ipad.xib */,
+				6765C4C4190047E700A85D33 /* KPPhotoSelectViewController~iphone.xib */,
+				6765C4C6190047FC00A85D33 /* KPPhotoSelectViewController~ipad.xib */,
 			);
 			path = nibs;
 			sourceTree = "<group>";
@@ -538,6 +553,8 @@
 				6797EBC718A5C22A00FF9E38 /* KPGenericViewController.m */,
 				671296F418B7E36900E0630E /* KPOrderCompleteViewController.h */,
 				671296F518B7E36900E0630E /* KPOrderCompleteViewController.m */,
+				6765C4C819004B3500A85D33 /* KPPhotoSelectViewController.h */,
+				6765C4C919004B3500A85D33 /* KPPhotoSelectViewController.m */,
 			);
 			path = viewControllers;
 			sourceTree = "<group>";
@@ -606,6 +623,8 @@
 				671296FC18B9A8E800E0630E /* ShippingPicker.m */,
 				67587DD518E4E720000B99F8 /* SideArrow.h */,
 				67587DD618E4E720000B99F8 /* SideArrow.m */,
+				672E20C919018F9500B02B4F /* PhotoCell.h */,
+				672E20CA19018F9500B02B4F /* PhotoCell.m */,
 			);
 			name = "small views";
 			sourceTree = "<group>";
@@ -727,6 +746,7 @@
 			files = (
 				67618CBF189EF40E0094FBB3 /* KPOrderCompleteViewController~ipad.xib in Resources */,
 				6797EBC418A5C12F00FF9E38 /* ico_lock_white.png in Resources */,
+				6765C4C5190047E700A85D33 /* KPPhotoSelectViewController~iphone.xib in Resources */,
 				67618CC5189EF40E0094FBB3 /* KPShippingViewController~iphone.xib in Resources */,
 				67618CC3189EF40E0094FBB3 /* KPShippingEditViewController~iphone.xib in Resources */,
 				6744588218EB720A00A5490F /* KPShippingEditViewController~ipad.xib in Resources */,
@@ -737,6 +757,8 @@
 				675393EF18B2805C0039FA9C /* KPCardEditorViewController~iphone.xib in Resources */,
 				67618CC0189EF40E0094FBB3 /* KPOrderCompleteViewController~iphone.xib in Resources */,
 				6744588418EB723000A5490F /* KPCardEditorViewController~ipad.xib in Resources */,
+				6765C4C7190047FC00A85D33 /* KPPhotoSelectViewController~ipad.xib in Resources */,
+				672E20CD1901E9BA00B02B4F /* select_checked.png in Resources */,
 				6797EBC518A5C12F00FF9E38 /* ico_ampersand_white.png in Resources */,
 				671296F918B8089200E0630E /* ico_kindred_white.png in Resources */,
 				67618C3B189C15360094FBB3 /* Images.xcassets in Resources */,
@@ -804,8 +826,10 @@
 				675393EA18AD97900039FA9C /* CheckoutCompletePurchaseCell.m in Sources */,
 				67618CE1189F38910094FBB3 /* CircularButton.m in Sources */,
 				675393E718AD976D0039FA9C /* CheckoutCreditCardCell.m in Sources */,
+				6765C4CA19004B3500A85D33 /* KPPhotoSelectViewController.m in Sources */,
 				6753949D18B3BFAF0039FA9C /* OrderManager.m in Sources */,
 				676887CF18AA98B100B370DD /* CountryPicker.m in Sources */,
+				672E20CB19018F9500B02B4F /* PhotoCell.m in Sources */,
 				676887D218AAEDC500B370DD /* RoundedTextButton.m in Sources */,
 				67587D7E18DCED84000B99F8 /* CheckoutCouponEditCell.m in Sources */,
 				67618C9D189C3EF10094FBB3 /* PreferenceHelper.m in Sources */,
