@@ -39,6 +39,7 @@ Here are the details of what is included in the Kindred Printing platform
     ![4x6 Prints](https://raw.githubusercontent.com/KindredPrints/KindredPrints-iOS/master/Documentation/4by6.jpg)
 
 - Two sided vs. one sided
+
   Our prints can be either one sided or two sided. You can specify the type of print when you send the image request.
 
 
