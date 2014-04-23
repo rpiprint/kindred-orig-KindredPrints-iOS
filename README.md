@@ -32,15 +32,14 @@ Here are the details of what is included in the Kindred Printing platform
 
 - 4" x 4" glossy premium print
 
-![4x4 Prints](https://raw.githubusercontent.com/KindredPrints/KindredPrints-iOS/master/Documentation/4by4.jpg)
+    ![4x4 Prints](https://raw.githubusercontent.com/KindredPrints/KindredPrints-iOS/master/Documentation/4by4.jpg)
 
 - 4" x 6" glossy premium print
 
-![4x6 Prints](https://raw.githubusercontent.com/KindredPrints/KindredPrints-iOS/master/Documentation/4by6.jpg)
+    ![4x6 Prints](https://raw.githubusercontent.com/KindredPrints/KindredPrints-iOS/master/Documentation/4by6.jpg)
 
 - Two sided vs. one sided
-
-Our prints can be either one sided or two sided. You can specify the type of print when you send the image request.
+  Our prints can be either one sided or two sided. You can specify the type of print when you send the image request.
 
 
 ## How our cart works
@@ -53,7 +52,7 @@ When a user chooses to order a print, that images gets added to the Kindred cart
 
 ### Adding multiple images at once
 
-Kinderd does not currenty have an image picker, but a partner can send us a collection of images at the same time. All the images get added to the user's cart at once and she can swipe through the images to pick print quantities for each one. When a collection of images is added, the defauly print quantity is 0. 
+Kindred does not currenty have an image picker, but a partner can send us a collection of images at the same time. All the images get added to the user's cart at once and she can swipe through the images to pick print quantities for each one. When a collection of images is added, the defauly print quantity is 0. 
 
 We are currently in the process of creating a photo picker that will allow the user to choose which images they want printed from a collection of images sent by a partner.
 
