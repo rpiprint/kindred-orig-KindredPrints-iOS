@@ -119,7 +119,7 @@ For this example, we assume that the photo is stored in local memory. For exampl
 
 1. Add a button next to the photo that says "Print" (or whatever you feel is appropriate).
 
-2. Add the appropriate imports to your class:
+2. Add the appropriate imports to the file containing the view controller class with the print button handler:
 
     ```objc
     #import "KPPhotoOrderController.h"
@@ -139,9 +139,9 @@ You would be interested in this example if you are an app that deals with a lot 
 
 In this example, all photos are located on a remote server, and are passed to the SDK via their URLs. The checkout flow will then cache the photo for display to the user.
 
-1. Add the "Add to cart" button to your project and place it next to each photo in a listh
+1. Add the "Add to cart" button to your project and place it next to each photo in a list
 
-2. Add the appropriate imports to your class:
+2. Add the appropriate imports to the file containing the view controller class with the print button handler:
 
     ```objc
     #import "KPPhotoOrderController.h"
