@@ -104,13 +104,11 @@ static CGFloat const TOTAL_STEPS = 2;
             NSDictionary *post = [[NSDictionary alloc]
                              initWithObjects:@[prints, self.currUser.uId, destinations]
                              forKeys:@[@"lineitem_ids", @"user_id", @"destinations"]];
-            NSLog(@"Creating order with post %@", [post description]);
             [self.kInterface createOrderObject:post];
         } else {
             NSDictionary *post = [[NSDictionary alloc]
                                   initWithObjects:@[prints, self.orderId, destinations]
                                   forKeys:@[@"lineitem_ids", @"id", @"destinations"]];
-            NSLog(@"updating order with post %@", [post description]);
             [self.kInterface updateOrderObject:post andOrderId:self.orderId];
         }
     } else {
@@ -228,7 +226,6 @@ static CGFloat const TOTAL_STEPS = 2;
 #pragma mark UPLOAD HELPER DELEGATE
 
 - (void)uploadsHaveCompleted {
-    NSLog(@"uploads have completed");
     if (!self.doneInitialUpload) {
         self.currStage = STEP_UPLOAD_FINISHED;
         [self.delegate orderProcessingUpdateProgress:self.currStage/TOTAL_STEPS withStatus:@"negotiating prices.."];
@@ -238,7 +235,6 @@ static CGFloat const TOTAL_STEPS = 2;
 }
 
 - (void)uploadFinishedWithOverallProgress:(CGFloat)progress processedCount:(NSInteger)processed andTotal:(NSInteger)total {
-    NSLog(@"uploads at progress of %d of %d", processed, total);
     [self.delegate orderProcessingUpdateProgress:(self.currStage+progress)/TOTAL_STEPS withStatus:[NSString stringWithFormat:@"processing image %d of %d..", (int)(processed+1)/2, (int)total/2]];
 }
 

@@ -25,7 +25,7 @@
 
 @implementation TestViewController
 
-static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY";
+static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY HERE";
 
 - (KPPhotoOrderController *)orderPhotosVC {
     if (!_orderPhotosVC) _orderPhotosVC = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID];

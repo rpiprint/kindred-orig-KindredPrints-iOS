@@ -233,7 +233,6 @@ static NSInteger STATE_ERROR = 2;
         NSInteger status = [[returnedData objectForKey:kpServerStatusCode] integerValue];
         NSString *requestTag = [returnedData objectForKey:kpServerRequestTag];
         
-        NSLog(@"server returned %@", [returnedData description]);
         if ([requestTag isEqualToString:REQ_TAG_STRIPE_REG]) {
             if (status == 200) {
                 self.currUser.uPaymentSaved = [[returnedData objectForKey:@"payment_status"] boolValue];

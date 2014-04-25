@@ -167,6 +167,7 @@
 {
     PhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_ID forIndexPath:indexPath];
     [cell.imageView setImage:nil];
+    [cell.activityView stopAnimating];
     KPImage *img = [self.sourcePhotos objectAtIndex:indexPath.row];
         
     [self.imManager setImageAsync:cell.imageView andProgressView:cell.activityView withImage:img andIndex:indexPath.row];

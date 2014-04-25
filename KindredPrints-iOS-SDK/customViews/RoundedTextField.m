@@ -55,9 +55,7 @@ static CGFloat const CORNER_RADIUS = 8.0f;
                                                                        NSForegroundColorAttributeName]]]];
         
         [self addSubview:self.txtEntry];
-        
-        NSLog(@"frame height %f, text frame height %f", self.frame.size.height, self.txtEntry.frame.size.height);
-        
+                
         [self.layer setCornerRadius:CORNER_RADIUS];
         [self.layer setBorderWidth:BORDER_WIDTH];
         [self.layer setBorderColor:[strokeColor CGColor]];

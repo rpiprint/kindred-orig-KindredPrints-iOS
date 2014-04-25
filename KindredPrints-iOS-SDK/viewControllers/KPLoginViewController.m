@@ -293,7 +293,6 @@ static NSInteger const ERROR_STATE = 3;
     if (returnedData) {
         NSInteger status = [[returnedData objectForKey:kpServerStatusCode] integerValue];
         NSString *requestTag = [returnedData objectForKey:kpServerRequestTag];
-        NSLog(@"callback %@", [returnedData description]);
 
         if ([requestTag isEqualToString:REQ_TAG_LOGIN] || [requestTag isEqualToString:REQ_TAG_REGISTER]) {
             if (status == 200) {

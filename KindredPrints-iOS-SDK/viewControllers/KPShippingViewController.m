@@ -212,7 +212,6 @@ static CGFloat TABLE_PADDING = 10;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"did select row at %ld", (long)indexPath.row);
     if (indexPath.row == 0) {
         KPShippingEditViewController *shippingEntryVC = [KPShippingEditViewController alloc];
         shippingEntryVC = [shippingEntryVC initWithNibName:@"KPShippingEditViewController" bundle:nil];
@@ -224,7 +223,6 @@ static CGFloat TABLE_PADDING = 10;
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"did deselect row at %ld", (long)indexPath.row);
     if (indexPath.row > 0)
         [self deselectAddress:[self.addresses objectAtIndex:indexPath.row-1]];
     

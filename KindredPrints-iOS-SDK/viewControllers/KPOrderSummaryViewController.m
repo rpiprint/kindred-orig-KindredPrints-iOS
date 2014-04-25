@@ -398,8 +398,6 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 }
 
 - (void)animateUp {
-    NSLog(@"raising up the picker by height %f", self.shippingPicker.frame.size.height);
-
     [UIView beginAnimations:@"showhide" context:nil];
     [UIView setAnimationDuration:0.25];
     [UIView setAnimationDelegate:self];

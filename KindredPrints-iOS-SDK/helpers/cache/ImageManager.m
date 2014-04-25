@@ -363,7 +363,6 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
             [view setImage:croppedImg];
         } else if ([image isKindOfClass:[KPURLImage class]]) {
             KPURLImage *img = (KPURLImage *)image;
-            NSLog(@"pulling image from web at index %d", (int)index);
             [progView startAnimating];
 
             dispatch_queue_t loaderQ = dispatch_queue_create(DOWNLOAD_QUEUE, NULL);

@@ -128,7 +128,6 @@ static ImageUploadHelper *uHelper;
 }
 - (void) validateAllOrdersInit {
     self.retries = 0;
-    NSLog(@"validate all orders init");
     self.currUser = [UserPreferenceHelper getUserObject];
     if (self.currUser.uId && ![self.currUser.uId isEqualToString:USER_VALUE_NONE]) {
         NSArray *selectedOrders = [self.orderManager getSelectedOrderImages];
@@ -457,8 +456,6 @@ static ImageUploadHelper *uHelper;
         NSInteger status = [[returnedData objectForKey:kpServerStatusCode] integerValue];
         NSString *requestTag = [returnedData objectForKey:kpServerRequestTag];
         NSString *identTag = [returnedData objectForKey:kpServerIdentTag];
-        
-        NSLog(@"returned %@", returnedData);
         
         if ([requestTag isEqualToString:REQ_TAG_CREATE_URL_IMAGE]) {
             if (status == 200) {
