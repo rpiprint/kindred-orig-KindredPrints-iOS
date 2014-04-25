@@ -351,7 +351,7 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
 }
 
 - (void) setImageAsync:(UIImageView *)view andProgressView:(UIActivityIndicatorView *)progView withImage:(KPImage *)image andIndex:(NSInteger)index {
-    NSString *cacheName = [NSString stringWithFormat:@"%d", index];
+    NSString *cacheName = [NSString stringWithFormat:@"%d", (int)index];
     if ([self.imCache hasImage:cacheName]) {
         UIImage *image = [self.imCache getImageForKey:cacheName];
         [view setImage:image];
@@ -363,7 +363,7 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
             [view setImage:croppedImg];
         } else if ([image isKindOfClass:[KPURLImage class]]) {
             KPURLImage *img = (KPURLImage *)image;
-            NSLog(@"pulling image from web at index %d", index);
+            NSLog(@"pulling image from web at index %d", (int)index);
             [progView startAnimating];
 
             dispatch_queue_t loaderQ = dispatch_queue_create(DOWNLOAD_QUEUE, NULL);

@@ -128,19 +128,17 @@ static ImageUploadHelper *uHelper;
 }
 - (void) validateAllOrdersInit {
     self.retries = 0;
+    NSLog(@"validate all orders init");
     self.currUser = [UserPreferenceHelper getUserObject];
     if (self.currUser.uId && ![self.currUser.uId isEqualToString:USER_VALUE_NONE]) {
         NSArray *selectedOrders = [self.orderManager getSelectedOrderImages];
         for (SelectedOrderImage *selectedImage in selectedOrders) {
-            dispatch_queue_t loaderQ = dispatch_queue_create("kp_upload_queue", NULL);
-            dispatch_async(loaderQ, ^{
-                [self processImageForServerSync:selectedImage.oImage];
-                if (!selectedImage.oImage.pServerInit) {
-                    [self addPrintableImageToList:selectedImage];
-                } else {
-                    [self processPrintableImageForServerSync:selectedImage];
-                }
-            });
+            [self processImageForServerSync:selectedImage.oImage];
+            if (!selectedImage.oImage.pServerInit) {
+                [self addPrintableImageToList:selectedImage];
+            } else {
+                [self processPrintableImageForServerSync:selectedImage];
+            }
         }
     }
 }
@@ -168,7 +166,10 @@ static ImageUploadHelper *uHelper;
         if ([self addImageToQueue:selectedImage forKey:[self getPrintableKey:selectedImage]]) {
             if (self.currUploadCount < MAX_UPLOADS) {
                 self.currUploadCount++;
-                [self processNextImage];
+                dispatch_queue_t loaderQ = dispatch_queue_create("kp_upload_queue", NULL);
+                dispatch_async(loaderQ, ^{
+                    [self processNextImage];
+                });
             }
         }
     } else {
@@ -262,9 +263,9 @@ static ImageUploadHelper *uHelper;
 
 - (void) processNextImage {
     self.currUploadCount--;
+    dispatch_semaphore_wait(self.processing_sema, DISPATCH_TIME_FOREVER);
     if ([self.uploadQueue count]) {
         self.currUploadCount++;
-        dispatch_semaphore_wait(self.processing_sema, DISPATCH_TIME_FOREVER);
 
         NSString *pid = [self.uploadQueue firstObject];
         [self.uploadQueue removeObjectAtIndex:0];
@@ -297,6 +298,8 @@ static ImageUploadHelper *uHelper;
             }
         });
         
+    } else {
+        dispatch_semaphore_signal(self.processing_sema);
     }
 }
 
@@ -424,7 +427,7 @@ static ImageUploadHelper *uHelper;
 - (void) callDelegateAsAppropriate {
     if (self.delegate && self.retries < MAX_RETRIES) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            CGFloat totalImages = [self.uploadQueue count] + [self.inprogressList count] + [self.finishedPile count];
+            CGFloat totalImages = [self.finishedPile count] + [self.uploadQueue count] + [self.inprogressList count];//self.totalUploadsNeeded;
             CGFloat totalFinished = [self.finishedPile count];
             [self.delegate uploadFinishedWithOverallProgress:totalFinished/totalImages processedCount:(NSInteger)totalFinished andTotal:(NSInteger)totalImages];
             if (totalFinished == totalImages) {
@@ -522,6 +525,9 @@ static ImageUploadHelper *uHelper;
                 SelectedOrderImage *selectedImage = [self.processingBin objectForKey:identTag];
                 selectedImage.oServerId = pId;
                 selectedImage.oServerInit = YES;
+                if (!selectedImage.oLineItemServerInit) {
+                    [self.uploadQueue addObject:identTag];
+                }
                 [self.processingBin setObject:selectedImage forKey:identTag];
             } else {
                 self.retries++;
