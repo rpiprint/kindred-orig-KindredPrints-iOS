@@ -428,7 +428,7 @@ static NSInteger const STATE_ENTRY = 1;
                 [self.txtErrorField setHidden:NO];
             }
             
-            [self.mixpanel track:@"shipping_edit_callback_status" properties:[[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithInt:status]] forKeys:@"server_status"]];
+            [self.mixpanel track:@"shipping_edit_callback_status" properties:[[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithInt:status]] forKeys:@[@"server_status"]]];
         }
     }
 }

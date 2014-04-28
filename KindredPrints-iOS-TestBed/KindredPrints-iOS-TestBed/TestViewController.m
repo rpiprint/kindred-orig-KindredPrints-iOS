@@ -45,6 +45,8 @@ static NSString *const KINDRED_APP_ID = @"test_SDHdPzfxotJ8xAQ674ABbXap";
         [photoArray addObject:[[KPURLImage alloc] initWithPartnerId:[NSString stringWithFormat:@"%d", i] andOriginalUrl:@"https://s3-us-west-1.amazonaws.com/kindredmetaimages/electronics.jpg"]];
     }
     [self.orderPhotosVC addImages:photoArray];
+    self.orderPhotosVC.orderDelegate = self;
+    [self.navigationController presentViewController:self.orderPhotosVC animated:YES completion:nil];
 }
 
 - (IBAction)cmdAdd3Test:(id)sender {
@@ -52,7 +54,11 @@ static NSString *const KINDRED_APP_ID = @"test_SDHdPzfxotJ8xAQ674ABbXap";
     KPURLImage *urlImage2 = [[KPURLImage alloc] initWithPartnerId:@"1" andOriginalUrl:@"http://dev.kindredprints.com/img/squareTest.jpg"];
     KPURLImage *urlImage3 = [[KPURLImage alloc] initWithPartnerId:@"2" andOriginalUrl:@"http://kindredprints.com/img/alex.png"];
 
-    [self.orderPhotosVC addImages:@[urlImage1, urlImage2, urlImage3]];
+    KPURLImage *urlImageTest = [[KPURLImage alloc] initWithPartnerId:@"0" andPreviewUrl:@"http://test.com/thumb.jpg" andOriginalUrl:@"http://test.com/full.jpg"];
+    
+    KPPhotoOrderController *orderPhotosVC = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID andImages:@[urlImage1, urlImage2, urlImage3]];
+    [self presentViewController:orderPhotosVC animated:YES completion:nil];
+    //[self.orderPhotosVC addImages:@[urlImage1, urlImage2, urlImage3]];
 }
 - (IBAction)cmdPreRegister:(id)sender {
     if (!self.txtEmail.text || [self.txtEmail.text length] == 0)
@@ -116,6 +122,7 @@ static NSString *const KINDRED_APP_ID = @"test_SDHdPzfxotJ8xAQ674ABbXap";
     UIImage *chosenImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     KPMEMImage *img = [[KPMEMImage alloc] initWithPartnerId:[NSString stringWithFormat:@"%d", [self.orderPhotosVC countOfImagesInCart]] andImage:chosenImage];
     [self.orderPhotosVC addImages:@[img]];
+
 
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
