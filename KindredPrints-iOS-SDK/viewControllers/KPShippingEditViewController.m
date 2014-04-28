@@ -15,6 +15,7 @@
 #import "RoundedTextButton.h"
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
+#import "Mixpanel.h"
 
 @interface KPShippingEditViewController () <CountryPickerDelegate, ServerInterfaceDelegate, UITextFieldDelegate, ABPeoplePickerNavigationControllerDelegate>
 
@@ -37,6 +38,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 
 @property (strong, nonatomic) KindredServerInterface *kInterface;
+@property (strong, nonatomic) Mixpanel *mixpanel;
 
 @end
 
@@ -57,6 +59,11 @@ static NSInteger const STATE_ENTRY = 1;
     }
     
     return _kInterface;
+}
+
+- (Mixpanel *)mixpanel {
+    if (!_mixpanel) _mixpanel = [Mixpanel sharedInstance];
+    return _mixpanel;
 }
 
 - (void) initCustomView {
@@ -113,6 +120,8 @@ static NSInteger const STATE_ENTRY = 1;
     [self.txtErrorField setHidden:YES];
     [self initFieldsIfNecessary];
     [self setInterfaceState:STATE_ENTRY];
+    
+    [self.mixpanel track:@"shipping_edit_page_view"];
 }
 
 - (void) initNavBar {
@@ -418,6 +427,8 @@ static NSInteger const STATE_ENTRY = 1;
                 [self setInterfaceState:STATE_ENTRY];
                 [self.txtErrorField setHidden:NO];
             }
+            
+            [self.mixpanel track:@"shipping_edit_callback_status" properties:[[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithInt:status]] forKeys:@"server_status"]];
         }
     }
 }

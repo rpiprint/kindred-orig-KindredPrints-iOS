@@ -111,6 +111,8 @@
 		6797EBD318A7007E00FF9E38 /* BaseAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 6797EBD218A7007E00FF9E38 /* BaseAddress.m */; };
 		6797EBDA18A8571100FF9E38 /* KPShippingEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6797EBD918A8571100FF9E38 /* KPShippingEditViewController.m */; };
 		6797EBDE18A8B14A00FF9E38 /* ShippingAddAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6797EBDD18A8B14A00FF9E38 /* ShippingAddAddressCell.m */; };
+		67B1D3E8190E0AEF00407348 /* Mixpanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 67B1D3CC190E0AEF00407348 /* Mixpanel.m */; };
+		67B1D3F3190E0AEF00407348 /* NSData+MPBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 67B1D3DE190E0AEF00407348 /* NSData+MPBase64.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -296,6 +298,10 @@
 		6797EBD918A8571100FF9E38 /* KPShippingEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KPShippingEditViewController.m; sourceTree = "<group>"; };
 		6797EBDC18A8B14A00FF9E38 /* ShippingAddAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShippingAddAddressCell.h; sourceTree = "<group>"; };
 		6797EBDD18A8B14A00FF9E38 /* ShippingAddAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShippingAddAddressCell.m; sourceTree = "<group>"; };
+		67B1D3CB190E0AEF00407348 /* Mixpanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mixpanel.h; sourceTree = "<group>"; };
+		67B1D3CC190E0AEF00407348 /* Mixpanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mixpanel.m; sourceTree = "<group>"; };
+		67B1D3DD190E0AEF00407348 /* NSData+MPBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MPBase64.h"; sourceTree = "<group>"; };
+		67B1D3DE190E0AEF00407348 /* NSData+MPBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MPBase64.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -336,6 +342,7 @@
 		675393F918B293C30039FA9C /* outsideLibs */ = {
 			isa = PBXGroup;
 			children = (
+				67B1D3C9190E0AEF00407348 /* Mixpanel */,
 				675393FA18B293C30039FA9C /* Stripe */,
 			);
 			path = outsideLibs;
@@ -669,6 +676,17 @@
 			name = shipping;
 			sourceTree = "<group>";
 		};
+		67B1D3C9190E0AEF00407348 /* Mixpanel */ = {
+			isa = PBXGroup;
+			children = (
+				67B1D3CB190E0AEF00407348 /* Mixpanel.h */,
+				67B1D3CC190E0AEF00407348 /* Mixpanel.m */,
+				67B1D3DD190E0AEF00407348 /* NSData+MPBase64.h */,
+				67B1D3DE190E0AEF00407348 /* NSData+MPBase64.m */,
+			);
+			path = Mixpanel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -819,6 +837,7 @@
 				67618C8B189C3BC10094FBB3 /* BaseImage.m in Sources */,
 				67618CE3189F38910094FBB3 /* NavTitleBar.m in Sources */,
 				67618CB1189EE72E0094FBB3 /* PrintableSize.m in Sources */,
+				67B1D3E8190E0AEF00407348 /* Mixpanel.m in Sources */,
 				67618D0118A3289E0094FBB3 /* OrderTotalView.m in Sources */,
 				6797EBAD18A3FC4D00FF9E38 /* UserObject.m in Sources */,
 				675393E418AD97530039FA9C /* CheckoutLineItemCell.m in Sources */,
@@ -829,6 +848,7 @@
 				6765C4CA19004B3500A85D33 /* KPPhotoSelectViewController.m in Sources */,
 				6753949D18B3BFAF0039FA9C /* OrderManager.m in Sources */,
 				676887CF18AA98B100B370DD /* CountryPicker.m in Sources */,
+				67B1D3F3190E0AEF00407348 /* NSData+MPBase64.m in Sources */,
 				672E20CB19018F9500B02B4F /* PhotoCell.m in Sources */,
 				676887D218AAEDC500B370DD /* RoundedTextButton.m in Sources */,
 				67587D7E18DCED84000B99F8 /* CheckoutCouponEditCell.m in Sources */,

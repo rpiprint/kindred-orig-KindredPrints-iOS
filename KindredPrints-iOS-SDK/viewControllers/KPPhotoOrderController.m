@@ -17,7 +17,7 @@
 #import "OrderImage.h"
 #import "KindredServerInterface.h"
 #import "OrderManager.h"
-
+#import "Mixpanel.h"
 
 @interface KPPhotoOrderController() <ServerInterfaceDelegate, ImageManagerDelegate, OrderManagerDelegate>
 
@@ -32,11 +32,20 @@
 @property (nonatomic) BOOL showSelect;
 @property (nonatomic) BOOL isLoading;
 
+@property (strong, nonatomic) Mixpanel *mixpanel;
+
 @end
 
 @implementation KPPhotoOrderController
 
 static NSInteger PHOTO_THRESHOLD = 10;
+
+- (Mixpanel *)mixpanel {
+    if (!_mixpanel) {
+        _mixpanel = [Mixpanel sharedInstanceWithToken:@"258130d00d97e7bb9f05cac89a070060"];
+    }
+    return _mixpanel;
+}
 
 - (NSMutableArray *)incomingImages {
     if (!_incomingImages) {
@@ -71,6 +80,7 @@ static NSInteger PHOTO_THRESHOLD = 10;
 
 - (KPPhotoOrderController *) initWithKey:(NSString *)key {
     [DevPreferenceHelper setAppKey:key];
+    [self.mixpanel track:@"partner_key" properties:[NSDictionary dictionaryWithObjects:@[key] forKeys:@[@"key"]]];
     self.showSelect = NO;
     self.isLoading = NO;
     return [self baseInit:@[]];
@@ -78,6 +88,7 @@ static NSInteger PHOTO_THRESHOLD = 10;
 
 - (KPPhotoOrderController *) initWithKey:(NSString *)key andImages:(NSArray *)images {
     [DevPreferenceHelper setAppKey:key];
+    [self.mixpanel track:@"partner_key" properties:[NSDictionary dictionaryWithObjects:@[key] forKeys:@[@"key"]]];
     self.showSelect = NO;
     self.isLoading = NO;
     return [self baseInit:images];
@@ -116,6 +127,7 @@ static NSInteger PHOTO_THRESHOLD = 10;
 - (void) preRegisterUserWithEmail:(NSString *)email andName:(NSString *)name {
     UserObject *newUser = [UserPreferenceHelper getUserObject];
     if ([newUser.uId isEqualToString:USER_VALUE_NONE]) {
+        [self.mixpanel track:@"preregister_email"];
         newUser = [[UserObject alloc] initWithId:USER_VALUE_NONE andName:name andEmail:email andAuthKey:USER_VALUE_NONE andPaymentSaved:NO];
         [UserPreferenceHelper setUserObject:newUser];
         

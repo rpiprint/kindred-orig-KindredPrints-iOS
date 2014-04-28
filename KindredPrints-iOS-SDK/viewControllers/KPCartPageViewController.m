@@ -22,6 +22,7 @@
 #import "NavButton.h"
 #import "NavTitleBar.h"
 #import "OrderManager.h"
+#import "Mixpanel.h"
 
 @interface KPCartPageViewController () <UIPageViewControllerDelegate, KPCartModelDelegate, OrderManagerDelegate, UIAlertViewDelegate>
 
@@ -32,6 +33,8 @@
 
 @property (strong, nonatomic) OrderManager *orderManager;
 
+@property (strong, nonatomic) Mixpanel *mixpanel;
+
 @end
 
 @implementation KPCartPageViewController
@@ -39,6 +42,11 @@
 static NSInteger TAG_EMPTY_CART = 1;
 static NSInteger TAG_WARNING_NEXT = 2;
 static NSInteger TAG_WARNING_BACK = 3;
+
+- (Mixpanel *)mixpanel {
+    if (!_mixpanel) _mixpanel = [Mixpanel sharedInstance];
+    return _mixpanel;
+}
 
 - (KPCartPageModel *)pageModel {
     if (!_pageModel) {
@@ -84,6 +92,8 @@ static NSInteger TAG_WARNING_BACK = 3;
     self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
     
     if (self.orderTotalView) [self.orderTotalView removeFromSuperview];
+    
+    [self.mixpanel track:@"cart_page_view"];
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -97,6 +107,8 @@ static NSInteger TAG_WARNING_BACK = 3;
     }
     self.orderTotalView = [[OrderTotalView alloc] initWithFrame:CGRectMake(0, screenBounds.size.height-self.navigationController.navigationBar.frame.size.height-statusBarHeight, self.pageViewController.view.frame.size.width, [InterfacePreferenceHelper getOrderTotalRowHeight])];
     [self.pageViewController.view addSubview:self.orderTotalView];
+    
+    [self.mixpanel track:@"cart_photo_count" properties:[[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithInteger:[self.orderManager countOfOrders]]] forKeys:@[@"photo_count"]]];
     
     [self.pageModel initOrderTotal];
 }
@@ -236,6 +248,7 @@ static NSInteger TAG_WARNING_BACK = 3;
         }
     }
    
+    [self.mixpanel track:@"cart_click_next" properties:[[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithInteger:[selectedOrders count]]] forKeys:@[@"print_count"]]];
     
     [self.orderManager setSelectedOrderImages:selectedOrders];
 

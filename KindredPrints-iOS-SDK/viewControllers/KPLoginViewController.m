@@ -16,6 +16,7 @@
 #import "KPShippingEditViewController.h"
 #import "KindredServerInterface.h"
 #import "UserObject.h"
+#import "Mixpanel.h"
 
 @interface KPLoginViewController () <UITextFieldDelegate, ServerInterfaceDelegate>
 
@@ -31,6 +32,9 @@
 @property (nonatomic) NSInteger currState;
 @property (nonatomic) BOOL needReset;
 @property (nonatomic) BOOL passwordVisible;
+
+@property (strong, nonatomic) Mixpanel *mixpanel;
+
 
 @end
 
@@ -51,6 +55,11 @@ static NSInteger const ERROR_STATE = 3;
         _kInterface.delegate = self;
     }
     return _kInterface;
+}
+
+- (Mixpanel *)mixpanel {
+    if (!_mixpanel) _mixpanel = [Mixpanel sharedInstance];
+    return _mixpanel;
 }
 
 - (void) initCustomView {
@@ -105,6 +114,8 @@ static NSInteger const ERROR_STATE = 3;
     } else {
         [self setInterfaceState:BASE_REGISTER_STATE];
     }
+    
+    [self.mixpanel track:@"login_page_view"];
 }
 
 - (void) initNavBar {
@@ -300,6 +311,8 @@ static NSInteger const ERROR_STATE = 3;
                 NSString *name = [returnedData objectForKey:@"name"];
                 NSString *email = [returnedData objectForKey:@"email"];
                 NSString *authKey = [returnedData objectForKey:@"auth_key"];
+                
+                [self.mixpanel identify:email];
                 
                 UserObject *userObj = [[UserObject alloc] initWithId:userId andName:name andEmail:email andAuthKey:authKey andPaymentSaved:NO];
                 [UserPreferenceHelper setUserObject:userObj];

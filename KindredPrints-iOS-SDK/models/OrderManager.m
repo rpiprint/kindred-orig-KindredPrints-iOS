@@ -294,7 +294,11 @@ static OrderManager *orderManager;
         bImage = [[BaseImage alloc] initWithPartnerId:urlImage.pId andUrl:urlImage.originalUrl andThumbUrl:urlImage.previewUrl];
         oImage = [[OrderImage alloc] initWithOutSize:bImage];
         if ([self addOrderImage:oImage]) {
-            [self.imManager startPrefetchingOrigImageToCache:bImage];
+            if (urlImage.thumb) {
+                [self.imManager cacheOrigImageFromMemory:bImage withImage:urlImage.thumb];
+            } else {
+                [self.imManager startPrefetchingOrigImageToCache:bImage];
+            }
         } else {
             NSLog(@"KindredSDK Error: Image in cart already contains partner ID %@", bImage.pPartnerId);
         }

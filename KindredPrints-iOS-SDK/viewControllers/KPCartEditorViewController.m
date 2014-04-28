@@ -13,6 +13,7 @@
 #import "InterfacePreferenceHelper.h"
 #import "UserPreferenceHelper.h"
 #import "OrderManager.h"
+#import "Mixpanel.h"
 
 @interface KPCartEditorViewController () <UITableViewDataSource, ImagePreviewDelegate, ProductPreviewDelegate, UITableViewDelegate>
 
@@ -20,9 +21,18 @@
 @property (nonatomic) NSInteger selectedRow;
 @property (nonatomic) BOOL lowRes;
 
+@property (strong, nonatomic) Mixpanel *mixpanel;
+
+
 @end
 
 @implementation KPCartEditorViewController
+
+
+- (Mixpanel *)mixpanel {
+    if (!_mixpanel) _mixpanel = [Mixpanel sharedInstance];
+    return _mixpanel;
+}
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil andImage:(OrderImage *)image {
@@ -129,6 +139,8 @@
 
 - (void)updateProductWithSize:(PrintableSize *)size andDeltaPrice:(NSInteger)deltaPrice{
     NSMutableArray *productList = [self.image.printProducts mutableCopy];
+    
+    [self.mixpanel track:@"cart_changed_quantities"];
     
     for (int i = 0; i < [productList count]; i++) {
         PrintableSize *currSize = [productList objectAtIndex:i];

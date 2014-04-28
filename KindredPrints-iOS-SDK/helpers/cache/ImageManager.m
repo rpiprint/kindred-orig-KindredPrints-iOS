@@ -363,19 +363,24 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
             [view setImage:croppedImg];
         } else if ([image isKindOfClass:[KPURLImage class]]) {
             KPURLImage *img = (KPURLImage *)image;
-            [progView startAnimating];
-
-            dispatch_queue_t loaderQ = dispatch_queue_create(DOWNLOAD_QUEUE, NULL);
-            dispatch_async(loaderQ, ^{
-                [self getImageFromUrl:img.previewUrl predicate:^(UIImage *image) {
-                    UIImage *img = [ImageEditor cropAndRotateForThumbnail:image scaledSize:CGSizeMake(view.frame.size.width, view.frame.size.height)];
-                    [self.imCache addImage:img forKey:cacheName];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [view setImage:img];
-                        [progView stopAnimating];
-                    });
-                }];
-            });
+            if (img.thumb) {
+                UIImage *croppedImg = [ImageEditor cropAndRotateForThumbnail:img.thumb scaledSize:CGSizeMake(view.frame.size.width, view.frame.size.height)];
+                [self.imCache addImage:croppedImg forKey:cacheName];
+                [view setImage:croppedImg];
+            } else {
+                [progView startAnimating];
+                dispatch_queue_t loaderQ = dispatch_queue_create(DOWNLOAD_QUEUE, NULL);
+                dispatch_async(loaderQ, ^{
+                    [self getImageFromUrl:img.previewUrl predicate:^(UIImage *image) {
+                        UIImage *img = [ImageEditor cropAndRotateForThumbnail:image scaledSize:CGSizeMake(view.frame.size.width, view.frame.size.height)];
+                        [self.imCache addImage:img forKey:cacheName];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [view setImage:img];
+                            [progView stopAnimating];
+                        });
+                    }];
+                });
+            }
         }
     }
 }

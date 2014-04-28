@@ -20,6 +20,7 @@
 #import "UserObject.h"
 #import "KPOrderSummaryViewController.h"
 #import "ImageUploadHelper.h"
+#import "Mixpanel.h"
 
 @interface KPShippingViewController () <ServerInterfaceDelegate, UITableViewDataSource, UITableViewDelegate, ShippingAddressDelegate>
 
@@ -37,6 +38,7 @@
 @property (strong, nonatomic) KindredServerInterface *kInterface;
 @property (strong, nonatomic) ImageUploadHelper *uploadHelper;
 
+@property (strong, nonatomic) Mixpanel *mixpanel;
 
 @end
 
@@ -50,6 +52,11 @@ static CGFloat TABLE_PADDING = 10;
         _kInterface.delegate = self;
     }
     return _kInterface;
+}
+
+- (Mixpanel *)mixpanel {
+    if (!_mixpanel) _mixpanel = [Mixpanel sharedInstance];
+    return _mixpanel;
 }
 
 - (UserObject *)currUser {
@@ -86,6 +93,8 @@ static CGFloat TABLE_PADDING = 10;
     
     [self.tableView setBackgroundColor:[UIColor clearColor]];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+    [self.mixpanel track:@"shipping_list_page_view"];
 }
 
 - (void) viewDidAppear:(BOOL)animated {

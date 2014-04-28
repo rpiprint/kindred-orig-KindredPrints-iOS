@@ -14,6 +14,7 @@
 #import "KPCartPageViewController.h"
 #import "RoundedTextButton.h"
 #import "UserObject.h"
+#import "Mixpanel.h"
 
 @interface KPOrderCompleteViewController ()
 
@@ -27,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *txtEmail;
 @property (weak, nonatomic) IBOutlet UILabel *txtSupport;
 
+@property (strong, nonatomic) Mixpanel *mixpanel;
+
 @end
 
 @implementation KPOrderCompleteViewController
@@ -35,6 +38,13 @@
     if (!_currUser) _currUser = [UserPreferenceHelper getUserObject];
     return _currUser;
 }
+
+
+- (Mixpanel *)mixpanel {
+    if (!_mixpanel) _mixpanel = [Mixpanel sharedInstance];
+    return _mixpanel;
+}
+
 
 - (void) initCustomView {
     for (UIView *v in self.allViews)
@@ -59,6 +69,8 @@
     [self.txtSupport setBackgroundColor:[UIColor clearColor]];
     
     [self.txtEmail setText:self.currUser.uEmail];
+    
+    [self.mixpanel track:@"order_complete_page_view"];
 }
 
 - (void) initNavBar {

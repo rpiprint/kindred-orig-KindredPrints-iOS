@@ -26,6 +26,7 @@
 #import "KPCartPageViewController.h"
 #import "KPCardEditorViewController.h"
 #import "OrderManager.h"
+#import "Mixpanel.h"
 
 static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 
@@ -52,6 +53,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 @property (nonatomic) NSInteger offsetCouponEntry;
 @property (nonatomic) NSInteger offsetCreditCard;
 @property (nonatomic) NSInteger offsetCompletePurchase;
+@property (strong, nonatomic) Mixpanel *mixpanel;
 
 @end
 
@@ -70,6 +72,12 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
     }
     return _currUser;
 }
+
+- (Mixpanel *)mixpanel {
+    if (!_mixpanel) _mixpanel = [Mixpanel sharedInstance];
+    return _mixpanel;
+}
+
 - (NSArray *)selectedAddresses {
     if (!_selectedAddresses)
         _selectedAddresses = [UserPreferenceHelper getSelectedAddresses];
@@ -122,6 +130,8 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
     [self.tableView addSubview:self.refreshControl];
     
     [self.tableView setBackgroundColor:[UIColor clearColor]];
+    
+    [self.mixpanel track:@"order_summary_page_view"];
 }
 
 - (void) updateRowOffsets {
@@ -352,6 +362,8 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 #pragma mark Edit Credit Card
 
 - (void)userRequestedCreditCardEdit {
+    [self.mixpanel track:@"order_summary_edit_card"];
+
     self.currUser = nil;
     KPCardEditorViewController *cartVC = [[KPCardEditorViewController alloc] initWithNibName:@"KPCardEditorViewController" bundle:nil];
     cartVC.completePurchase = NO;
@@ -361,6 +373,8 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 #pragma mark Apply Coupon Delegate
 
 - (void) userRequestedApplyCoupon:(NSString *)couponId {
+    [self.mixpanel track:@"order_summary_apply_coupon"];
+    
     [self.progBarView setState:KP_STATUS_STATE_PROCESSING];
     [self.progBarView updateStatusCellWithMessage:@"checking coupon code.." andProgress:0.0];
     [self.progBarView show];
@@ -390,6 +404,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 }
 
 - (void)userRequestedChangeShippingWithAddressId:(NSString *)aid {
+    [self.mixpanel track:@"order_summary_edit_shipping"];
     [self.progBarView setState:KP_STATUS_STATE_PROCESSING];
     [self.progBarView updateStatusCellWithMessage:@"quoting shipping prices.." andProgress:0.0];
     [self.progBarView show];
@@ -451,6 +466,9 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
     self.lineItems = lineItems;
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];
+    
+    [self.mixpanel track:@"order_summary_finished_loading"];
+    
     [self.tableView setContentSize:CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height*2)];
 
 }
