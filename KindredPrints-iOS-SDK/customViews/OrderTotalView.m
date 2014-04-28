@@ -12,6 +12,7 @@
 @interface OrderTotalView()
 
 @property (strong, nonatomic) UILabel *orderTotalView;
+@property (nonatomic) NSInteger ypos;
 @property (nonatomic) NSInteger height;
 
 @end
@@ -25,6 +26,7 @@ static CGFloat ORDER_TOTAL_PERC = 0.28;
     self = [super initWithFrame:frame];
     if (self) {
         self.height = frame.size.height;
+        self.ypos = frame.origin.y;
         
         self.orderTotalView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width*ORDER_TOTAL_PERC,self.height)];
         [self.orderTotalView setTextColor:[UIColor whiteColor]];
@@ -59,6 +61,8 @@ static CGFloat ORDER_TOTAL_PERC = 0.28;
     if (orderTotal) {
         orderTotString = [NSString stringWithFormat:@"$%.2f", ((CGFloat)orderTotal)/100.0];
     }
+    NSLog(@"set order total: current y position %f", self.frame.origin.y);
+
     [self.orderTotalView setText:orderTotString];
     if (orderTotal > 0 && self.hidden) {
         [self show];
@@ -72,7 +76,7 @@ static CGFloat ORDER_TOTAL_PERC = 0.28;
     [UIView setAnimationDuration:0.25];
     
     CGRect newSize = self.frame;
-    newSize.origin.y = newSize.origin.y - self.height;
+    newSize.origin.y = self.ypos - self.height;
     self.frame = newSize;
     
     [UIView commitAnimations];
@@ -87,12 +91,10 @@ static CGFloat ORDER_TOTAL_PERC = 0.28;
     [UIView setAnimationDidStopSelector:@selector(aniDone:finished:context:)];
 
     CGRect newSize = self.frame;
-    newSize.origin.y = newSize.origin.y + self.height;
+    newSize.origin.y = self.ypos;
     self.frame = newSize;
     
     [UIView commitAnimations];
-    
-    //self.hidden = YES;
 }
 
 - (void)aniDone:(NSString *)aniID finished:(BOOL)finished context:(void *)context {
