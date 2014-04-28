@@ -25,7 +25,7 @@
 
 @implementation TestViewController
 
-static NSString *const KINDRED_APP_ID = @"test_SDHdPzfxotJ8xAQ674ABbXap";
+static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY";
 
 - (KPPhotoOrderController *)orderPhotosVC {
     if (!_orderPhotosVC) _orderPhotosVC = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID];
@@ -54,11 +54,7 @@ static NSString *const KINDRED_APP_ID = @"test_SDHdPzfxotJ8xAQ674ABbXap";
     KPURLImage *urlImage2 = [[KPURLImage alloc] initWithPartnerId:@"1" andOriginalUrl:@"http://dev.kindredprints.com/img/squareTest.jpg"];
     KPURLImage *urlImage3 = [[KPURLImage alloc] initWithPartnerId:@"2" andOriginalUrl:@"http://kindredprints.com/img/alex.png"];
 
-    KPURLImage *urlImageTest = [[KPURLImage alloc] initWithPartnerId:@"0" andPreviewUrl:@"http://test.com/thumb.jpg" andOriginalUrl:@"http://test.com/full.jpg"];
-    
-    KPPhotoOrderController *orderPhotosVC = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID andImages:@[urlImage1, urlImage2, urlImage3]];
-    [self presentViewController:orderPhotosVC animated:YES completion:nil];
-    //[self.orderPhotosVC addImages:@[urlImage1, urlImage2, urlImage3]];
+    [self.orderPhotosVC addImages:@[urlImage1, urlImage2, urlImage3]];
 }
 - (IBAction)cmdPreRegister:(id)sender {
     if (!self.txtEmail.text || [self.txtEmail.text length] == 0)
