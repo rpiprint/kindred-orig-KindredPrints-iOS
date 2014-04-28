@@ -61,8 +61,6 @@ static CGFloat ORDER_TOTAL_PERC = 0.28;
     if (orderTotal) {
         orderTotString = [NSString stringWithFormat:@"$%.2f", ((CGFloat)orderTotal)/100.0];
     }
-    NSLog(@"set order total: current y position %f", self.frame.origin.y);
-
     [self.orderTotalView setText:orderTotString];
     if (orderTotal > 0 && self.hidden) {
         [self show];
