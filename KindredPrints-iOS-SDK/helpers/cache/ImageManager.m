@@ -124,10 +124,10 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
     });
 }
 
-- (void) cacheOrigImageFromMemory:(BaseImage *)image withImage:(UIImage *)imgData {
+- (void) cacheOrigImageFromMemory:(BaseImage *)image withImage:(UIImage *)imgData andTag:(NSString *)tag {
     dispatch_queue_t loaderQ = dispatch_queue_create(PROCESS_QUEUE, NULL);
     dispatch_async(loaderQ, ^{
-        [self processImageForStorage:image withTag:nil forSize:nil withImage:imgData];
+        [self processImageForStorage:image withTag:tag forSize:nil withImage:imgData];
     });
 }
 
@@ -263,8 +263,13 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
     [self.fCache addImage:preview forKey:fullFname];
     [self.imCache addImage:preview forKey:fullFname];
     
-    imageData.pWidth = image.size.width;
-    imageData.pHeight = image.size.height;
+    if (imageAspectRatio < 1) {
+        imageData.pWidth = image.size.height;
+        imageData.pHeight = image.size.width;
+    } else {
+        imageData.pWidth = image.size.width;
+        imageData.pHeight = image.size.height;
+    }
     if (tag) {
         if ([tag isEqualToString:imageData.pThumbUrl] && !imageData.pThumbLocalCached) {
             imageData.pThumbLocalCached = YES;

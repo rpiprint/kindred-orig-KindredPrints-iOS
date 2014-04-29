@@ -285,7 +285,7 @@ static OrderManager *orderManager;
         bImage = [[BaseImage alloc] initForImageWithPartnerId:memImage.pId];
         oImage = [[OrderImage alloc] initWithImage:bImage andSize:CGSizeMake((memImage.image).size.width, (memImage.image).size.height)];
         if ([self addOrderImage:oImage]) {
-            [self.imManager cacheOrigImageFromMemory:bImage withImage:memImage.image];
+            [self.imManager cacheOrigImageFromMemory:bImage withImage:memImage.image andTag:nil];
         } else {
             NSLog(@"KindredSDK Error: Image in cart already contains partner ID %@", bImage.pPartnerId);
         }
@@ -295,7 +295,9 @@ static OrderManager *orderManager;
         oImage = [[OrderImage alloc] initWithOutSize:bImage];
         if ([self addOrderImage:oImage]) {
             if (urlImage.thumb) {
-                [self.imManager cacheOrigImageFromMemory:bImage withImage:urlImage.thumb];
+                bImage.pThumbLocalCached = NO;
+                bImage.pThumbUrl = @"image";
+                [self.imManager cacheOrigImageFromMemory:bImage withImage:urlImage.thumb andTag:@"image"];
             } else {
                 [self.imManager startPrefetchingOrigImageToCache:bImage];
             }

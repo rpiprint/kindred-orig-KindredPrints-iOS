@@ -31,7 +31,7 @@ typedef void (^asyncFinished) ();
 - (NSData *)getFullImage:(BaseImage *)image;
 
 - (void) startPrefetchingOrigImageToCache:(BaseImage *)image;
-- (void) cacheOrigImageFromMemory:(BaseImage *)image withImage:(UIImage *)imgData;
+- (void) cacheOrigImageFromMemory:(BaseImage *)image withImage:(UIImage *)imgData andTag:(NSString *)tag;
 
 - (void) setImageAsync:(UIImageView *)view withImage:(BaseImage *)image displaySize:(PictureSize)displaySize atSize:(PrintableSize *)size;
 - (void) setImageAsync:(UIImageView *)view andProgressView:(UIActivityIndicatorView *)progView withImage:(KPImage *)image andIndex:(NSInteger)index;
