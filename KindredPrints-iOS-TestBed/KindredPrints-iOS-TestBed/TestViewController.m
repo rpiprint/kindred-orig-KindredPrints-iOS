@@ -21,11 +21,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *cmdPickGallery;
 @property (weak, nonatomic) IBOutlet UIButton *cmdAddABunch;
 
+@property (nonatomic) NSInteger index;
+
 @end
 
 @implementation TestViewController
 
-static NSString *const KINDRED_APP_ID = @"YOUR KEY HERE";
+static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY";
 
 - (KPPhotoOrderController *)orderPhotosVC {
     if (!_orderPhotosVC) _orderPhotosVC = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID];
@@ -100,6 +102,7 @@ static NSString *const KINDRED_APP_ID = @"YOUR KEY HERE";
                            nil];
     self.txtEmail.inputAccessoryView = numberToolbar;
     self.txtUrl.inputAccessoryView = numberToolbar;
+    self.index = 0;
 }
 
 #pragma mark PHOTO ORDER DELEGATE
@@ -116,11 +119,11 @@ static NSString *const KINDRED_APP_ID = @"YOUR KEY HERE";
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
     UIImage *chosenImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    KPMEMImage *img = [[KPMEMImage alloc] initWithPartnerId:[NSString stringWithFormat:@"%d", [self.orderPhotosVC countOfImagesInCart]] andImage:chosenImage];
+
+    KPMEMImage *img = [[KPMEMImage alloc] initWithPartnerId:[NSString stringWithFormat:@"%d", self.index] andImage:chosenImage];
+    self.index = self.index + 1;
     [self.orderPhotosVC addImages:@[img]];
 
-
-    
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }

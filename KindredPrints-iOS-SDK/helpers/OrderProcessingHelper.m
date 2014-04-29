@@ -196,7 +196,7 @@ static CGFloat const TOTAL_STEPS = 2;
     if (returnedData) {
         NSInteger status = [[returnedData objectForKey:kpServerStatusCode] integerValue];
         NSString *requestTag = [returnedData objectForKey:kpServerRequestTag];
-        
+                
         if ([requestTag isEqualToString:REQ_TAG_CREATE_ORDER_OBJ] || [requestTag isEqualToString:REQ_TAG_UPDATE_ORDER_OBJ]) {
             if (status == 200) {
                 self.orderId = [returnedData objectForKey:@"id"];

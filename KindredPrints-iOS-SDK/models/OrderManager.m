@@ -244,14 +244,15 @@ static OrderManager *orderManager;
                 }
             }
             [UserPreferenceHelper setSelectedOrders:self.selectedOrders];
-            dispatch_semaphore_signal(self.selorders_sema);
             
             [self.orders removeObjectAtIndex:i];
             [UserPreferenceHelper setCartOrders:self.orders];
-            dispatch_semaphore_signal(self.orders_sema);
             break;
         }
     }
+    dispatch_semaphore_signal(self.selorders_sema);
+    dispatch_semaphore_signal(self.orders_sema);
+
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.delegate) [self.delegate ordersHaveAllBeenUpdated];
     });
