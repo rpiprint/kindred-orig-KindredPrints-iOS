@@ -91,7 +91,10 @@
         }
         KPCartPageViewController *cartVC = [[KPCartPageViewController alloc] initWithNibName:@"KPCartPageViewController" bundle:nil];
         cartVC.isRootController = YES;
-        [self.navigationController setViewControllers:@[cartVC] animated:YES];
+        
+        KPPhotoOrderController *navController = (KPPhotoOrderController *)self.navigationController;
+        [navController clearPendingImages];
+        [navController setViewControllers:@[cartVC] animated:YES];
     }
 }
 - (void)cmdBackClick {

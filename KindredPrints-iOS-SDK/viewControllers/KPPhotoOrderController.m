@@ -113,6 +113,10 @@ static NSInteger PHOTO_THRESHOLD = 10;
     }
 }
 
+- (void) clearPendingImages {
+    [self.incomingImages removeAllObjects];
+}
+
 - (NSUInteger) countOfImagesInCart {
     return [self.orderManager countOfOrders];
 }

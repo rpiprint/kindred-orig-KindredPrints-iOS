@@ -46,6 +46,7 @@
 - (void) preRegisterUserWithEmail:(NSString *)email;
 - (void) preRegisterUserWithEmail:(NSString *)email andName:(NSString *)name;
 - (void) addImages:(NSArray *)images;
+- (void) clearPendingImages;
 - (NSUInteger) countOfImagesInCart;
 
 @end
