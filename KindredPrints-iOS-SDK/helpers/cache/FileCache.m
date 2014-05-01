@@ -87,9 +87,10 @@ static FileCache *cache;
     NSURL *fileUrl = [self.storageUrl URLByAppendingPathComponent:fname];
     dispatch_semaphore_wait(self.namecache_sema, DISPATCH_TIME_FOREVER);
     [self.fnameCache setObject:fname forKey:key];
-    dispatch_semaphore_signal(self.namecache_sema);
     NSData *imgData = UIImageJPEGRepresentation(image, 95);
     [imgData writeToURL:fileUrl atomically:NO];
+    dispatch_semaphore_signal(self.namecache_sema);
+
     [self updateDisk];
 }
 
@@ -113,11 +114,13 @@ static FileCache *cache;
     dispatch_semaphore_wait(self.namecache_sema, DISPATCH_TIME_FOREVER);
     dispatch_semaphore_wait(self.agequeue_sema, DISPATCH_TIME_FOREVER);
     NSString *fname = [self.fnameCache objectForKey:key];
-    NSURL *fileUrl = [self.storageUrl URLByAppendingPathComponent:fname];
-    if ([self.fManager fileExistsAtPath:[fileUrl path]])
-        [self.fManager removeItemAtURL:fileUrl error:nil];
-    [self.fnameCache removeObjectForKey:key];
-    [self.ageQueue removeObject:key];
+    if (fname) {
+        NSURL *fileUrl = [self.storageUrl URLByAppendingPathComponent:fname];
+        if ([self.fManager fileExistsAtPath:[fileUrl path]])
+            [self.fManager removeItemAtURL:fileUrl error:nil];
+        [self.fnameCache removeObjectForKey:key];
+        [self.ageQueue removeObject:key];
+    }
     dispatch_semaphore_signal(self.namecache_sema);
     dispatch_semaphore_signal(self.agequeue_sema);
     [self updateDisk];

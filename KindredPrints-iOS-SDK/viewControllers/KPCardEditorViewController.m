@@ -20,8 +20,9 @@
 #import "UserObject.h"
 #import "OrderManager.h"
 #import "OrderProcessingHelper.h"
+#import "LoadingStatusView.h"
 
-@interface KPCardEditorViewController () <ServerInterfaceDelegate, UITextFieldDelegate, OrderProcessingDelegate>
+@interface KPCardEditorViewController () <ServerInterfaceDelegate, UITextFieldDelegate, OrderProcessingDelegate, LoadingStatusViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *txtTotal;
 
@@ -42,6 +43,8 @@
 @property (strong, nonatomic) UserObject *currUser;
 @property (strong, nonatomic) NSArray *selectedAddresses;
 @property (strong, nonatomic) NSArray *currOrders;
+
+@property (strong, nonatomic) LoadingStatusView *progBarView;
 
 @property (nonatomic) BOOL checkout;
 
@@ -77,6 +80,15 @@ static NSInteger STATE_ERROR = 2;
         _currUser = [UserPreferenceHelper getUserObject];
     }
     return _currUser;
+}
+- (LoadingStatusView *)progBarView {
+    if (!_progBarView) {
+        CGRect screenBounds = [[UIScreen mainScreen] bounds];
+        _progBarView = [[LoadingStatusView alloc] initWithFrame:CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height)];
+        _progBarView.delegate = self;
+        [self.view addSubview:_progBarView];
+    }
+    return _progBarView;
 }
 - (NSArray *)selectedAddresses {
     if (!_selectedAddresses)
@@ -168,7 +180,8 @@ static NSInteger STATE_ERROR = 2;
 
 - (IBAction)cmdCompleteOrderClick:(id)sender {
     [self setInterfaceState:STATE_LOADING];
-    
+    [self closeKeyboard];
+
     if ([self validateCardInfo]) {
         self.checkout = YES;
         [self launchCardRegProcess];
@@ -178,6 +191,10 @@ static NSInteger STATE_ERROR = 2;
 }
 
 - (void) launchCardRegProcess {
+    [self closeKeyboard];
+    [self.progBarView updateStatusCellWithMessage:@"registering new card.." andProgress:0.0];
+    [self.progBarView show];
+    
     NSUInteger tempInt = 0;
     NSString *card = [self removeNonDigits:self.txtCardField.text andPreserveCursorPosition:&tempInt];
     NSString *date = [self removeNonDigits:self.txtDateFiel.text andPreserveCursorPosition:&tempInt];
@@ -192,6 +209,7 @@ static NSInteger STATE_ERROR = 2;
 }
 
 #pragma mark form validation
+
 -(BOOL) isFormFilledOut
 {
     for(UIView *view in self.entryViews)
@@ -242,6 +260,8 @@ static NSInteger STATE_ERROR = 2;
                 
                 if (self.checkout) {
                     [self.orderProcessing initiateCheckoutSequence];
+                } else {
+                    [self.navigationController popViewControllerAnimated:YES];
                 }
             } else if (status < 0) {
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Internet Connection Error" message:@"Printing your images requires a stable internet connection. Please try again with better reception!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -250,6 +270,7 @@ static NSInteger STATE_ERROR = 2;
                 [self.txtError setText:@"Error: Card declined. Please check your entry."];
                 [self setInterfaceState:STATE_ERROR];
             }
+            [self.progBarView hide];
         } else if ([requestTag isEqualToString:REQ_TAG_NAME_REG]) {
             if (status == 200) {
                 self.currUser.uName = self.txtNameField.text;
@@ -280,6 +301,7 @@ static NSInteger STATE_ERROR = 2;
     STPCompletionBlock completionHandler = ^(STPToken *token, NSError *error)
     {
         if (error) {
+            [self.progBarView hide];
             [self setInterfaceState:STATE_ERROR];
             [self.txtError setText:[NSString stringWithFormat:@"Error: %@", [error localizedDescription]]];
         } else {
@@ -293,6 +315,8 @@ static NSInteger STATE_ERROR = 2;
 }
 
 - (void) registerStripeToken:(NSString *)stripeToken {
+    [self.progBarView updateStatusCellWithMessage:@"saving new card.." andProgress:0.5];
+
     NSDictionary *post = [[NSDictionary alloc]
                           initWithObjects:
                           @[self.currUser.uAuthKey, stripeToken]

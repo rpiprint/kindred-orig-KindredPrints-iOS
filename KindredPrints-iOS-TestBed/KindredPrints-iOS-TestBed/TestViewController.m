@@ -27,7 +27,7 @@
 
 @implementation TestViewController
 
-static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY";
+static NSString *const KINDRED_APP_ID = @"test_SDHdPzfxotJ8xAQ674ABbXap";
 
 - (KPPhotoOrderController *)orderPhotosVC {
     if (!_orderPhotosVC) _orderPhotosVC = [[KPPhotoOrderController alloc] initWithKey:KINDRED_APP_ID];
@@ -117,13 +117,13 @@ static NSString *const KINDRED_APP_ID = @"YOUR TEST KEY";
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-
     UIImage *chosenImage = [info objectForKey:UIImagePickerControllerOriginalImage];
 
-    KPMEMImage *img = [[KPMEMImage alloc] initWithPartnerId:[NSString stringWithFormat:@"%d", self.index] andImage:chosenImage];
     self.index = self.index + 1;
+    KPMEMImage *img = [[KPMEMImage alloc] initWithPartnerId:[NSString stringWithFormat:@"%d", self.index] andImage:chosenImage];
     [self.orderPhotosVC addImages:@[img]];
-
+    
+    
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }

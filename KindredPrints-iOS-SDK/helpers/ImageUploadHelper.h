@@ -24,5 +24,6 @@
 + (ImageUploadHelper *) getInstance;
 - (void) imageReadyForUpload:(BaseImage *)image;
 - (void) validateAllOrdersInit;
+- (void) clearAllQueue;
 
 @end

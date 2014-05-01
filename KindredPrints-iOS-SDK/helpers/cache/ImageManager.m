@@ -335,7 +335,7 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
     } else {
         dispatch_queue_t loaderQ = dispatch_queue_create(DOWNLOAD_QUEUE, NULL);
         dispatch_async(loaderQ, ^{
-            if ([self.fCache hasImageForKey:fname]) {
+            if (![self isOrigImageInProcess:[ImageManager GetOrigName:image.pid]] && [self.fCache hasImageForKey:fname]) {
                 UIImage *im = [self.fCache getImageForKey:fname];
                 [self.imCache addImage:im forKey:fname];
                 dispatch_async(dispatch_get_main_queue(), ^{

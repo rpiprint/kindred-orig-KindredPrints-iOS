@@ -131,6 +131,7 @@ static CGFloat const TOTAL_STEPS = 2;
     self.currStage = STEP_CHECKOUT_DONE;
     [self.delegate orderProcessingUpdateProgress:self.currStage/TOTAL_STEPS withStatus:@"feeding hamster.."];
     
+    [self.uploadHelper clearAllQueue];
     [UserPreferenceHelper setOrderLineItems:[[NSArray alloc] init]];
     [UserPreferenceHelper setOrderId:ORDER_NO_VALUE];
     [UserPreferenceHelper setOrderIsSame:NO];

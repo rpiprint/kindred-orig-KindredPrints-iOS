@@ -132,6 +132,7 @@ static ImageUploadHelper *uHelper;
     if (self.currUser.uId && ![self.currUser.uId isEqualToString:USER_VALUE_NONE]) {
         NSArray *selectedOrders = [self.orderManager getSelectedOrderImages];
         for (SelectedOrderImage *selectedImage in selectedOrders) {
+
             [self processImageForServerSync:selectedImage.oImage];
             if (!selectedImage.oImage.pServerInit) {
                 [self addPrintableImageToList:selectedImage];
@@ -448,7 +449,12 @@ static ImageUploadHelper *uHelper;
     }
 }
 
-
+- (void) clearAllQueue {
+    [self.uploadQueue removeAllObjects];
+    [self.inprogressList removeAllObjects];
+    [self.finishedPile removeAllObjects];
+    [self.processingBin removeAllObjects];
+}
 #pragma mark Server Interface
 
 - (void)serverCallback:(NSDictionary *)returnedData {
@@ -456,7 +462,7 @@ static ImageUploadHelper *uHelper;
         NSInteger status = [[returnedData objectForKey:kpServerStatusCode] integerValue];
         NSString *requestTag = [returnedData objectForKey:kpServerRequestTag];
         NSString *identTag = [returnedData objectForKey:kpServerIdentTag];
-        
+
         if ([requestTag isEqualToString:REQ_TAG_CREATE_URL_IMAGE]) {
             if (status == 200) {
                 NSString *pId = [returnedData objectForKey:@"id"];
