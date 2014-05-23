@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "KindredPrints"
-  s.version          = "0.1.1"
+  s.version          = "0.1.2"
   s.summary          = "Physical printing from any app"
   s.description      = <<-DESC
                        Starting printing user photos or content, straight from your app. Make money for every print your users buy.
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '6.0'
   s.requires_arc = true
 
-  s.source_files = 'KindredPrints-iOS-SDK/*/*'
-
+  s.source_files = "KindredPrints-iOS-SDK/*/*.{h,m}", "KindredPrints-iOS-SDK/*/*/*.{h,m}"
+  s.resources = "KindredPrints-iOS-SDK/*/*.{xib,png}"
   s.public_header_files = 'KindredPrints-iOS-SDK/viewControllers/KPPhotoOrderController.h'
 end
