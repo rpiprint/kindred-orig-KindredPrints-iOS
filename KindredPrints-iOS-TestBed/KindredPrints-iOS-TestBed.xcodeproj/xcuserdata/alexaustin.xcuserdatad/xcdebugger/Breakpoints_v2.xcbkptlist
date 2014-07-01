@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "420499299.126787"
+            timestampString = "425930588.170673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
             landmarkName = "-processImageForStorage:withTag:forSize:withImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "420499299.126787"
+            timestampString = "425930588.170673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
             landmarkName = "-processImageForStorage:withTag:forSize:withImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/preferences/DevPreferenceHelper.m"
-            timestampString = "419545381.54454"
+            timestampString = "425929256.769042"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "+setCurrentSizes:"
             landmarkType = "5">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/preferences/DevPreferenceHelper.m"
-            timestampString = "419545381.54454"
+            timestampString = "425929256.769042"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
             landmarkName = "+getCurrentSizes"
             landmarkType = "5">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "420499299.126787"
+            timestampString = "425930588.170673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
             landmarkName = "-processImageForStorage:withTag:forSize:withImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -634,11 +634,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "420499299.126787"
+            timestampString = "425930588.170673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
             landmarkName = "-processImageForStorage:withTag:forSize:withImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1320,11 +1320,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "420499299.126787"
+            timestampString = "425930588.170673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "-processImageForStorage:withTag:forSize:withImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1480,11 +1480,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "420499299.126787"
+            timestampString = "425930588.170673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
+            startingLineNumber = "414"
+            endingLineNumber = "414"
             landmarkName = "-getFullImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1496,11 +1496,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "420499299.126787"
+            timestampString = "425930588.170673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
             landmarkName = "-processImageForStorage:withTag:forSize:withImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1512,11 +1512,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "420499299.126787"
+            timestampString = "425930588.170673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
             landmarkName = "-processImageForStorage:withTag:forSize:withImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2420,11 +2420,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "420586180.511312"
+            timestampString = "425930588.170673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
+            startingLineNumber = "341"
+            endingLineNumber = "341"
             landmarkName = "-setImageAsync:withImage:displaySize:atSize:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2468,11 +2468,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "420586496.037701"
+            timestampString = "425930588.170673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "340"
+            endingLineNumber = "340"
             landmarkName = "-setImageAsync:withImage:displaySize:atSize:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2484,12 +2484,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
-            timestampString = "420586763.78132"
+            timestampString = "425930588.170673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
             landmarkName = "-processImageForStorage:withTag:forSize:withImage:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
+            timestampString = "425930588.170673"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
+            landmarkName = "-setImageAsync:withImage:displaySize:atSize:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../KindredPrints-iOS-SDK/helpers/cache/ImageManager.m"
+            timestampString = "425930392.528346"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "-startPrefetchingOrigImageToCache:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

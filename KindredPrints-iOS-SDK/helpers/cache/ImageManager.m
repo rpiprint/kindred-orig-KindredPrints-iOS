@@ -120,6 +120,8 @@ static const char *DOWNLOAD_QUEUE = "downloading_queue";
             } else {
                 [self.waitingToDownloadQueue addObject:origId];
             }
+        } else if ([self.fCache hasImageForKey:origId]) {
+            [self processImageForStorage:image withTag:nil forSize:nil withImage:[self.fCache getImageForKey:origId]];
         }
     });
 }

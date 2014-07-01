@@ -50,7 +50,13 @@ static NSString * KEY_PARTER_URL = @"kp_partner_url";
         [self setStripeTestStatus:NO];
     }
     NSData *dKey = [[key stringByAppendingString:@":"] dataUsingEncoding:NSUTF8StringEncoding];
-    [DevPreferenceHelper writeObjectToDefaults:KEY_APP_KEY value:[DevPreferenceHelper base64forData:dKey]];
+    NSString *newKey = [DevPreferenceHelper base64forData:dKey];
+    NSString *oldKey = [DevPreferenceHelper getAppKey];
+    if (!oldKey || ![newKey isEqualToString:oldKey]) {
+        [DevPreferenceHelper clearSizeDownloadStatus];
+    }
+
+    [DevPreferenceHelper writeObjectToDefaults:KEY_APP_KEY value:newKey];
 }
 + (NSString *)getAppKey {
     return (NSString *)[DevPreferenceHelper readObjectFromDefaults:KEY_APP_KEY];
@@ -148,6 +154,10 @@ static NSString * KEY_PARTER_URL = @"kp_partner_url";
 
 + (void)resetSizeDownloadStatus {
     [self writeObjectToDefaults:KEY_DOWNLOAD_IMAGE_SIZE_DATE value:[NSDate date]];
+}
+
++ (void)clearSizeDownloadStatus {
+    [self writeObjectToDefaults:KEY_DOWNLOAD_IMAGE_SIZE_DATE value:[[NSDate date] dateByAddingTimeInterval:-2*DOWNLOAD_INTERVAL]];
 }
 
 + (BOOL)needDownloadSizes {

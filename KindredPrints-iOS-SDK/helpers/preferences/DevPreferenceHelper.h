@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "PreferenceHelper.h"
 
-static BOOL LOG = YES;
+static BOOL LOG = NO;
 static BOOL DEV = NO;
 
 @interface DevPreferenceHelper : PreferenceHelper
