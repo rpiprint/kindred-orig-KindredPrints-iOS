@@ -140,7 +140,7 @@
 - (void)updateProductWithSize:(PrintableSize *)size andDeltaPrice:(NSInteger)deltaPrice{
     NSMutableArray *productList = [self.image.printProducts mutableCopy];
     
-    [self.mixpanel track:@"cart_changed_quantities"];
+    //[self.mixpanel track:@"cart_changed_quantities"];
     
     for (int i = 0; i < [productList count]; i++) {
         PrintableSize *currSize = [productList objectAtIndex:i];
