@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -17,9 +17,13 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lBL-NU-71d" customClass="RoundedTextButton">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lBL-NU-71d" customClass="RoundedTextButton">
                     <rect key="frame" x="483" y="20" width="85" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="6kp-Iz-oKk"/>
+                        <constraint firstAttribute="width" constant="85" id="xDZ-W4-KTN"/>
+                    </constraints>
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -27,7 +31,7 @@
                         <action selector="cmdEditOrderClick:" destination="-1" eventType="touchUpInside" id="hZP-sR-whE"/>
                     </connections>
                 </button>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="s9t-xl-6Lb">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="s9t-xl-6Lb">
                     <rect key="frame" x="20" y="58" width="728" height="966"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -39,6 +43,14 @@
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="s9t-xl-6Lb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="Gcc-wi-DPn"/>
+                <constraint firstItem="lBL-NU-71d" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="U7u-93-hec"/>
+                <constraint firstItem="s9t-xl-6Lb" firstAttribute="top" secondItem="lBL-NU-71d" secondAttribute="bottom" constant="8" id="V6J-Sp-TJ2"/>
+                <constraint firstAttribute="bottom" secondItem="s9t-xl-6Lb" secondAttribute="bottom" id="khY-kD-EOE"/>
+                <constraint firstAttribute="trailing" secondItem="lBL-NU-71d" secondAttribute="trailing" constant="200" id="oWy-RE-odc"/>
+                <constraint firstAttribute="trailing" secondItem="s9t-xl-6Lb" secondAttribute="trailing" constant="20" id="qUC-ff-qmu"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
         </view>
     </objects>

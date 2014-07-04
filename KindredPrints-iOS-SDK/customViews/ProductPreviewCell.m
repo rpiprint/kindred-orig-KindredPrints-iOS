@@ -104,7 +104,7 @@ static CGFloat TEXT_VIEW_HEIGHT_PERC = 1.2;
         self.image = image;
         
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
-        CGRect bounds = [[UIScreen mainScreen] bounds];
+        CGRect bounds = [InterfacePreferenceHelper getScreenBounds];
         CGRect frame = self.frame;
         frame.size.height = ROW_HEIGHT_PERCENT*[InterfacePreferenceHelper getPictureThumbSize];
         frame.size.width = bounds.size.width;

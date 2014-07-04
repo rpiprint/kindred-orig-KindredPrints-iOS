@@ -93,7 +93,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
 
 - (LoadingStatusView *)progBarView {
     if (!_progBarView) {
-        CGRect screenBounds = [[UIScreen mainScreen] bounds];
+        CGRect screenBounds = [InterfacePreferenceHelper getScreenBounds];
         _progBarView = [[LoadingStatusView alloc] initWithFrame:CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height)];
         _progBarView.delegate = self;
         [self.view addSubview:_progBarView];
@@ -120,7 +120,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
     self.cmdEditOrder.frame = editFrame;
     [self.cmdEditOrder drawButtonWithStrokeColor:[UIColor whiteColor] withBaseFillColor:[UIColor clearColor] andPressedFillColor:[UIColor whiteColor] andTextColor:[UIColor whiteColor] andText:@"EDIT PRINTS" andFontSize:OrderViewFontSize];
 
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGRect screenBounds = [InterfacePreferenceHelper getScreenBounds];
     self.shippingPicker = [[ShippingPicker alloc] initWithFrame:CGRectMake(0, screenBounds.size.height, screenBounds.size.width, 0)];
     self.shippingPicker.pickerDelegate = self;
     [self.view addSubview:self.shippingPicker];
@@ -417,7 +417,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
     [UIView setAnimationDuration:0.25];
     [UIView setAnimationDelegate:self];
     
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGRect screenBounds = [InterfacePreferenceHelper getScreenBounds];
     CGRect posRect = self.shippingPicker.frame;
     posRect.origin.y = screenBounds.size.height-self.shippingPicker.frame.size.height-self.navigationController.navigationBar.frame.size.height;
     self.shippingPicker.frame = posRect;
@@ -430,7 +430,7 @@ static NSString *ORDER_ROW_BLANK = @"order_row_blank";
     [UIView setAnimationDuration:0.25];
     [UIView setAnimationDelegate:self];
     
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGRect screenBounds = [InterfacePreferenceHelper getScreenBounds];
     CGRect posRect = self.shippingPicker.frame;
     posRect.origin.y = screenBounds.size.height-self.navigationController.navigationBar.frame.size.height;
     self.shippingPicker.frame = posRect;

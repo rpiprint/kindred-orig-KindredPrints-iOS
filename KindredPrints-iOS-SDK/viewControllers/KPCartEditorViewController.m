@@ -54,15 +54,14 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void)viewDidLayoutSubviews
 {
-    [super viewDidLoad];
     [self.view bringSubviewToFront:self.tableView];
 }
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    CGRect mainBounds = [[UIScreen mainScreen] bounds];
+    CGRect mainBounds = [InterfacePreferenceHelper getScreenBounds];
     CGSize viewableWindow = CGSizeMake(mainBounds.size.width, mainBounds.size.height-self.navigationController.navigationBar.frame.size.height);
     self.tableView.frame = CGRectMake(0, 0, viewableWindow.width, viewableWindow.height);
     if (self.tableView.contentSize.height < self.tableView.frame.size.height) {
@@ -115,10 +114,6 @@
     }
     
     return cell;
-}
-
--(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return NO;
 }
 
 #pragma mark IMAGE PREVIEW DELEGATE

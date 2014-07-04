@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
@@ -19,12 +20,16 @@
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="U9U-YW-hUK">
                     <rect key="frame" x="20" y="511" width="728" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="D0Y-UM-zih"/>
+                    </constraints>
                     <color key="trackTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </progressView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading.." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tsr-s3-Ej7">
                     <rect key="frame" x="20" y="472" width="728" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="31" id="SEC-Li-cLa"/>
                         <constraint firstAttribute="height" constant="31" id="ffl-Ks-xae"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
@@ -35,11 +40,17 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Tsr-s3-Ej7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="B3h-MC-0Db"/>
+                <constraint firstItem="U9U-YW-hUK" firstAttribute="top" secondItem="Tsr-s3-Ej7" secondAttribute="bottom" constant="8" id="HQZ-s7-iuh"/>
+                <constraint firstAttribute="centerY" secondItem="U9U-YW-hUK" secondAttribute="centerY" id="KqT-kP-FjD"/>
                 <constraint firstAttribute="trailing" secondItem="U9U-YW-hUK" secondAttribute="trailing" constant="20" id="RSF-wx-4a5"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="U9U-YW-hUK" secondAttribute="trailing" constant="20" id="Twg-BY-ZYi"/>
+                <constraint firstItem="U9U-YW-hUK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="Wrf-uM-3HJ"/>
                 <constraint firstAttribute="centerX" secondItem="U9U-YW-hUK" secondAttribute="centerX" id="bpe-cP-KBe"/>
                 <constraint firstItem="U9U-YW-hUK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="iYb-EV-GA6"/>
                 <constraint firstAttribute="centerY" secondItem="U9U-YW-hUK" secondAttribute="centerY" id="jg0-UA-afi"/>
                 <constraint firstAttribute="trailing" secondItem="Tsr-s3-Ej7" secondAttribute="trailing" constant="20" id="lWk-TF-Wr4"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Tsr-s3-Ej7" secondAttribute="trailing" constant="20" id="mwu-Gi-bTH"/>
+                <constraint firstItem="Tsr-s3-Ej7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="qfo-pm-5im"/>
                 <constraint firstItem="U9U-YW-hUK" firstAttribute="top" secondItem="Tsr-s3-Ej7" secondAttribute="bottom" constant="8" id="yYL-fs-efY"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

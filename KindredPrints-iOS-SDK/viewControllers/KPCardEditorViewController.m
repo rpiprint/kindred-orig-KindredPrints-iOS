@@ -35,6 +35,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *txtSecCodeField;
 @property (weak, nonatomic) IBOutlet UILabel *txtError;
 @property (weak, nonatomic) IBOutlet RoundedTextButton *cmdCompleteOrder;
+@property (weak, nonatomic) IBOutlet UIView *viewContainer;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (strong, nonatomic) OrderProcessingHelper *orderProcessing;
 @property (strong, nonatomic) KindredServerInterface *kInterface;
@@ -83,7 +85,7 @@ static NSInteger STATE_ERROR = 2;
 }
 - (LoadingStatusView *)progBarView {
     if (!_progBarView) {
-        CGRect screenBounds = [[UIScreen mainScreen] bounds];
+        CGRect screenBounds = [InterfacePreferenceHelper getScreenBounds];
         _progBarView = [[LoadingStatusView alloc] initWithFrame:CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height)];
         _progBarView.delegate = self;
         [self.view addSubview:_progBarView];
@@ -108,7 +110,8 @@ static NSInteger STATE_ERROR = 2;
         [self.view bringSubviewToFront:v];
     [self.view bringSubviewToFront:self.activityView];
     [self.view bringSubviewToFront:self.txtError];
-    
+    if (self.viewContainer) [self.view bringSubviewToFront:self.viewContainer];
+    if (self.scrollView) [self.view bringSubviewToFront:self.scrollView];
     [self.txtError setTextColor:[InterfacePreferenceHelper getColor:ColorError]];
     
     UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(270, 0, 50, 35)];
@@ -516,12 +519,21 @@ static NSInteger STATE_ERROR = 2;
     return YES;
 }
 
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if (self.scrollView) [self.scrollView setContentOffset:CGPointMake(0, textField.frame.origin.y-20) animated:YES];
+    return YES;
+}
+
+- (void)keyboardDidHideNotification:(NSNotification *)notification {
+    if (self.scrollView) [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+}
 
 -(void)closeKeyboard {
     [self.txtCardField resignFirstResponder];
     [self.txtNameField resignFirstResponder];
     [self.txtDateFiel resignFirstResponder];
     [self.txtSecCodeField resignFirstResponder];
+    if (self.scrollView) [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 #pragma mark order processor delegate

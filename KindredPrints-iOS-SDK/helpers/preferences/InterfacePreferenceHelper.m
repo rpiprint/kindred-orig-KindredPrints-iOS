@@ -42,6 +42,13 @@ static NSString *KEY_BORDER_COLOR = @"kp_border_color";
     return nil;
 }
 
++ (CGRect)getScreenBounds {
+    return CGRectMake(UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ? [[UIScreen mainScreen] bounds].origin.x : [[UIScreen mainScreen] bounds].origin.y,
+               UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ? [[UIScreen mainScreen] bounds].origin.y : [[UIScreen mainScreen] bounds].origin.x,
+               UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ? [[UIScreen mainScreen] bounds].size.width  : [[UIScreen mainScreen] bounds].size.height,
+               UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width);
+}
+
 + (BOOL)isBorderDisabled {
     return [InterfacePreferenceHelper readBoolFromDefaults:KEY_BORDER_DISABLED];
 }
@@ -187,21 +194,35 @@ static NSString *KEY_BORDER_COLOR = @"kp_border_color";
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         return 25.0f;
     } else {
-        return 15.0f;
+        if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+            return 15.0f;
+        } else {
+            return 5.0f;
+        }
+        
     }
 }
 + (CGFloat)getCartDeleteSize {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         return 40.0f;
     } else {
-        return 30.0f;
+        if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+            return 30.0f;
+        } else {
+            return 20.0f;
+        }
+        
     }
 }
 + (CGFloat)getCartHeaderSize {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         return 45.0f;
     } else {
-        return 25.0f;
+        if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+            return 25.0f;
+        } else {
+            return 5.0f;
+        }
     }
 }
 + (CGFloat)getCartPadding {
@@ -216,7 +237,11 @@ static NSString *KEY_BORDER_COLOR = @"kp_border_color";
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         return 480;
     } else {
-        return 240;
+        if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+            return 240;
+        } else {
+            return 160;
+        }
     }
 }
 + (NSInteger)getPictureThumbSize {

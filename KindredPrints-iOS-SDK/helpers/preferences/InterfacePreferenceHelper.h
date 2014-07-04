@@ -52,6 +52,8 @@ enum ColorScheme : NSInteger {
     ColorButtonDisabled = 12
 };
 
++ (CGRect)getScreenBounds;
+
 + (UIColor *)getColor:(NSInteger)scheme;
 
 + (CGFloat)getSelectImageSide;

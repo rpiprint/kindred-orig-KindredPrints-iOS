@@ -43,7 +43,7 @@
 static NSInteger TAG_WARNING = 0;
 static NSInteger TAG_DELETE = 1;
 
-static CGFloat const HEADER_SIZE = 25;
+static CGFloat const ARROW_SIZE = 25.0f;
 static CGFloat const PADDING = 7.0f;
 static CGFloat const SHADOW_LAYER_SIZE = 1.05;
 static CGFloat const ARROW_TRANSPARENCY = 0.65f;
@@ -68,14 +68,14 @@ static CGFloat const ARROW_TRANSPARENCY = 0.65f;
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        CGRect bounds = [[UIScreen mainScreen] bounds];
+        CGRect bounds = [InterfacePreferenceHelper getScreenBounds];
         self.image = image;
         self.index = index;
 
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
         
-        self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake((bounds.size.width-[InterfacePreferenceHelper getPicturePreviewSize])/2, ([InterfacePreferenceHelper getPicturePreviewSize]+2*HEADER_SIZE-[InterfacePreferenceHelper getPicturePreviewSize])/2, [InterfacePreferenceHelper getPicturePreviewSize], [InterfacePreferenceHelper getPicturePreviewSize])];
-        self.shadowView = [[UIView alloc] initWithFrame:CGRectMake((bounds.size.width-SHADOW_LAYER_SIZE*[InterfacePreferenceHelper getPicturePreviewSize])/2, ([InterfacePreferenceHelper getPicturePreviewSize]+2*HEADER_SIZE-[InterfacePreferenceHelper getPicturePreviewSize])/2, SHADOW_LAYER_SIZE*[InterfacePreferenceHelper getPicturePreviewSize], SHADOW_LAYER_SIZE*[InterfacePreferenceHelper getPicturePreviewSize])];
+        self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake((bounds.size.width-[InterfacePreferenceHelper getPicturePreviewSize])/2, ([InterfacePreferenceHelper getPicturePreviewSize]+2*[InterfacePreferenceHelper getCartHeaderSize]-[InterfacePreferenceHelper getPicturePreviewSize])/2, [InterfacePreferenceHelper getPicturePreviewSize], [InterfacePreferenceHelper getPicturePreviewSize])];
+        self.shadowView = [[UIView alloc] initWithFrame:CGRectMake((bounds.size.width-SHADOW_LAYER_SIZE*[InterfacePreferenceHelper getPicturePreviewSize])/2, ([InterfacePreferenceHelper getPicturePreviewSize]+2*[InterfacePreferenceHelper getCartHeaderSize]-[InterfacePreferenceHelper getPicturePreviewSize])/2, SHADOW_LAYER_SIZE*[InterfacePreferenceHelper getPicturePreviewSize], SHADOW_LAYER_SIZE*[InterfacePreferenceHelper getPicturePreviewSize])];
         [self addSubview:self.shadowView];
         [self addSubview:self.imgView];
         [self setBackgroundColor:[UIColor clearColor]];
@@ -120,15 +120,15 @@ static CGFloat const ARROW_TRANSPARENCY = 0.65f;
         [self addSubview:self.flipButton];
         self.frontSideUp = YES;
         
-        CGFloat arrowSide = (bounds.size.width-[InterfacePreferenceHelper getPicturePreviewSize])/2;
-        self.leftSideArrow = [[SideArrow alloc] initWithFrame:CGRectMake(0, ([InterfacePreferenceHelper getPicturePreviewSize]+2*HEADER_SIZE-arrowSide)/2, arrowSide, arrowSide)];
+        CGFloat arrowSide = ARROW_SIZE;
+        self.leftSideArrow = [[SideArrow alloc] initWithFrame:CGRectMake(0, ([InterfacePreferenceHelper getPicturePreviewSize]+2*[InterfacePreferenceHelper getCartHeaderSize]-arrowSide)/2, arrowSide, arrowSide)];
         [self.leftSideArrow drawSideArrowOfColor:[UIColor whiteColor] andTrans:ARROW_TRANSPARENCY andArrowType:LeftSideArrow];
         [self.leftSideArrow addTarget:self action:@selector(clickedLeftArrow) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.leftSideArrow];
         if (self.index == 0)
             [self.leftSideArrow setHidden:YES];
         
-        self.rightSideArrow = [[SideArrow alloc] initWithFrame:CGRectMake(bounds.size.width-arrowSide, ([InterfacePreferenceHelper getPicturePreviewSize]+2*HEADER_SIZE-arrowSide)/2, arrowSide, arrowSide)];
+        self.rightSideArrow = [[SideArrow alloc] initWithFrame:CGRectMake(bounds.size.width-arrowSide, ([InterfacePreferenceHelper getPicturePreviewSize]+2*[InterfacePreferenceHelper getCartHeaderSize]-arrowSide)/2, arrowSide, arrowSide)];
         [self.rightSideArrow drawSideArrowOfColor:[UIColor whiteColor] andTrans:ARROW_TRANSPARENCY andArrowType:RightSideArrow];
         [self.rightSideArrow addTarget:self action:@selector(clickedRightArrow) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.rightSideArrow];
@@ -148,7 +148,7 @@ static CGFloat const ARROW_TRANSPARENCY = 0.65f;
 
 
 - (void) resizeImageViewWithImage {
-    CGRect bounds = [[UIScreen mainScreen] bounds];
+    CGRect bounds = [InterfacePreferenceHelper getScreenBounds];
     CGRect imgViewFrame = self.imgView.frame;
     CGFloat xSide = [InterfacePreferenceHelper getPicturePreviewSize];
     CGFloat ySide = [InterfacePreferenceHelper getPicturePreviewSize];
@@ -162,7 +162,7 @@ static CGFloat const ARROW_TRANSPARENCY = 0.65f;
     imgViewFrame.size.width = xSide;
     imgViewFrame.size.height = ySide;
     imgViewFrame.origin.x = (bounds.size.width-xSide)/2;
-    imgViewFrame.origin.y = ([InterfacePreferenceHelper getPicturePreviewSize]+2*HEADER_SIZE-ySide)/2;
+    imgViewFrame.origin.y = ([InterfacePreferenceHelper getPicturePreviewSize]+2*[InterfacePreferenceHelper getCartHeaderSize]-ySide)/2;
     self.imgView.frame = imgViewFrame;
     
     CGRect warningFrame = imgViewFrame;
@@ -194,7 +194,7 @@ static CGFloat const ARROW_TRANSPARENCY = 0.65f;
     imgViewFrame.size.width = xSide;
     imgViewFrame.size.height = ySide;
     imgViewFrame.origin.x = (bounds.size.width-xSide)/2;
-    imgViewFrame.origin.y = ([InterfacePreferenceHelper getPicturePreviewSize]+2*HEADER_SIZE-ySide)/2;
+    imgViewFrame.origin.y = ([InterfacePreferenceHelper getPicturePreviewSize]+2*[InterfacePreferenceHelper getCartHeaderSize]-ySide)/2;
 
     self.shadowView.frame = imgViewFrame;
     self.shadowView.layer.masksToBounds = NO;

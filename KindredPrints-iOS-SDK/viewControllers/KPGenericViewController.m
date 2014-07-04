@@ -13,6 +13,8 @@
 
 @interface KPGenericViewController ()
 
+@property (strong, nonatomic) CAGradientLayer *bgLayer;
+@property (strong, nonatomic) CAGradientLayer *bgMidLayer;
 
 @end
 
@@ -24,16 +26,32 @@
 {
     [super viewDidLoad];
     
-    CAGradientLayer *bgLayer = [BackgroundGradientHelper GetBackgroundBaseGradient];
-    bgLayer.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    [self.view.layer addSublayer:bgLayer];
-    CAGradientLayer *bgMidLayer = [BackgroundGradientHelper GetBackgroundMidGradient];
-    bgMidLayer.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    [self.view.layer addSublayer:bgMidLayer];
-
+    CGRect currFrame = [InterfacePreferenceHelper getScreenBounds];
+    self.bgLayer = [BackgroundGradientHelper GetBackgroundBaseGradient];
+    self.bgLayer.frame = CGRectMake(0, 0, currFrame.size.width, currFrame.size.height);
+    [self.view.layer addSublayer:self.bgLayer];
+    self.bgMidLayer = [BackgroundGradientHelper GetBackgroundMidGradient];
+    self.bgMidLayer.frame = CGRectMake(0, 0, currFrame.size.width, currFrame.size.height);
+    [self.view.layer addSublayer:self.bgMidLayer];
+    
     [self initCustomView];
     
     [self initNavBar];
+}
+
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [self.bgLayer removeFromSuperlayer];
+    [self.bgMidLayer removeFromSuperlayer];
+    
+    CGRect currFrame = self.view.frame;
+    self.bgMidLayer = [BackgroundGradientHelper GetBackgroundMidGradient];
+    self.bgMidLayer.frame = CGRectMake(0, 0, currFrame.size.width, currFrame.size.height);
+    [self.view.layer insertSublayer:self.bgMidLayer atIndex:0];
+    self.bgLayer = [BackgroundGradientHelper GetBackgroundBaseGradient];
+    self.bgLayer.frame = CGRectMake(0, 0, currFrame.size.width, currFrame.size.height);
+    [self.view.layer insertSublayer:self.bgLayer atIndex:0];
+   
 }
 
 

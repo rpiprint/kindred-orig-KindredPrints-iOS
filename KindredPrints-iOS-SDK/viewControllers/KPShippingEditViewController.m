@@ -34,6 +34,8 @@
 @property (strong, nonatomic) CountryPicker *countryPicker;
 @property (strong, nonatomic) RoundedTextButton *cmdAddContact;
 @property (weak, nonatomic) IBOutlet UILabel *txtErrorField;
+@property (weak, nonatomic) IBOutlet UIView *viewContainer;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 
@@ -76,7 +78,8 @@ static NSInteger const STATE_ENTRY = 1;
     }
     [self.view bringSubviewToFront:self.txtErrorField];
     [self.view bringSubviewToFront:self.activityView];
-    
+    [self.view bringSubviewToFront:self.viewContainer];
+    if (self.scrollView) [self.view bringSubviewToFront:self.scrollView];
     NSDictionary *placeholderAttrs = [[NSDictionary alloc]
                                       initWithObjects:@[[UIFont fontWithName:FONT_REGULAR size:MenuButtonFontSize],
                                                         [InterfacePreferenceHelper getColor:ColorNavBar]
@@ -104,11 +107,11 @@ static NSInteger const STATE_ENTRY = 1;
     self.cmdAddContact = [[RoundedTextButton alloc] initWithFrame:CGRectMake(nameFrame.origin.x+nameFrame.size.width-ADD_CONTACT_WIDTH, nameFrame.origin.y+(nameFrame.size.height-ADD_CONTANT_HEIGHT)/2, ADD_CONTACT_WIDTH, ADD_CONTANT_HEIGHT) withStrokeColor:[UIColor whiteColor] withBaseFillColor:[UIColor clearColor] andPressedFillColor:[UIColor whiteColor] andTextColor:[UIColor whiteColor] andText:@"    IMPORT" andFontSize:ImportButtonFontSize];
     self.importIcon = [[UIImageView alloc] initWithFrame:CGRectMake(nameFrame.origin.x+nameFrame.size.width-ADD_CONTACT_WIDTH+2*PADDING, nameFrame.origin.y+(nameFrame.size.height-ADD_CONTANT_ICON_HEIGHT)/2, ADD_CONTANT_ICON_HEIGHT, ADD_CONTANT_ICON_HEIGHT)];
     [self.importIcon setImage:[UIImage imageNamed:@"ico_user_white.png"]];
-    [self.view addSubview:self.importIcon];
+    [self.viewContainer addSubview:self.importIcon];
     [self.cmdAddContact addTarget:self action:@selector(cmdImportPressed) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.cmdAddContact];
+    [self.viewContainer addSubview:self.cmdAddContact];
     
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGRect screenBounds = [InterfacePreferenceHelper getScreenBounds];
     self.countryPicker = [[CountryPicker alloc] initWithFrame:CGRectMake(0, screenBounds.size.height, screenBounds.size.width, 0)];
     [self.countryPicker setBackgroundColor:[UIColor colorWithWhite:1 alpha:0]];
     [self.view addSubview:self.countryPicker];
@@ -265,7 +268,7 @@ static NSInteger const STATE_ENTRY = 1;
     [UIView setAnimationDuration:0.25];
     [UIView setAnimationDelegate:self];
     
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGRect screenBounds = [InterfacePreferenceHelper getScreenBounds];
     CGRect posRect = self.countryPicker.frame;
     posRect.origin.y = screenBounds.size.height-self.countryPicker.frame.size.height-self.navigationController.navigationBar.frame.size.height;
     self.countryPicker.frame = posRect;
@@ -278,7 +281,7 @@ static NSInteger const STATE_ENTRY = 1;
     [UIView setAnimationDuration:0.25];
     [UIView setAnimationDelegate:self];
     
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGRect screenBounds = [InterfacePreferenceHelper getScreenBounds];
     CGRect posRect = self.countryPicker.frame;
     posRect.origin.y = screenBounds.size.height-self.navigationController.navigationBar.frame.size.height;
     self.countryPicker.frame = posRect;
@@ -290,6 +293,7 @@ static NSInteger const STATE_ENTRY = 1;
     for (UITextField *txtV in self.txtViews) {
         [txtV resignFirstResponder];
     }
+    if (self.scrollView) [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (void) parseAddressFromServer:(NSDictionary *)serverObject {
@@ -349,6 +353,7 @@ static NSInteger const STATE_ENTRY = 1;
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     [self animateDown];
+    if (self.scrollView && ![textField isEqual:self.txtName]) [self.scrollView setContentOffset:CGPointMake(0, textField.frame.origin.y-20) animated:YES];
     return YES;
 }
 
@@ -360,6 +365,7 @@ static NSInteger const STATE_ENTRY = 1;
         [nextResponder becomeFirstResponder];
     } else {
         [textField resignFirstResponder];
+        if (self.scrollView) [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     }
     return NO;
 }

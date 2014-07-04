@@ -98,7 +98,7 @@ static NSInteger TAG_WARNING_BACK = 3;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGRect screenBounds = [InterfacePreferenceHelper getScreenBounds];
     CGFloat statusBarHeight = 0;
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
         statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;

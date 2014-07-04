@@ -57,4 +57,8 @@ static CGFloat const TEXT_PADDING = 15;
     return self;
 }
 
+- (void)refreshView {
+    
+}
+
 @end

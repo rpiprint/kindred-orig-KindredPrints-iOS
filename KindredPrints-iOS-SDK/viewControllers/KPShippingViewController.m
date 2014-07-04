@@ -100,7 +100,7 @@ static CGFloat TABLE_PADDING = 10;
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    CGRect mainBounds = [[UIScreen mainScreen] bounds];
+    CGRect mainBounds = [InterfacePreferenceHelper getScreenBounds];
     
     CGSize viewableWindow = CGSizeMake(mainBounds.size.width, mainBounds.size.height-self.navigationController.navigationBar.frame.size.height-self.txtTitle.frame.origin.y*1.5-self.txtTitle.frame.size.height);
     
@@ -132,6 +132,30 @@ static CGFloat TABLE_PADDING = 10;
                           forKeys:@[@"auth_key"]];
     
     [self.kInterface downloadAllAddresses:post userId:self.currUser.uId];
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    CGRect mainBounds = [InterfacePreferenceHelper getScreenBounds];
+    
+    CGFloat width = mainBounds.size.width;
+    mainBounds.size.width = mainBounds.size.height;
+    mainBounds.size.height = width;
+    
+    CGSize viewableWindow = CGSizeMake(mainBounds.size.width, mainBounds.size.height-self.navigationController.navigationBar.frame.size.height-self.txtTitle.frame.origin.y*1.5-self.txtTitle.frame.size.height);
+    
+    self.tableView.frame = CGRectMake(TABLE_PADDING, self.tableView.frame.origin.y, self.tableView.frame.size.width, viewableWindow.height);
+    
+    [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+    
+    /*
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+       
+
+    } else {
+        
+    }*/
 }
 
 - (void) initNavBar {
@@ -247,7 +271,8 @@ static CGFloat TABLE_PADDING = 10;
         
         if (!sCell)
             sCell = [[ShippingAddAddressCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ADD_ADDRESS_CELL_IDENTIFIER andWidth:self.tableView.frame.size.width];
-        
+        else
+            [sCell layoutSubviews];
         cell = sCell;
     } else {
         BaseAddress *address = [self.addresses objectAtIndex:indexPath.row-1];

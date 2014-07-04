@@ -23,6 +23,7 @@
 @property (strong, nonatomic) NSMutableDictionary *userStuff;
 @property (strong, nonatomic) KindredServerInterface *kInterface;
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *txtHeader;
 @property (strong, nonatomic) UILabel *txtError;
 @property (strong, nonatomic) RoundedTextField *txtEmail;
@@ -63,7 +64,7 @@ static NSInteger const ERROR_STATE = 3;
 }
 
 - (void) initCustomView {
-    CGRect bounds = [[UIScreen mainScreen] bounds];
+    CGRect bounds = [InterfacePreferenceHelper getScreenBounds];
     
     self.txtEmail = [[RoundedTextField alloc] initWithFrame:CGRectMake((bounds.size.width-[InterfacePreferenceHelper getLoginFormFieldWidth])/2, self.txtHeader.frame.origin.y+self.txtHeader.frame.size.height+HEADER_PADDING, [InterfacePreferenceHelper getLoginFormFieldWidth], [InterfacePreferenceHelper getLoginFormFieldHeight]) andStrokeColor:[UIColor whiteColor] andIconBackgroundColor:[InterfacePreferenceHelper getColor:ColorLoginHeader] andImage:[UIImage imageNamed:@"ico_ampersand_white.png"] andHintText:@"email"];
     self.txtEmail.txtEntry.delegate = self;
@@ -74,7 +75,8 @@ static NSInteger const ERROR_STATE = 3;
     [self.txtEmail.txtEntry addTarget:self
                                action:@selector(cmdNextTextfieldPressed)
                      forControlEvents:UIControlEventEditingDidEndOnExit];
-    [self.view addSubview:self.txtEmail];
+    if (self.scrollView) [self.scrollView addSubview:self.txtEmail];
+    else [self.view addSubview:self.txtEmail];
     
     self.txtPassword = [[RoundedTextField alloc] initWithFrame:CGRectMake((bounds.size.width-[InterfacePreferenceHelper getLoginFormFieldWidth])/2, self.txtEmail.frame.origin.y+self.txtEmail.frame.size.height+PADDING, [InterfacePreferenceHelper getLoginFormFieldWidth], [InterfacePreferenceHelper getLoginFormFieldHeight]) andStrokeColor:[UIColor whiteColor] andIconBackgroundColor:[InterfacePreferenceHelper getColor:ColorLoginHeader] andImage:[UIImage imageNamed:@"ico_lock_white.png"] andHintText:@"password"];
     self.txtPassword.txtEntry.delegate = self;
@@ -86,9 +88,10 @@ static NSInteger const ERROR_STATE = 3;
     [self.txtPassword.txtEntry addTarget:self
                                   action:@selector(cmdDonePressed)
                         forControlEvents:UIControlEventEditingDidEndOnExit];
-    [self.view addSubview:self.txtPassword];
+    if (self.scrollView) [self.scrollView addSubview:self.txtPassword];
+    else [self.view addSubview:self.txtPassword];
     
-    CGRect mainBounds = [[UIScreen mainScreen] bounds];
+    CGRect mainBounds = [InterfacePreferenceHelper getScreenBounds];
     self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     CGSize activitySize = self.activityView.frame.size;
     [self.activityView setFrame:CGRectMake(mainBounds.size.width/2-activitySize.width/2, self.txtEmail.frame.origin.y+(2*TEXT_HEIGHT+PADDING)/2-activitySize.height/2, activitySize.width  , activitySize.height)];
@@ -104,8 +107,10 @@ static NSInteger const ERROR_STATE = 3;
     
     [self.txtError setHidden:YES];
     
-    [self.view addSubview:self.txtError];
+    if (self.scrollView) [self.scrollView addSubview:self.txtError];
+    else [self.view addSubview:self.txtError];
     [self.view bringSubviewToFront:self.txtHeader];
+    if (self.scrollView) [self.view bringSubviewToFront:self.scrollView];
     
     UserObject *currUser = [UserPreferenceHelper getUserObject];
     if (![currUser.uEmail isEqualToString:USER_VALUE_NONE] && [currUser.uId isEqualToString:USER_VALUE_NONE]) {
@@ -249,12 +254,14 @@ static NSInteger const ERROR_STATE = 3;
 
 - (void)cmdDonePressed {
     [self.txtPassword.txtEntry resignFirstResponder];
+    if (self.scrollView) [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     [self cmdNextClick];
 }
 
 - (void)cmdNextTextfieldPressed {
     if (!self.passwordVisible) {
         [self.txtEmail.txtEntry resignFirstResponder];
+        if (self.scrollView) [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
         [self cmdNextClick];
     } else {
         [self.txtEmail.txtEntry resignFirstResponder];
@@ -295,6 +302,11 @@ static NSInteger const ERROR_STATE = 3;
         }
     }
             
+    return YES;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if (self.scrollView) [self.scrollView setContentOffset:CGPointMake(0, textField.superview.frame.origin.y-20) animated:YES];
     return YES;
 }
 

@@ -73,11 +73,6 @@ static NSInteger PHOTO_THRESHOLD = 10;
     return NO;
 }
 
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationPortrait;
-}
-
 - (void)setReturnedConfigNecessary:(NSInteger)returnedConfigNecessary {
     _returnedConfigNecessary = returnedConfigNecessary;
     if (self.loadingVC && self.outstandingConfigNecessary) [self.loadingVC.progView setProgress:((CGFloat)returnedConfigNecessary)/((CGFloat)self.outstandingConfigNecessary) animated:YES];

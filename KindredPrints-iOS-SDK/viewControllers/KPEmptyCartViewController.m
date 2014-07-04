@@ -21,7 +21,7 @@
     [super viewDidLoad];
     [self.view setBackgroundColor:[InterfacePreferenceHelper getColor:ColorNavBar]];
     
-    CGRect bounds = [[UIScreen mainScreen] bounds];
+    CGRect bounds = [InterfacePreferenceHelper getScreenBounds];
     
     UILabel *txtMessage = [[UILabel alloc] initWithFrame:CGRectMake(0, bounds.size.height/2-STATUS_BAR_HEIGHT-self.navigationController.navigationBar.frame.size.height, bounds.size.width, QuantityFontSize*2)];
     [txtMessage setFont:[UIFont fontWithName:FONT_REGULAR size:QuantityFontSize]];

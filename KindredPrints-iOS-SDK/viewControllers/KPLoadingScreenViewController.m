@@ -26,15 +26,17 @@ static NSInteger PADDING = 25;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CGRect currFrame = [InterfacePreferenceHelper getScreenBounds];
     CAGradientLayer *bgLayer = [BackgroundGradientHelper GetBackgroundBaseGradient];
-    bgLayer.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    bgLayer.frame = CGRectMake(0, 0, currFrame.size.width, currFrame.size.height);
     [self.view.layer addSublayer:bgLayer];
     CAGradientLayer *bgMidLayer = [BackgroundGradientHelper GetBackgroundMidGradient];
-    bgMidLayer.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    bgMidLayer.frame = CGRectMake(0, 0, currFrame.size.width, currFrame.size.height);
     [self.view.layer addSublayer:bgMidLayer];
 
 
-    self.cmdCancel = [[RoundedTextButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width-CANCEL_BUTTON_WIDTH)/2, self.progView.frame.origin.y + self.progView.frame.size.height+PADDING, CANCEL_BUTTON_WIDTH, CANCEL_BUTTON_HEIGHT)];
+    self.cmdCancel = [[RoundedTextButton alloc] initWithFrame:CGRectMake((currFrame.size.width-CANCEL_BUTTON_WIDTH)/2, self.progView.frame.origin.y + self.progView.frame.size.height+PADDING, CANCEL_BUTTON_WIDTH, CANCEL_BUTTON_HEIGHT)];
     [self.cmdCancel drawButtonWithStrokeColor:[UIColor whiteColor] withBaseFillColor:[UIColor clearColor] andPressedFillColor:[UIColor whiteColor] andTextColor:[UIColor whiteColor] andText:@"CANCEL" andFontSize:MenuButtonFontSize];
     [self.cmdCancel addTarget:self action:@selector(cmdCancelClicked) forControlEvents:UIControlEventTouchUpInside];
     

@@ -29,6 +29,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *txtSupport;
 
 @property (strong, nonatomic) Mixpanel *mixpanel;
+@property (weak, nonatomic) IBOutlet UIView *baseViewContainer;
+@property (weak, nonatomic) IBOutlet UIView *topViewContainer;
 
 @end
 
@@ -72,6 +74,41 @@
     
     [self.mixpanel track:@"order_complete_page_view"];
 }
+
+- (void)viewDidLayoutSubviews {
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+        [self updateContainerViews:[[UIApplication sharedApplication] statusBarOrientation]];
+    }
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+        [self updateContainerViews:toInterfaceOrientation];
+    }
+}
+
+- (void) updateContainerViews:(NSInteger)orient {
+    CGRect window = [InterfacePreferenceHelper getScreenBounds];
+
+    if (orient == UIInterfaceOrientationPortrait) {
+        if (self.topViewContainer && self.baseViewContainer) {
+            self.topViewContainer.frame = CGRectMake((window.size.width-self.topViewContainer.frame.size.width)/2, 20, self.topViewContainer.frame.size.width, self.topViewContainer.frame.size.height);
+            self.baseViewContainer.frame = CGRectMake(20, 220, self.baseViewContainer.frame.size.width, self.baseViewContainer.frame.size.height);
+        }
+    } else if (orient == UIInterfaceOrientationLandscapeLeft || orient == UIInterfaceOrientationLandscapeRight) {
+
+        CGFloat startTopX = 20;
+        CGFloat startBotX = 320;
+        if (self.topViewContainer && self.baseViewContainer) {
+            startTopX = (window.size.width-self.topViewContainer.frame.size.width-self.baseViewContainer.frame.size.width)/2;
+            startBotX = startTopX+self.topViewContainer.frame.size.width;
+            self.topViewContainer.frame = CGRectMake(startTopX, 20, self.topViewContainer.frame.size.width, self.topViewContainer.frame.size.height);
+            self.baseViewContainer.frame = CGRectMake(startBotX, 20, self.baseViewContainer.frame.size.width, self.baseViewContainer.frame.size.height);
+        }
+    }
+}
+
 
 - (void) initNavBar {
     [self.navigationController.navigationBar setHidden:YES];
