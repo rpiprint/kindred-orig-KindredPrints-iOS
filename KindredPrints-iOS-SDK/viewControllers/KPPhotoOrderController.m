@@ -21,6 +21,7 @@
 
 @interface KPPhotoOrderController() <ServerInterfaceDelegate, ImageManagerDelegate, OrderManagerDelegate>
 
+@property (strong, nonatomic) NSMutableArray *queuedImages;
 @property (strong, nonatomic) NSMutableArray *incomingImages;
 @property (strong, nonatomic) KPLoadingScreenViewController *loadingVC;
 @property (strong, nonatomic) KindredServerInterface *ksInterface;
@@ -52,6 +53,13 @@ static NSInteger PHOTO_THRESHOLD = 10;
         _incomingImages = [[NSMutableArray alloc] init];
     }
     return _incomingImages;
+}
+
+- (NSMutableArray *)queuedImages {
+    if (!_queuedImages) {
+        _queuedImages = [[NSMutableArray alloc] init];
+    }
+    return _queuedImages;
 }
 
 - (KindredServerInterface *)ksInterface {
@@ -93,14 +101,18 @@ static NSInteger PHOTO_THRESHOLD = 10;
     self.isLoading = NO;
     return [self baseInit:images];
 }
-- (void) addImages:(NSArray *)images {
-    BOOL configDone = [self checkConfigDownloaded];
+
+- (void) queueImages:(NSArray *)images {
+    [self.queuedImages addObjectsFromArray:images];
     
-    [self.incomingImages addObjectsFromArray:images];
-    
-    if ([self.incomingImages count] >= PHOTO_THRESHOLD) {
+    if ([self.queuedImages count] >= PHOTO_THRESHOLD) {
         self.showSelect = YES;
     }
+}
+
+- (void) prepareImages {
+    BOOL configDone = [self checkConfigDownloaded];
+    [self.incomingImages addObjectsFromArray:self.queuedImages];
     
     if (configDone) {
         if ([self.incomingImages count] < PHOTO_THRESHOLD) {
@@ -111,6 +123,17 @@ static NSInteger PHOTO_THRESHOLD = 10;
     } else {
         [self launchAsyncConfig];
     }
+
+}
+
+- (void) addImages:(NSArray *)images {
+    [self.incomingImages addObjectsFromArray:images];
+    
+    if ([self.incomingImages count] >= PHOTO_THRESHOLD) {
+        self.showSelect = YES;
+    }
+    
+    [self prepareImages];
 }
 
 - (void) clearPendingImages {
